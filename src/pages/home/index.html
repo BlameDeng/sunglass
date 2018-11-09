@@ -14,12 +14,18 @@
 
 <body>
     <div id="app" v-cloak>
-        <div class="banner-slides">
-            <div class="slides">
-                <div class="slide" v-for="banner in banners">
-                    <img :src="banner">
+        <div class="slides">
+            <g-slides :duration="5000">
+                <div class="img">
+                    <img src="https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/banner1.jpg">
                 </div>
-            </div>
+                <div class="img">
+                    <img src="https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/banner2.jpg">
+                </div>
+                <div class="img">
+                    <img src="https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/banner3.jpg">
+                </div>
+            </g-slides>
         </div>
     </div>
 </body>
