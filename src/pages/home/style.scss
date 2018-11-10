@@ -11,9 +11,8 @@ body {
         margin-bottom: 10px;
         border-bottom: $borderbase;
         >.header-inner {
+            width: 1200px;
             margin: 0 auto;
-            max-width: 1200px;
-            min-width: 900px;
             height: 100%;
             display: flex;
             justify-content: space-between;
@@ -42,10 +41,10 @@ body {
                         color: $main;
                         cursor: pointer;
                         &:hover {
-                            color: $red;
+                            color: #f10215;
                         }
                         &.active {
-                            color: $red;
+                            color: #f10215;
                         }
                     }
                     >.slider {
@@ -119,7 +118,7 @@ body {
                         position: absolute;
                         top: -8px;
                         right: -8px;
-                        background: $red;
+                        background: #f10215;
                         color: #fff;
                         font-size: 14px;
                         border-radius: 50%;
@@ -141,9 +140,51 @@ body {
     }
     //主体
     >.main {
+        width: 1200px;
         margin: 0 auto;
-        max-width: 1200px;
-        min-width: 900px;
-        width: 100%;
+    }
+    //底部
+    >.footer {
+        height: 100px;
+        background: rgba(0, 0, 0, .85);
+        >.footer-inner {
+            width: 1200px;
+            margin: 0 auto;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100%;
+            >.logo {
+                font-size: 28px;
+                font-weight: 600;
+                user-select: none;
+            }
+            >.icons {
+                margin-top: 10px;
+                >.icon {
+                    width: 25px;
+                    height: 25px;
+                    color: #f10215;
+                    position: relative;
+                    z-index: 1;
+                    cursor: pointer;
+                    margin-right: 3px;
+                    &::before {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        bottom: 2px;
+                        left: 2px;
+                        width: 21px;
+                        height: 21px;
+                        border-radius: 50%;
+                        background: #fff;
+                        z-index: -1;
+                    }
+                }
+            }
+        }
     }
 }

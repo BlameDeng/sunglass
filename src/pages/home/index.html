@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="zh-Hans">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Sunglass - 首页</title>
     <style>
-      [v-cloak] {
+        [v-cloak] {
         display: none;
       }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="app" v-cloak>
-      <header class="header">
-        <div class="header-inner">
-          <div class="logo">Sunglass<sup>&reg;</sup></div>
-          <nav class="navbar">
-            <div class="category">
-              <div class="item" @click="onTab('index')" :class="{active:currentTab==='index'}">首页</div>
-              <div class="item" @click="onTab('all')" :class="{active:currentTab==='all'}">全部商品</div>
-              <div class="item" @click="onTab('female')" :class="{active:currentTab==='female'}">女士专场</div>
-              <div class="item" @click="onTab('male')" :class="{active:currentTab==='male'}">男士专场</div>
-              <div class="item" @click="onTab('onsale')" :class="{active:currentTab==='onsale'}">特惠专场</div>
-              <div class="slider" ref="slider"></div>
-              <div class="fill" ref="fill"></div>
+        <header class="header">
+            <div class="header-inner">
+                <div class="logo">Sunglass<sup>&reg;</sup></div>
+                <nav class="navbar">
+                    <div class="category">
+                        <div class="item" @click="onTab('index')" :class="{active:currentTab==='index'}">首页</div>
+                        <div class="item" @click="onTab('all')" :class="{active:currentTab==='all'}">全部</div>
+                        <div class="item" @click="onTab('female')" :class="{active:currentTab==='female'}">女士</div>
+                        <div class="item" @click="onTab('male')" :class="{active:currentTab==='male'}">男士</div>
+                        <div class="item" @click="onTab('onsale')" :class="{active:currentTab==='onsale'}">特惠</div>
+                        <div class="slider" ref="slider"></div>
+                        <div class="fill" ref="fill"></div>
+                    </div>
+                </nav>
+                <div class="search">
+                    <input type="text" class="input" />
+                    <x-icon name="search" class="icon"></x-icon>
+                </div>
+                <div class="user">
+                    <span class="icon-wrapper">
+                        <x-icon name="user" class="icon"></x-icon>
+                    </span>
+                    <span class="icon-wrapper">
+                        <x-icon name="cart" class="icon"></x-icon>
+                        <span class="badge">8</span>
+                    </span>
+                </div>
             </div>
-          </nav>
-          <div class="search">
-            <input type="text" class="input" />
-            <x-icon name="search" class="icon"></x-icon>
-          </div>
-          <div class="user">
-            <span class="icon-wrapper"><x-icon name="user" class="icon"></x-icon></span>
-            <span class="icon-wrapper">
-              <x-icon name="cart" class="icon"></x-icon>
-              <span class="badge">8</span>
-            </span>
-          </div>
-        </div>
-      </header>
-      <main class="main">
-        <router-view/>
-      </main>
+        </header>
+        <main class="main">
+            <router-view />
+        </main>
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="logo">Sunglass<sup>&reg;</sup></div>
+                <div class="icons">
+                    <x-icon name="github" class="icon" @click="onLink('github')"></x-icon>
+                    <x-icon name="jianshu" class="icon" @click="onLink('jianshu')"></x-icon>
+                </div>
+            </div>
+        </footer>
     </div>
-  </body>
+</body>
+
 </html>

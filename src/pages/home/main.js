@@ -23,14 +23,12 @@ new Vue({
         }
     },
     created() {
-        console.log(this.$store);
-
         this.fetchNewArrival()
             .then(res => {
-                console.log(res);
+                this.setNewArrival(res.data)
             })
             .catch(error => {
-                console.log(error);
+                console.log(error)
             })
     },
     mounted() {
@@ -39,6 +37,7 @@ new Vue({
     },
     beforedestroy() {},
     methods: {
+        ...mapMutations(['setNewArrival']),
         ...mapActions(['fetchNewArrival']),
         onTab(tab) {
             tab === 'index' ? this.$router.push('/') : this.$router.push({ path: '/category', query: { tab } })
@@ -47,6 +46,9 @@ new Vue({
         hanleSlider(n) {
             this.$refs.slider.style.transform = `translateX(${(n-1)*80}px)`
             this.$refs.fill.style.transform = `translateX(${(n-1)*80}px)`
+        },
+        onLink(type) {
+            type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         }
     }
 })
