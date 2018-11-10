@@ -1,13 +1,149 @@
+@import '../../assets/color.scss';
+body {
+    background: rgb(240, 243, 239);
+}
 #app {
-    max-width: 1200px;
-    min-width: 900px;
-    margin: 0 auto;
-    >.slides {
-        width: 100%;
-        .img {
-            width: 100%;
-            flex-shrink: 0;
-            >img{width: 100%;}
+    width: 100%;
+    color: $main;
+    //顶部
+    >.header {
+        height: 80px;
+        margin-bottom: 10px;
+        border-bottom: $borderbase;
+        >.header-inner {
+            margin: 0 auto;
+            max-width: 1200px;
+            min-width: 900px;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            //logo
+            >.logo {
+                font-size: 28px;
+                font-weight: 600;
+                color: $title;
+                user-select: none;
+            }
+            //分类导航
+            >.navbar {
+                height: 100%;
+                >.category {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    height: 100%;
+                    position: relative;
+                    >.item {
+                        width: 80px;
+                        height: 40px;
+                        text-align: center;
+                        line-height: 40px;
+                        color: $main;
+                        cursor: pointer;
+                        &:hover {
+                            color: $red;
+                        }
+                        &.active {
+                            color: $red;
+                        }
+                    }
+                    >.slider {
+                        position: absolute;
+                        bottom: 0;
+                        left: 20px;
+                        border: 20px solid $border;
+                        border-top-color: transparent;
+                        border-left-color: transparent;
+                        border-right-color: transparent;
+                        pointer-events: none;
+                        transition: transform .2s linear;
+                    }
+                    >.fill {
+                        position: absolute;
+                        bottom: -1px;
+                        left: 20px;
+                        border: 20px solid rgb(240, 243, 239);
+                        border-top-color: transparent;
+                        border-left-color: transparent;
+                        border-right-color: transparent;
+                        pointer-events: none;
+                        transition: transform .2s linear;
+                    }
+                }
+            }
+            //搜索框
+            >.search {
+                width: 200px;
+                height: 30px;
+                border: $borderbase;
+                position: relative;
+                border-radius: 2px;
+                >.input {
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    box-shadow: none;
+                    border-radius: 2px;
+                    padding: 0 22px 0 4px;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                >.icon {
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    transform: translateY(-50%);
+                    width: 20px;
+                    height: 20px;
+                    cursor: pointer;
+                }
+            }
+            //用户
+            >.user {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                >.icon-wrapper {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    cursor: pointer;
+                    position: relative;
+                    margin-right: 10px;
+                    &:first-child {
+                        margin-right: 20px;
+                    }
+                    >.badge {
+                        position: absolute;
+                        top: -8px;
+                        right: -8px;
+                        background: $red;
+                        color: #fff;
+                        font-size: 14px;
+                        border-radius: 50%;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 24px;
+                        height: 24px;
+                        transform: scale(0.7);
+                    }
+                    >.icon {
+                        width: 28px;
+                        height: 28px;
+                        cursor: pointer;
+                    }
+                }
+            }
         }
+    }
+    //主体
+    >.main {
+        margin: 0 auto;
+        max-width: 1200px;
+        min-width: 900px;
+        width: 100%;
     }
 }

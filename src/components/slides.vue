@@ -1,17 +1,17 @@
 <template>
-    <div class="g-slides" @mouseenter="enter" @mouseleave="leave">
-        <div class="g-view" ref="view" :class="{transition}">
+    <div class="sun-slides" @mouseenter="enter" @mouseleave="leave">
+        <div class="sun-view" ref="view" :class="{transition}">
             <slot></slot>
         </div>
-        <x-icon name="prev" class="icon prev" @click="changeCurrent(-1)"></x-icon>
-        <x-icon name="next" class="icon next" @click="changeCurrent(1)"></x-icon>
+        <sun-icon name="prev" class="icon prev" @click="changeCurrent(-1)"></sun-icon>
+        <sun-icon name="next" class="icon next" @click="changeCurrent(1)"></sun-icon>
     </div>
 </template>
 <script>
-    import xIcon from '../../components/icon/icon.vue'
+    import sunIcon from './icon/icon.vue'
     export default {
         name: 'Slides',
-        components: { xIcon },
+        components: { sunIcon },
         props: {
             duration: { type: Number, default: 3000 },
             autoPlay: { type: Boolean, default: true }
@@ -59,7 +59,13 @@
         methods: {
             cloneDom() {
                 const nodes = this.$slots.default
-                this.length = (nodes.length + 1) / 2
+                let length = 0
+                for (let i = 0; i < nodes.length; i++) {
+                    if (nodes[i].tag) {
+                        length++
+                    }
+                }
+                this.length = length
                 const first = nodes[0].elm.cloneNode(true)
                 const last = nodes[nodes.length - 1].elm.cloneNode(true)
                 this.$refs.view.prepend(last)
@@ -104,7 +110,7 @@
     }
 </script>
 <style scoped lang="scss">
-    .g-slides {
+    .sun-slides {
         width: 100%;
         overflow: hidden;
         position: relative;
@@ -118,12 +124,12 @@
             opacity: 0;
             &.prev {
                 left: 0;
-                top: 40%;
+                top: 50%;
                 transform: translateY(-50%);
             }
             &.next {
                 right: 0;
-                top: 40%;
+                top: 50%;
                 transform: translateY(-50%);
             }
         }
@@ -132,7 +138,7 @@
                 opacity: .85;
             }
         }
-        >.g-view {
+        >.sun-view {
             display: flex;
             width: 100%;
             transform: translateX(-100%);
