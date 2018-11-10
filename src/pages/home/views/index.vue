@@ -107,6 +107,7 @@ export default {
       text-align: center;
       font-weight: 600;
       cursor: default;
+      user-select: none;
     }
     > .goods-wrapper {
       width: 100%;

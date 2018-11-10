@@ -21,7 +21,8 @@
                 current: 1,
                 transition: true,
                 length: 0,
-                timerId: null
+                timerId: null,
+                changing: false
             }
         },
         computed: {},
@@ -35,18 +36,19 @@
                 if (newVal === 1 && oldVal === this.length) {
                     view.style.transform = `translateX(${-100 * (this.length + 1)}%)`
                     view.addEventListener('transitionend', this.reset)
+                    this.changing = true
                     return
                 }
                 //第一张到最后一张
                 if (newVal === this.length && oldVal === 1) {
                     view.style.transform = `translate(0)`
                     view.addEventListener('transitionend', this.reset)
+                    this.changing = true
                     return
                 }
                 view.style.transform = `translateX(${-100 * newVal}%)`
             }
         },
-        created() {},
         mounted() {
             this.$nextTick(() => {
                 this.cloneDom()
@@ -54,6 +56,7 @@
             })
         },
         beforedestroy() {
+            this.changing = false
             this.$refs.view.removeEventListener('transitionend', this.reset)
         },
         methods: {
@@ -79,6 +82,7 @@
                 } else {
                     view.style.transform = `translateX(${-100 * this.length}%)`
                 }
+                this.changing = false
                 view.removeEventListener('transitionend', this.reset)
             },
             startAutoPlay() {
@@ -89,6 +93,8 @@
                 this.timerId = setTimeout(play, this.duration)
             },
             changeCurrent(n) {
+                //防止在切换图片时改变current导致播放混乱
+                if (this.changing) {return}
                 this.current += n
                 if (this.current > this.length) {
                     this.current = 1
