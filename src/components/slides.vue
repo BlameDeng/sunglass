@@ -3,15 +3,15 @@
         <div class="sun-view" ref="view" :class="{transition}">
             <slot></slot>
         </div>
-        <sun-icon name="prev" class="icon prev" @click="changeCurrent(-1)"></sun-icon>
-        <sun-icon name="next" class="icon next" @click="changeCurrent(1)"></sun-icon>
+        <x-icon name="prev" class="icon prev" @click="changeCurrent(-1)"></x-icon>
+        <x-icon name="next" class="icon next" @click="changeCurrent(1)"></x-icon>
     </div>
 </template>
 <script>
-    import sunIcon from './icon/icon.vue'
+    import xIcon from './icon/icon.vue'
     export default {
         name: 'Slides',
-        components: { sunIcon },
+        components: { xIcon },
         props: {
             duration: { type: Number, default: 3000 },
             autoPlay: { type: Boolean, default: true }

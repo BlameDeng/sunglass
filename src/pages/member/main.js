@@ -3,13 +3,14 @@ import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunInput from '@/components/input.vue'
+import sunCaptcha from '@/components/captcha.vue'
 new Vue({
     el: '#app',
     mixins: [],
-    components: { xIcon, sunInput },
+    components: { xIcon, sunInput, sunCaptcha },
     data: {
-        username:'',
-        password:''
+        username: '',
+        password: ''
     },
     computed: {},
     watch: {
@@ -26,5 +27,14 @@ new Vue({
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         },
+        onLogin() {
+            this.$refs.captcha.verify()
+                .then(res => {
+                   
+                })
+                .catch(error => {
+                   
+                })
+        }
     }
 })
