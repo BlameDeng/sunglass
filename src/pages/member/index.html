@@ -4,12 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>首页</title>
+    <title>Sunglass - 用户</title>
 </head>
 
 <body>
     <div id="app">
-        {{title}}
+        <header class="header">
+            <div class="header-inner">
+                <div class="logo">Sunglass<sup>&reg;</sup></div>
+            </div>
+        </header>
+        <main class="main">
+            <div class="main-inner">
+                <div class="login">
+                    <div class="title">
+                        <h2>账户登录</h2>
+                    </div>
+                    <div class="username">
+                        <sun-input placeholder="用户名" icon="username" v-model.trim="username"></sun-input>
+                    </div>
+                    <div class="password">
+                        <sun-input placeholder="密码" icon="lock" type="password" v-model.trim="password"></sun-input>
+                    </div>
+                    <div class="submit">
+                        <button>登录</button>
+                    </div>
+                    <div class="tips">
+                        如果账户未注册，将自动为您注册
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="link">
+                    <div class="logo">Sunglass<sup>&reg;</sup></div>
+                    <div class="icons">
+                        <x-icon name="github" class="icon" @click="onLink('github')"></x-icon>
+                        <x-icon name="jianshu" class="icon" @click="onLink('jianshu')"></x-icon>
+                    </div>
+                </div>
+                <div class="portfolio">
+                    <div>Portfolio</div>
+                    <a href="https://xue-ui.com.cn" target="_blank">Xue-ui</a>
+                    <a href="https://github.com/BlameDeng/todos" target="_blank">Todos</a>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 

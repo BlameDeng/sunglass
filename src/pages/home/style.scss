@@ -1,15 +1,14 @@
-@import '../../assets/color.scss';
 body {
     background: rgb(240, 243, 239);
 }
 #app {
     width: 100%;
-    color: $main;
+    color: rgba(0, 0, 0, .65);
     //顶部
     >.header {
         height: 80px;
         margin-bottom: 10px;
-        border-bottom: $borderbase;
+        border-bottom: 1px solid rgba(0, 0, 0, .15);
         >.header-inner {
             width: 1200px;
             margin: 0 auto;
@@ -21,7 +20,7 @@ body {
             >.logo {
                 font-size: 28px;
                 font-weight: 600;
-                color: $title;
+                color: rgba(0, 0, 0, .85);
                 user-select: none;
             }
             //分类导航
@@ -38,7 +37,7 @@ body {
                         height: 40px;
                         text-align: center;
                         line-height: 40px;
-                        color: $main;
+                        color: rgba(0, 0, 0, .65);
                         cursor: pointer;
                         &:hover {
                             color: #f10215;
@@ -51,7 +50,7 @@ body {
                         position: absolute;
                         bottom: 0;
                         left: 20px;
-                        border: 20px solid $border;
+                        border: 20px solid rgba(0, 0, 0, .15);
                         border-top-color: transparent;
                         border-left-color: transparent;
                         border-right-color: transparent;
@@ -75,7 +74,7 @@ body {
             >.search {
                 width: 200px;
                 height: 30px;
-                border: $borderbase;
+                border: 1px solid rgba(0, 0, 0, .15);
                 position: relative;
                 border-radius: 2px;
                 >.input {
@@ -207,7 +206,7 @@ body {
                     color: rgba(255, 255, 255, .85);
                     font-size: 18px;
                     font-weight: 600;
-                    margin-top:5px;
+                    margin-top: 5px;
                 }
             }
         }

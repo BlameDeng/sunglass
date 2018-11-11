@@ -1,0 +1,176 @@
+html, body {
+    background: rgb(240, 243, 239);
+    width: 100%;
+    height: 100%;
+}
+#app {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    color: rgba(0, 0, 0, .65);
+    //顶部
+    >.header {
+        height: 80px;
+        border-bottom: 1px solid rgba(0, 0, 0, .15);
+        >.header-inner {
+            width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            //logo
+            >.logo {
+                font-size: 28px;
+                font-weight: 600;
+                color: rgba(0, 0, 0, .85);
+                user-select: none;
+            }
+        }
+    }
+    //主体
+    >.main {
+        flex-grow: 1;
+        background: url('https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/banner1.jpg');
+        background-position: center center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: flex-start;
+        >.main-inner {
+            width: 1200px;
+            margin: 0 auto;
+            height: 100%;
+            flex-grow: 1;
+            position: relative;
+            >.login {
+                width: 400px;
+                height: 350px;
+                position: absolute;
+                top: 50%;
+                right: 0;
+                transform: translateY(-50%);
+                padding: 0 20px;
+                background: #fff;
+                border-radius: 2px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: stretch;
+                >.title {
+                    border-bottom: 1px solid rgba(0, 0, 0, .15);
+                    margin: 0 -20px;
+                    >h2 {
+                        color: lighten(#f10215, 20%);
+                        margin: 5px 0;
+                        text-align: center;
+                        cursor: default;
+                        user-select: none;
+                    }
+                }
+                >.submit {
+                    >button {
+                        display: block;
+                        width: 100%;
+                        background: lighten(#f10215, 20%);
+                        color: rgba(255, 255, 255, .85);
+                        border: none;
+                        box-shadow: none;
+                        font-size: 16px;
+                        font-weight: 500;
+                        padding: 8px 0;
+                        border-radius: 2px;
+                        cursor: pointer;
+                        &:focus {
+                            outline: none;
+                        }
+                        &:hover {
+                            background: lighten(#f10215, 10%);
+                        }
+                    }
+                }
+                >.tips{
+                    font-size: 12px;
+                    color: rgba(0, 0, 0, .45);
+                    text-align: center;
+                    cursor: default;
+                    user-select: none;
+                }
+            }
+        }
+    }
+    //底部
+    >.footer {
+        height: 120px;
+        background: rgba(0, 0, 0, .85);
+        >.footer-inner {
+            width: 1200px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, .85);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            >.link {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                height: 100%;
+                >.logo {
+                    font-size: 28px;
+                    font-weight: 600;
+                    user-select: none;
+                }
+                >.icons {
+                    margin-top: 10px;
+                    >.icon {
+                        width: 25px;
+                        height: 25px;
+                        color: #f10215;
+                        position: relative;
+                        z-index: 1;
+                        cursor: pointer;
+                        margin-right: 3px;
+                        &::before {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            bottom: 2px;
+                            left: 2px;
+                            width: 21px;
+                            height: 21px;
+                            border-radius: 50%;
+                            background: rgba(255, 255, 255, .85);
+                            z-index: -1;
+                        }
+                    }
+                }
+            }
+            >.portfolio {
+                color: rgba(255, 255, 255, .85);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-start;
+                >div {
+                    font-size: 22px;
+                    font-weight: 600;
+                    user-select: none;
+                    cursor: default;
+                }
+                >a {
+                    color: rgba(255, 255, 255, .85);
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin-top: 5px;
+                }
+            }
+        }
+    }
+}
