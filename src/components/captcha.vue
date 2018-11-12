@@ -1,7 +1,7 @@
 <template>
     <div class="sun-captcha">
         <span>验证码：</span>
-        <sun-input v-model.trim="text" style="width:6em;"></sun-input>
+        <sun-input v-model.trim="text" style="width:6em;" @focus="$emit('focus',$event)"></sun-input>
         <img v-if="captcha" :src="captcha.url" style="width:80px;height:32px;margin:0 4px;">
         <span class="info" v-if="captcha&&!message">
             看不清楚？<span class="change" @click="changeOne">换一张</span>
@@ -42,7 +42,7 @@
             changeOne() {
                 this.getCaptcha()
             },
-            verify() {
+            async verify() {
                 if (!this.captcha) {
                     return Promise.reject({ message: '还未初始化' })
                 }
@@ -55,10 +55,14 @@
                     this.handleError({ message: '格式不正确' })
                     return Promise.reject({ message: '格式不正确' })
                 }
-                return this.captcha.verify(this.text).catch(error => {
-                    this.handleError(error)
-                    return error
-                })
+                await this.captcha.verify(this.text)
+                    .then(res => {
+                        return Promise.resolve(res)
+                    })
+                    .catch(error => {
+                        this.handleError(error)
+                        return Promise.reject(error)
+                    })
             },
             handleError(error) {
                 if (/([\u4e00-\u9fa5]*)/.test(error.message)) {

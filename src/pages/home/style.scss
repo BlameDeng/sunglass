@@ -144,7 +144,7 @@ body {
     }
     //底部
     >.footer {
-        height: 120px;
+        height: 100px;
         background: rgba(0, 0, 0, .85);
         >.footer-inner {
             width: 1200px;
@@ -168,8 +168,8 @@ body {
                 >.icons {
                     margin-top: 10px;
                     >.icon {
-                        width: 25px;
-                        height: 25px;
+                        width: 20px;
+                        height: 20px;
                         color: #f10215;
                         position: relative;
                         z-index: 1;
@@ -179,10 +179,10 @@ body {
                             content: '';
                             display: block;
                             position: absolute;
-                            bottom: 2px;
-                            left: 2px;
-                            width: 21px;
-                            height: 21px;
+                            bottom: 1px;
+                            left: 1px;
+                            width: 17px;
+                            height: 17px;
                             border-radius: 50%;
                             background: rgba(255, 255, 255, .85);
                             z-index: -1;
@@ -195,16 +195,16 @@ body {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
                 >div {
-                    font-size: 22px;
+                    font-size: 20px;
                     font-weight: 600;
                     user-select: none;
                     cursor: default;
                 }
                 >a {
                     color: rgba(255, 255, 255, .85);
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 600;
                     margin-top: 5px;
                 }
