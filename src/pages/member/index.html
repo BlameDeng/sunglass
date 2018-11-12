@@ -17,6 +17,13 @@
         <header class="header" :class="{['is-login']:isLogin}">
             <div class="header-inner">
                 <div class="logo">Sunglass<sup>&reg;</sup></div>
+                <x-icon name="user" class="icon" @click="onClickUser"></x-icon>
+                <transition name="actions-fade">
+                    <div class="actions" v-show="actionsVisible">
+                        <div class="action" @click="onClickAction('cart')">购物车</div>
+                        <div class="action" @click="onClickAction('logout')">注销登录</div>
+                    </div>
+                </transition>
             </div>
         </header>
         <main class="main">

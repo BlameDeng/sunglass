@@ -114,6 +114,7 @@ body {
                         margin-right: 20px;
                     }
                     >.badge {
+                        user-select: none;
                         position: absolute;
                         top: -8px;
                         right: -8px;

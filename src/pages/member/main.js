@@ -15,7 +15,8 @@ new Vue({
     components: { xIcon, sunInput, sunCaptcha },
     data: {
         username: '',
-        password: ''
+        password: '',
+        actionsVisible: false
     },
     computed: {
         ...mapState({
@@ -23,38 +24,58 @@ new Vue({
         })
     },
     watch: {
-
+        actionsVisible(val) {
+            if (val) {
+                document.addEventListener('click', this.listenDocument)
+            } else {
+                document.removeEventListener('click', this.listenDocument)
+            }
+        }
     },
     created() {
         this.check()
             .then(res => {
-                console.log(res)
                 this.setLogin(res.isLogin)
                 this.setUser(res.data)
+                this.$router.push('/user')
             })
             .catch(error => {
-                console.log(error)
                 this.$router.push('/')
             })
     },
     mounted() {
 
     },
-    beforedestroy() {},
+    beforedestroy() {
+        document.removeEventListener('click', this.listenDocument)
+    },
     methods: {
         ...mapMutations(['setLogin', 'setUser']),
-        ...mapActions(['check']),
+        ...mapActions(['check', 'logout']),
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         },
-        onLogin() {
-            this.$refs.captcha.verify()
-                .then(res => {
-
-                })
-                .catch(error => {
-
-                })
+        onClickUser() {
+            this.actionsVisible = true
+        },
+        listenDocument() {
+            this.actionsVisible = false
+        },
+        onClickAction(type) {
+            if (type === 'logout') {
+                this.logout()
+                    .then(res => {
+                        localStorage.removeItem('user')
+                        this.setLogin(res.isLogin)
+                        this.setUser(null)
+                        this.$router.push('/')
+                    })
+                    .catch(error => {
+                        this.setLogin(res.isLogin)
+                        this.setUser(null)
+                        this.$router.push('/')
+                    })
+            }
         }
     }
 })
