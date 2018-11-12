@@ -8,15 +8,15 @@
             </p>
             <p>
                 <label>昵称：</label>
-                <sun-input style="width:240px;"></sun-input>
+                <sun-input style="width:240px;" v-model="user.nickyname"></sun-input>
             </p>
             <p>
                 <label>性别：</label>
-                <label><input type="radio" value="male" v-model="gender">男</label>
-                <label><input type="radio" value="female" v-model="gender">女</label>
+                <label><input type="radio" value="male" v-model="user.gender">男</label>
+                <label><input type="radio" value="female" v-model="user.gender">女</label>
             </p>
         </div>
-        <div class="btn" role="button">保存</div>
+        <div class="btn" role="button" @click="onSave">保存</div>
     </div>
 </template>
 <script>
@@ -28,9 +28,7 @@
         components: { sunInput },
         props: {},
         data() {
-            return {
-                gender: ''
-            }
+            return {}
         },
         computed: {
             ...mapState({
@@ -41,7 +39,20 @@
         created() {},
         mounted() {},
         beforedestroy() {},
-        methods: {}
+        methods: {
+            ...mapMutations(['setUser']),
+            ...mapActions(['patchProfile']),
+            onSave() {
+                this.patchProfile({ nickyname: this.user.nickyname, gender: this.user.gender })
+                    .then(res => {
+                        this.setUser(res.data)
+                        this.$success({ message: res.msg })
+                    })
+                    .catch(error => {
+                        this.$error({ message: error.msg })
+                    })
+            }
+        }
     }
 </script>
 <style scoped lang="scss">

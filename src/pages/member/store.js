@@ -30,7 +30,10 @@ export default new Vuex.Store({
             return await request({ url: URL.logout })
         },
         async patchPassword({ commit }, data) {
-            return await request({ url: URL.patchpassword, method: 'POST', data })
+            return await request({ url: URL.patchPassword, method: 'POST', data })
+        },
+        async patchProfile({ commit }, data) {
+            return await request({ url: URL.patchProfile, method: 'POST', data })
         }
     }
 })

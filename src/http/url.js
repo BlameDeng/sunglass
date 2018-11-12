@@ -4,6 +4,7 @@ const URL = {
     login: `${prefix}/auth/login`,
     check: `${prefix}/auth/check`,
     logout: `${prefix}/auth/logout`,
-    patchpassword: `${prefix}/auth/patchpassword`,
+    patchPassword: `${prefix}/auth/patchpassword`,
+    patchProfile: `${prefix}/auth/patchprofile`,
 }
 export default URL

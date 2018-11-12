@@ -3,7 +3,7 @@
         <nav class="user-navbar">
             <div class="user-avatar" @click="changeComponent('Profile')">
                 <x-icon name="avatar" class="icon"></x-icon>
-                <span v-if="user" :class="{active:currentComponent==='Profile'}">{{user.username}}</span>
+                <span v-if="user" :class="{active:currentComponent==='Profile'}">{{user.nickyname||user.username}}</span>
             </div>
             <div class="index" @click="changeComponent('Index')" :class="{active:currentComponent==='Index'}">我的首页</div>
             <div class="account" @click="changeComponent('Account')" :class="{active:currentComponent==='Account'}">账户设置</div>
@@ -56,7 +56,7 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            border: 1px solid rgba(0,0,0,.15);
+            border: 1px solid rgba(0, 0, 0, .15);
             border-radius: 2px;
             >.user-avatar {
                 display: flex;
