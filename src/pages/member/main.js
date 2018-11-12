@@ -1,4 +1,6 @@
 import Vue from 'vue/dist/vue.js'
+import router from './router.js'
+import store from './store.js'
 import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
@@ -6,6 +8,8 @@ import sunInput from '@/components/input.vue'
 import sunCaptcha from '@/components/captcha.vue'
 new Vue({
     el: '#app',
+    router,
+    store,
     mixins: [],
     components: { xIcon, sunInput, sunCaptcha },
     data: {
@@ -30,10 +34,10 @@ new Vue({
         onLogin() {
             this.$refs.captcha.verify()
                 .then(res => {
-                   
+
                 })
                 .catch(error => {
-                   
+
                 })
         }
     }

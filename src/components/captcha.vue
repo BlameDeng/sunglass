@@ -1,6 +1,6 @@
 <template>
     <div class="sun-captcha">
-        <span>校验码：</span>
+        <span>验证码：</span>
         <sun-input v-model.trim="text" style="width:6em;"></sun-input>
         <img v-if="captcha" :src="captcha.url" style="width:80px;height:32px;margin:0 4px;">
         <span class="info" v-if="captcha&&!message">
@@ -12,8 +12,8 @@
 <script>
     import sunInput from './input.vue'
     import AV from 'leancloud-storage'
-    var appId = 'DeTUR37nflhNjfrjyOHdejeb-gzGzoHsz' // 你的应用 appid
-    var appKey = 'Qq9lrFxWFSVhXEbCiodJX7kl' // 你的应用 appkey
+    var appId = 'DeTUR37nflhNjfrjyOHdejeb-gzGzoHsz'
+    var appKey = 'Qq9lrFxWFSVhXEbCiodJX7kl'
     AV.init({ appId: appId, appKey: appKey })
     export default {
         name: 'SunCaptcha',
@@ -22,13 +22,15 @@
         data() {
             return { text: '', captcha: null, message: '', timerId: null }
         },
-        computed: {},
-        watch: {},
-        created() {},
         mounted() {
             this.autoGet && this.getCaptcha()
         },
-        beforedestroy() {},
+        beforedestroy() {
+            if (this.timerId) {
+                window.clearTimeout(this.timerId)
+                this.timerId = null
+            }
+        },
         methods: {
             getCaptcha() {
                 this.message = ''
@@ -45,7 +47,11 @@
                     return Promise.reject({ message: '还未初始化' })
                 }
                 if (this.timerId) { return Promise.reject({ message: '重置中' }) }
-                if (!this.text || this.text.length !== 4) {
+                if (!this.text) {
+                    this.handleError({ message: '请输入验证码' })
+                    return Promise.reject({ message: '请输入验证码' })
+                }
+                if (this.text.length !== 4) {
                     this.handleError({ message: '格式不正确' })
                     return Promise.reject({ message: '格式不正确' })
                 }
@@ -79,6 +85,9 @@
             >.change {
                 color: #1890ff;
                 cursor: pointer;
+            }
+            &.error {
+                color: #f10215;
             }
         }
     }

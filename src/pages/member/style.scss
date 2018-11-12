@@ -42,71 +42,71 @@ html, body {
         justify-content: stretch;
         align-items: flex-start;
         >.main-inner {
-            width: 1200px;
-            margin: 0 auto;
-            height: 100%;
-            flex-grow: 1;
-            position: relative;
-            >.login {
-                width: 400px;
-                height: 350px;
-                position: absolute;
-                top: 50%;
-                right: 0;
-                transform: translateY(-50%);
-                padding: 0 20px;
-                background: #fff;
-                border-radius: 2px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
-                display: flex;
-                flex-direction: column;
-                justify-content: space-evenly;
-                align-items: stretch;
-                >.title {
-                    border-bottom: 1px solid rgba(0, 0, 0, .15);
-                    margin: 0 -20px;
-                    >h2 {
-                        color: lighten(#f10215, 20%);
-                        margin: 5px 0;
-                        text-align: center;
-                        cursor: default;
-                        user-select: none;
-                    }
-                }
-                >.submit {
-                    >button {
-                        display: block;
-                        width: 100%;
-                        background: lighten(#f10215, 20%);
-                        color: rgba(255, 255, 255, .85);
-                        border: none;
-                        box-shadow: none;
-                        font-size: 16px;
-                        font-weight: 500;
-                        padding: 8px 0;
-                        border-radius: 2px;
-                        cursor: pointer;
-                        &:focus {
-                            outline: none;
-                        }
-                        &:hover {
-                            background: lighten(#f10215, 10%);
-                        }
-                    }
-                }
-                >.tips{
-                    font-size: 12px;
-                    color: rgba(0, 0, 0, .45);
-                    text-align: center;
-                    cursor: default;
-                    user-select: none;
-                }
-            }
+            // width: 1200px;
+            // margin: 0 auto;
+            // height: 100%;
+            // flex-grow: 1;
+            // position: relative;
+            // >.login {
+            //     width: 400px;
+            //     height: 350px;
+            //     position: absolute;
+            //     top: 50%;
+            //     right: 0;
+            //     transform: translateY(-50%);
+            //     padding: 0 20px;
+            //     background: #fff;
+            //     border-radius: 2px;
+            //     box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+            //     display: flex;
+            //     flex-direction: column;
+            //     justify-content: space-evenly;
+            //     align-items: stretch;
+            //     >.title {
+            //         border-bottom: 1px solid rgba(0, 0, 0, .15);
+            //         margin: 0 -20px;
+            //         >h2 {
+            //             color: lighten(#f10215, 20%);
+            //             margin: 5px 0;
+            //             text-align: center;
+            //             cursor: default;
+            //             user-select: none;
+            //         }
+            //     }
+            //     >.submit {
+            //         >button {
+            //             display: block;
+            //             width: 100%;
+            //             background: lighten(#f10215, 20%);
+            //             color: rgba(255, 255, 255, .85);
+            //             border: none;
+            //             box-shadow: none;
+            //             font-size: 16px;
+            //             font-weight: 500;
+            //             padding: 8px 0;
+            //             border-radius: 2px;
+            //             cursor: pointer;
+            //             &:focus {
+            //                 outline: none;
+            //             }
+            //             &:hover {
+            //                 background: lighten(#f10215, 10%);
+            //             }
+            //         }
+            //     }
+            //     >.tips{
+            //         font-size: 12px;
+            //         color: rgba(0, 0, 0, .45);
+            //         text-align: center;
+            //         cursor: default;
+            //         user-select: none;
+            //     }
+            // }
         }
     }
     //底部
     >.footer {
-        height: 120px;
+        height: 100px;
         background: rgba(0, 0, 0, .85);
         >.footer-inner {
             width: 1200px;
@@ -130,8 +130,8 @@ html, body {
                 >.icons {
                     margin-top: 10px;
                     >.icon {
-                        width: 25px;
-                        height: 25px;
+                        width: 20px;
+                        height: 20px;
                         color: #f10215;
                         position: relative;
                         z-index: 1;
@@ -141,10 +141,10 @@ html, body {
                             content: '';
                             display: block;
                             position: absolute;
-                            bottom: 2px;
-                            left: 2px;
-                            width: 21px;
-                            height: 21px;
+                            bottom: 1px;
+                            left: 1px;
+                            width: 17px;
+                            height: 17px;
                             border-radius: 50%;
                             background: rgba(255, 255, 255, .85);
                             z-index: -1;
@@ -157,16 +157,16 @@ html, body {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                align-items: flex-start;
+                align-items: center;
                 >div {
-                    font-size: 22px;
+                    font-size: 20px;
                     font-weight: 600;
                     user-select: none;
                     cursor: default;
                 }
                 >a {
                     color: rgba(255, 255, 255, .85);
-                    font-size: 18px;
+                    font-size: 16px;
                     font-weight: 600;
                     margin-top: 5px;
                 }
