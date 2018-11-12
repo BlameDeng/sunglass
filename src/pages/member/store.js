@@ -28,6 +28,9 @@ export default new Vuex.Store({
         },
         async logout({ commit }) {
             return await request({ url: URL.logout })
+        },
+        async patchPassword({ commit }, data) {
+            return await request({ url: URL.patchpassword, method: 'POST', data })
         }
     }
 })

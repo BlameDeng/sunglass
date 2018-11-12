@@ -14,12 +14,16 @@
         </div>
         <div class="password" v-if="currentTab==='password'">
             <p>
+                <label>原密码：</label>
+                <sun-input style="width:240px;" type="password" v-model="password"></sun-input>
+            </p>
+            <p>
                 <label>新密码：</label>
-                <sun-input style="width:240px;" type="password"></sun-input>
+                <sun-input style="width:240px;" type="password" v-model="newPassword"></sun-input>
             </p>
             <p>
                 <label>确认新密码：</label>
-                <sun-input style="width:240px;" type="password"></sun-input>
+                <sun-input style="width:240px;" type="password" v-model="newPasswordConfirm"></sun-input>
             </p>
         </div>
         <div class="address" v-else>
@@ -40,27 +44,76 @@
                 <sun-input style="width:500px;" placeholder="详细地址，如：门牌、街道、村镇"></sun-input>
             </p>
         </div>
-        <div class="btn" role="button">保存</div>
+        <div class="btn" role="button" @click="onSave">保存</div>
     </div>
 </template>
 <script>
     import sunInput from '@/components/input.vue'
+    import { mapState, mapActions } from 'vuex'
     export default {
         name: 'Account',
         mixins: [],
         components: { sunInput },
         props: {},
         data() {
-            return { currentTab: 'password' }
+            return {
+                currentTab: 'password',
+                password: '',
+                newPassword: '',
+                newPasswordConfirm: ''
+            }
         },
-        computed: {},
+        computed: {
+            ...mapState({
+                user: state => state.user
+            })
+        },
         watch: {},
         created() {},
         mounted() {},
         beforedestroy() {},
         methods: {
+            ...mapActions(['patchPassword']),
             onClickTab(tab) {
                 this.currentTab = tab
+            },
+            onSave() {
+                if (this.currentTab === 'password') {
+                    this.changePassword()
+                }
+            },
+            changePassword() {
+                const pattern = /.{6,18}/
+                if (!this.password || !this.newPassword || !this.newPasswordConfirm) {
+                    this.$info({ message: '原密码或新密码不能为空！' })
+                    return
+                }
+                if (this.newPassword === this.password) {
+                    this.$info({ message: '新密码不能与原密码相同！' })
+                    return
+                }
+                if (this.newPassword !== this.newPasswordConfirm) {
+                    this.$info({ message: '两次输入的新密码不一致！' })
+                    return
+                }
+                let result = true
+                let array = [this.password, this.newPassword, this.newPasswordConfirm]
+                array.forEach(str => {
+                    if (!pattern.test(str)) {
+                        result = pattern.test(str)
+                    }
+                })
+                if (!result) {
+                    this.$info({ message: '密码为6到18位字符！' })
+                    return
+                }
+                this.patchPassword({ username: this.user.username, password: this.password, newPassword: this.newPassword })
+                    .then(res => {
+                        this.$success({ message: res.msg + '，请使用新密码登录' })
+                        localStorage.removeItem('user')
+                        this.$router.push('/')
+                    })
+                    .catch(error => { this.$error({ message: error.msg }) })
             }
         }
     }
@@ -76,7 +129,7 @@
                 border-bottom: 1px solid rgba(0, 0, 0, .15);
                 padding-bottom: 5px;
                 padding-left: 20px;
-                cursor: default;
+                cursor: pointer;
                 user-select: none;
                 >span {
                     padding: 4px 0;

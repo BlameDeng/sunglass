@@ -6,6 +6,8 @@ import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunInput from '@/components/input.vue'
 import sunCaptcha from '@/components/captcha.vue'
+import Message from '@/components/message/index.js'
+Vue.use(Message)
 import { mapState, mapMutations, mapActions } from 'vuex'
 new Vue({
     el: '#app',
