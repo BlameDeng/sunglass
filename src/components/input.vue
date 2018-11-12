@@ -2,7 +2,7 @@
     <div class="sun-input">
         <x-icon v-if="icon" :name="icon" class="icon" :class="{focus:focus||value}"></x-icon>
         <input :type="type" @focus="onFocus" @blur="onBlur" :value="value" @input="onInput" @change="onChange" :class="{['no-icon']:!icon}">
-        <label v-if="placeholder" :class="{focus:focus||value}">{{placeholder}}</label>
+        <label v-if="placeholder" :class="{focus:focus||value,['no-icon']:!icon}">{{placeholder}}</label>
     </div>
 </template>
 <script>
@@ -81,6 +81,9 @@
             pointer-events: none;
             &.focus {
                 display: none;
+            }
+            &.no-icon {
+              left: 5px;
             }
         }
     }

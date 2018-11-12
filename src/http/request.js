@@ -11,6 +11,7 @@ export default function request({ url, method = 'GET', data }) {
         return axios(options)
             .then(res => {
                 if (res.status === 200) {
+                    res.data.token ? localStorage.setItem('user', res.data.token) : ''
                     res.data.status === 'success' ? resolve(res.data) : reject(res.data)
                 } else {
                     reject(res.data)
@@ -22,8 +23,10 @@ export default function request({ url, method = 'GET', data }) {
     })
 }
 
-// axios.interceptors.request.use(config => {
-//     const user = localStorage.getItem('user')
-//     config.headers.common['Authorization'] = 'Bearer ' + user
-//     return config
-// })
+axios.interceptors.request.use(config => {
+    const user = localStorage.getItem('user')
+    if (user) {
+        config.headers.common['Authorization'] = 'Bearer ' + user
+    }
+    return config
+})

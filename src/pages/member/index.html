@@ -7,14 +7,14 @@
     <title>Sunglass - 用户</title>
     <style>
         [v-cloak] {
-        display: none;
-      }
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <div id="app" v-cloak>
-        <header class="header">
+        <header class="header" :class="{['is-login']:isLogin}">
             <div class="header-inner">
                 <div class="logo">Sunglass<sup>&reg;</sup></div>
             </div>

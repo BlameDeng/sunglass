@@ -8,8 +8,10 @@ import URL from '../../http/url.js'
 
 export default new Vuex.Store({
     state: {
-        isLogin: false,
-        user: null
+        // isLogin: false,
+        // user: null
+        isLogin: true,
+        user: { username: 'blame' }
     },
     mutations: {
         setLogin(state, payload) {
@@ -21,8 +23,10 @@ export default new Vuex.Store({
     },
     actions: {
         async login({ commit }, data) {
-            let res = await request({ url: URL.login, method: 'POST', data })
-            return res
+            return await request({ url: URL.login, method: 'POST', data })
+        },
+        async check({ commit }) {
+            return await request({ url: URL.check })
         }
     }
 })

@@ -64,7 +64,7 @@
                 const nodes = this.$slots.default
                 let length = 0
                 for (let i = 0; i < nodes.length; i++) {
-                    if (nodes[i].tag) {
+                    if (nodes[i].elm.nodeType !== 3) {
                         length++
                     }
                 }
@@ -94,7 +94,7 @@
             },
             changeCurrent(n) {
                 //防止在切换图片时改变current导致播放混乱
-                if (this.changing) {return}
+                if (this.changing) { return }
                 this.current += n
                 if (this.current > this.length) {
                     this.current = 1
