@@ -8,7 +8,7 @@
             </p>
             <p>
                 <label>昵称：</label>
-                <sun-input style="width:240px;" v-model="user.nickyname"></sun-input>
+                <sun-input style="width:240px;" v-model="nickyname"></sun-input>
             </p>
             <p>
                 <label>性别：</label>
@@ -28,7 +28,7 @@
         components: { sunInput },
         props: {},
         data() {
-            return {}
+            return { nickyname: '' }
         },
         computed: {
             ...mapState({
@@ -43,7 +43,7 @@
             ...mapMutations(['setUser']),
             ...mapActions(['patchProfile']),
             onSave() {
-                this.patchProfile({ nickyname: this.user.nickyname, gender: this.user.gender })
+                this.patchProfile({ nickyname: this.nickyname, gender: this.user.gender })
                     .then(res => {
                         this.setUser(res.data)
                         this.$success({ message: res.msg })
@@ -68,7 +68,7 @@
         }
         >.user-info {
             margin-left: 20px;
-            padding: 20px 0;
+            padding-bottom: 20px;
             border-bottom: 1px solid rgba(0, 0, 0, .15);
             >p {
                 display: flex;

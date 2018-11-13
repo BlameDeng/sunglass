@@ -6,5 +6,6 @@ const URL = {
     logout: `${prefix}/auth/logout`,
     patchPassword: `${prefix}/auth/patchpassword`,
     patchProfile: `${prefix}/auth/patchprofile`,
+    patchAddress: `${prefix}/auth/patchaddress`,
 }
 export default URL

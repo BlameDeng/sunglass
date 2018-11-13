@@ -34,6 +34,9 @@ export default new Vuex.Store({
         },
         async patchProfile({ commit }, data) {
             return await request({ url: URL.patchProfile, method: 'POST', data })
+        },
+        async patchAddress({ commit }, data) {
+            return await request({ url: URL.patchAddress, method: 'POST', data })
         }
     }
 })
