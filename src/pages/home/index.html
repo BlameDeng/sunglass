@@ -21,8 +21,9 @@
                         <x-icon name="user" class="icon" @click="onClickUser"></x-icon>
                     </span>
                     <span class="username" v-if="user" @click="onClickUser">{{user.nickyname||user.username}}</span>
+                    <span class="username" v-else @click="onClickUser">未登录</span>
                     <span class="icon-wrapper">
-                        <x-icon name="cart" class="icon" @click="onLink('cart')"></x-icon>
+                        <x-icon name="cart" class="icon" @click="onClickAction('cart')"></x-icon>
                         <span class="badge">8</span>
                     </span>
                 </div>

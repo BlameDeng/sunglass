@@ -9,6 +9,7 @@ import URL from '../../http/url.js'
 export default new Vuex.Store({
     state: {
         newArrival: null,
+        isLogin: false,
         user: null
     },
     mutations: {
@@ -24,13 +25,16 @@ export default new Vuex.Store({
     },
     actions: {
         async fetchNewArrival({ commit }) {
-            return await request({ url: URL.newarrival })
+            return await request({ url: URL.newArrival })
         },
         async check({ commit }) {
             return await request({ url: URL.check })
         },
         async logout({ commit }) {
             return await request({ url: URL.logout })
+        },
+        async addToCart({ commit }, data) {
+            return await request({ url: URL.addToCart, method: 'POST', data })
         }
     }
 })

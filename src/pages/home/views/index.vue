@@ -18,10 +18,10 @@
             <div class="goods-wrapper">
                 <template v-if="newArrival&&newArrival.length">
                     <div class="goods" v-for="goods in newArrival" :key="goods.id">
-                        <h2 class="name">{{goods.name}}</h2>
-                        <img :src="goods.feature">
-                        <span class="price">￥{{goods.price.toFixed(2)}}</span>
-                        <div class="add">
+                        <h2 class="name">{{goods.attributes.name}}</h2>
+                        <img :src="goods.attributes.feature">
+                        <span class="price">￥{{goods.attributes.price.toFixed(2)}}</span>
+                        <div class="add" @click="onAdd(goods)">
                             <x-icon name="cart" class="icon"></x-icon>
                             添加到购物车
                         </div>
@@ -58,7 +58,7 @@
 <script>
     import xIcon from '@/components/icon/icon.vue'
     import sunSlides from '@/components/slides.vue'
-    import { mapState } from 'vuex'
+    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Index',
         mixins: [],
@@ -76,7 +76,22 @@
         created() {},
         mounted() {},
         beforedestroy() {},
-        methods: {}
+        methods: {
+            ...mapActions(['addToCart']),
+            onAdd(goods) {
+                this.addToCart({ id: goods.id, count: 1 })
+                    .then(res => {
+                        console.log(res);
+
+                    })
+                    .catch(error => {
+                        console.log(error.status);
+                        if (error.status === 401) {
+                            this.$info({ message: '需登录后才能操作' })
+                        }
+                    })
+            }
+        }
     }
 </script>
 <style scoped lang="scss">
