@@ -70,6 +70,7 @@
         computed: {
             ...mapState({
                 newArrival: state => state.newArrival,
+                isLogin: state => state.isLogin,
                 user: state => state.user
             })
         },
@@ -81,8 +82,10 @@
             ...mapMutations(['setUser']),
             ...mapActions(['addToCart']),
             onAdd(goods) {
-                let result = this.user.cart.find(item => item.id === goods.id)
-                if (result) { return }
+                if (!this.isLogin) {
+                    window.open('/member.html', '_blank')
+                    return
+                }
                 this.addToCart({ count: 1, ...goods })
                     .then(res => {
                         this.setUser(res.data)

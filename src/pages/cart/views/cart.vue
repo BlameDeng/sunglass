@@ -4,8 +4,8 @@
             我的购物车
         </div>
         <ul class="title-bar">
-            <li class="label">
-                <label></label>
+            <li class="label" @click="selectAll">
+                <label :class="{selected:allSelected}"></label>
                 <span>全选</span>
             </li>
             <li class="info">商品信息</li>
@@ -18,7 +18,7 @@
             <template v-if="user&&user.cart&&user.cart.length">
                 <li v-for="goods in user.cart" :key="goods.id">
                     <div class="label">
-                        <label></label>
+                        <label @click="onGoodsLabel(goods.id)" :class="{selected:selectedIds&&selectedIds.indexOf(goods.id)>-1}"></label>
                     </div>
                     <div class="info">
                         <img :src="goods.attributes.cover">
@@ -28,7 +28,7 @@
                     </div>
                     <div class="price">￥{{goods.attributes.price.toFixed(2)}}</div>
                     <div class="count">
-                        <span class="minus" @click="changeGoodsCount(goods,-1)" :class="{disabled:goods.count===0}">-</span>
+                        <span class="minus" @click="changeGoodsCount(goods,-1)" :class="{disabled:goods.count<=1}">-</span>
                         <input type="text" v-model.number="goods.count" @blur="changeGoodsCount(goods)">
                         <span class="plus" @click="changeGoodsCount(goods,1)">+</span>
                     </div>
@@ -40,15 +40,14 @@
             </template>
         </ul>
         <ul class="action-bar">
-            <li class="label">
-                <label></label>
+            <li class="label" @click="selectAll">
+                <label :class="{selected:allSelected}"></label>
                 <span>全选</span>
             </li>
-            <li class="info">商品信息</li>
-            <li>单价</li>
-            <li>数量</li>
-            <li>金额</li>
-            <li>操作</li>
+            <li class="info"></li>
+            <li>已选商品<span class="number">{{(selectedIds&&selectedIds.length)||0}}</span>件</li>
+            <li>合计<span class="number">{{'￥'+total.toFixed(2)}}</span></li>
+            <li class="pay" :class="{disabled:!selectedIds||!selectedIds.length}">结 算</li>
         </ul>
     </div>
 </template>
@@ -60,12 +59,43 @@
         components: {},
         props: {},
         data() {
-            return {}
+            return { selectedIds: null }
         },
         computed: {
             ...mapState({
                 user: state => state.user
-            })
+            }),
+            total() {
+                if (this.selectedIds && this.selectedIds.length) {
+                    let selectedGoods = []
+                    this.user.cart.forEach(goods => {
+                        if (this.selectedIds.indexOf(goods.id) > -1) {
+                            selectedGoods.push(goods)
+                        }
+                    })
+                    return selectedGoods.reduce((prev, current) => {
+                        return prev + current.attributes.price * current.count
+                    }, 0)
+                } else {
+                    return 0
+                }
+            },
+            allSelected() {
+                if (!this.selectedIds) { return false }
+                if (this.selectedIds.length !== this.user.cart.length) {
+                    return false
+                }
+                let ids1 = JSON.parse(JSON.stringify(this.selectedIds)).sort()
+                let ids2 = this.user.cart.map(goods => goods.id).sort()
+                let result = true
+                for (let i = 0; i < ids2.length; i++) {
+                    if (ids1[i] !== ids2[i]) {
+                        result = false
+                        break
+                    }
+                }
+                return result
+            }
         },
         watch: {},
         created() {},
@@ -76,10 +106,10 @@
             ...mapActions(['changeCount', 'removeGoods']),
             changeGoodsCount(goods, payload) {
                 if (payload) {
-                    if (goods.count + payload < 0) { return }
+                    if (goods.count + payload <= 0) { return }
                     goods.count += payload
                 } else {
-                    if (goods.count < 0 || !goods.count) { goods.count = 0 }
+                    if (goods.count < 0 || !goods.count) { goods.count = 1 }
                 }
                 this.changeCount(goods)
                     .then(res => {
@@ -89,16 +119,36 @@
                         this.$error({ message: error.msg })
                     })
             },
-            onClickDelete(goods){
-                this.removeGoods({id:goods.id})
-                .then(res=>{
-                    this.setUser(res.data)
-                    console.log(res);
-                    
-                })
-                .catch(error=>{
-                    this.$error({message:error.msg})
-                })
+            onClickDelete(goods) {
+                this.removeGoods({ id: goods.id })
+                    .then(res => {
+                        this.selectedIds ? this.selectedIds = this.selectedIds.filter(id => id !== goods.id) : ''
+                        this.setUser(res.data)
+                    })
+                    .catch(error => {
+                        this.$error({ message: error.msg })
+                    })
+            },
+            onGoodsLabel(id) {
+                this.selectedIds = this.selectedIds || []
+                let index = this.selectedIds.indexOf(id)
+                if (index === -1) {
+                    this.selectedIds.push(id)
+                } else {
+                    this.selectedIds.splice(index, 1)
+                }
+            },
+            selectAll() {
+                if (this.allSelected) {
+                    this.selectedIds = null
+                } else {
+                    this.selectedIds = this.selectedIds || []
+                    this.user.cart.forEach(goods => {
+                        if (this.selectedIds.indexOf(goods.id) === -1) {
+                            this.selectedIds.push(goods.id)
+                        }
+                    })
+                }
             }
         }
     }
@@ -147,14 +197,18 @@
                         border-radius: 2px;
                         margin-right: 4px;
                         border: 1px solid rgba(0, 0, 0, 0.15);
-                        &::after {
-                            content: '';
-                            display: block;
-                            width: 10px;
-                            height: 5px;
-                            border-left: 2px solid #f10215;
-                            border-bottom: 2px solid #f10215;
-                            transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
+                        cursor: pointer;
+                        &.selected {
+                            &::after {
+                                content: '';
+                                display: block;
+                                width: 10px;
+                                height: 5px;
+                                border-left: 2px solid #f10215;
+                                border-bottom: 2px solid #f10215;
+                                transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
+                                pointer-events: none;
+                            }
                         }
                     }
                     >span {
@@ -184,7 +238,6 @@
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
-                        cursor: pointer;
                         >label {
                             background: #fff;
                             display: block;
@@ -193,15 +246,18 @@
                             border-radius: 2px;
                             margin-right: 2px;
                             border: 1px solid rgba(0, 0, 0, 0.15);
-                            &::after {
-                                content: '';
-                                display: block;
-                                width: 10px;
-                                height: 5px;
-                                border-left: 2px solid #f10215;
-                                border-bottom: 2px solid #f10215;
-                                transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
-                                pointer-events: none;
+                            cursor: pointer;
+                            &.selected {
+                                &::after {
+                                    content: '';
+                                    display: block;
+                                    width: 10px;
+                                    height: 5px;
+                                    border-left: 2px solid #f10215;
+                                    border-bottom: 2px solid #f10215;
+                                    transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
+                                    pointer-events: none;
+                                }
                             }
                         }
                         >span {
@@ -302,8 +358,16 @@
             background: rgba(0, 0, 0, 0.05);
             margin: 10px 0 20px 0;
             >li {
-                width: 100px;
+                width: 130px;
                 font-size: 12px;
+                >span {
+                    &.number {
+                        font-size: 16px;
+                        margin: 0 4px;
+                        color: #f10215;
+                        font-weight: 700;
+                    }
+                }
                 &.label {
                     width: 60px;
                     display: flex;
@@ -318,22 +382,45 @@
                         border-radius: 2px;
                         margin-right: 4px;
                         border: 1px solid rgba(0, 0, 0, 0.15);
-                        &::after {
-                            content: '';
-                            display: block;
-                            width: 10px;
-                            height: 5px;
-                            border-left: 2px solid #f10215;
-                            border-bottom: 2px solid #f10215;
-                            transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
+                        cursor: pointer;
+                        &.selected {
+                            &::after {
+                                content: '';
+                                display: block;
+                                width: 10px;
+                                height: 5px;
+                                border-left: 2px solid #f10215;
+                                border-bottom: 2px solid #f10215;
+                                transform: rotateZ(-50deg) translateX(-1px) translateY(2px);
+                                pointer-events: none;
+                            }
                         }
                     }
                     >span {
                         font-size: 12px;
+                        &.number {
+                            color: #f10215;
+                            font-weight: 700;
+                        }
                     }
                 }
                 &.info {
                     flex-grow: 1;
+                }
+                &.pay {
+                    height: 60px;
+                    line-height: 60px;
+                    text-align: center;
+                    font-size: 18px;
+                    color: rgba(255, 255, 255, .85);
+                    background: #f10215;
+                    border-top-right-radius: 2px;
+                    border-bottom-right-radius: 2px;
+                    cursor: pointer;
+                    &.disabled {
+                        background: #B0B0B0;
+                        cursor: not-allowed;
+                    }
                 }
             }
         }
