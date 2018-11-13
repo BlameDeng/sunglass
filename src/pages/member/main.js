@@ -55,10 +55,9 @@ new Vue({
     methods: {
         ...mapMutations(['setLogin', 'setUser']),
         ...mapActions(['check', 'logout']),
+        onLogo() { window.open('/home.html', '_self') },
         onLink(type) {
-            // type === 'user' ? window.open('/member.html', '_blank') : ''
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
-
         },
         onClickUser() {
             if (!this.isLogin) { return }
