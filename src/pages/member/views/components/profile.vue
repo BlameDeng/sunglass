@@ -37,7 +37,9 @@
         },
         watch: {},
         created() {},
-        mounted() {},
+        mounted() {
+            this.nickyname=this.user.nickyname
+        },
         beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
