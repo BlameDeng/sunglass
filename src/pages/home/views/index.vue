@@ -69,7 +69,8 @@
         },
         computed: {
             ...mapState({
-                newArrival: state => state.newArrival
+                newArrival: state => state.newArrival,
+                user: state => state.user
             })
         },
         watch: {},
@@ -80,6 +81,8 @@
             ...mapMutations(['setUser']),
             ...mapActions(['addToCart']),
             onAdd(goods) {
+                let result = this.user.cart.find(item => item.id === goods.id)
+                if (result) { return }
                 this.addToCart({ count: 1, ...goods })
                     .then(res => {
                         this.setUser(res.data)
