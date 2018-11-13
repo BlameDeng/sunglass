@@ -11,8 +11,13 @@ new Vue({
     store,
     mixins: [],
     components: { xIcon },
-    data: { currentTab: 'index' },
-    computed: {},
+    data: { currentTab: 'index', actionsVisible: false },
+    computed: {
+        ...mapState({
+            isLogin: state => state.isLogin,
+            user: state => state.user
+        })
+    },
     watch: {
         currentTab(val) {
             val === 'index' && this.hanleSlider(1)
@@ -20,6 +25,13 @@ new Vue({
             val === 'female' && this.hanleSlider(3)
             val === 'male' && this.hanleSlider(4)
             val === 'onsale' && this.hanleSlider(5)
+        },
+        actionsVisible(val) {
+            if (val) {
+                document.addEventListener('click', this.listenDocument)
+            } else {
+                document.removeEventListener('click', this.listenDocument)
+            }
         }
     },
     created() {
@@ -27,18 +39,24 @@ new Vue({
             .then(res => {
                 this.setNewArrival(res.data)
             })
-            .catch(error => {
-                console.log(error)
-            })
+            .catch(error => {})
     },
     mounted() {
         const pattern = /^.*\?tab=(\w+)$/
         if (pattern.test(window.location.href)) { this.currentTab = RegExp.$1 }
+        this.check()
+            .then(res => {
+                this.setLogin(res.isLogin)
+                this.setUser(res.data)
+            })
+            .catch(error => {})
     },
-    beforedestroy() {},
+    beforedestroy() {
+        document.removeEventListener('click', this.listenDocument)
+    },
     methods: {
-        ...mapMutations(['setNewArrival']),
-        ...mapActions(['fetchNewArrival']),
+        ...mapMutations(['setNewArrival', 'setLogin', 'setUser']),
+        ...mapActions(['fetchNewArrival', 'check', 'logout']),
         onTab(tab) {
             tab === 'index' ? this.$router.push('/') : this.$router.push({ path: '/category', query: { tab } })
             this.currentTab = tab
@@ -50,9 +68,30 @@ new Vue({
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         },
-        linkMember(type) {
-            if (type === 'user') {
+        listenDocument() {
+            this.actionsVisible = false
+        },
+        onClickUser() {
+            if (!this.isLogin) {
                 window.open('/member.html', '_blank')
+                return
+            }
+            this.actionsVisible = true
+        },
+        onClickAction(type) {
+            if (type === 'logout') {
+                this.logout()
+                    .then(res => {
+                        localStorage.removeItem('user')
+                        this.setLogin(res.isLogin)
+                        this.setUser(null)
+                    })
+                    .catch(error => {
+                        this.setLogin(res.isLogin)
+                        this.setUser(null)
+                    })
+            } else if (type === 'account') {
+                window.open('/member.html','_self')
             }
         }
     }

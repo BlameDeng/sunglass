@@ -8,17 +8,29 @@ import URL from '../../http/url.js'
 
 export default new Vuex.Store({
     state: {
-        newArrival: null
+        newArrival: null,
+        user: null
     },
     mutations: {
         setNewArrival(state, payload) {
             state.newArrival = payload
+        },
+        setLogin(state, payload) {
+            state.isLogin = payload
+        },
+        setUser(state, payload) {
+            state.user = payload
         }
     },
     actions: {
         async fetchNewArrival({ commit }) {
-            let res = await request({ url: URL.newarrival })
-            return res
+            return await request({ url: URL.newarrival })
+        },
+        async check({ commit }) {
+            return await request({ url: URL.check })
+        },
+        async logout({ commit }) {
+            return await request({ url: URL.logout })
         }
     }
 })

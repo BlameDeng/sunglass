@@ -14,16 +14,29 @@
 
 <body>
     <div id="app" v-cloak>
-        <header class="header" :class="{['is-login']:isLogin}">
-            <div class="header-inner">
-                <div class="logo">Sunglass<sup>&reg;</sup></div>
-                <x-icon name="user" class="icon" @click="onClickUser"></x-icon>
+        <div class="top">
+            <div class="top-userbar">
+                <div class="user">
+                    <span class="icon-wrapper">
+                        <x-icon name="user" class="icon" @click="onClickUser"></x-icon>
+                    </span>
+                    <span class="username" v-if="user" @click="onClickUser">{{user.nickyname||user.username}}</span>
+                    <span class="icon-wrapper">
+                        <x-icon name="cart" class="icon" @click="onLink('cart')"></x-icon>
+                        <span class="badge">8</span>
+                    </span>
+                </div>
                 <transition name="actions-fade">
                     <div class="actions" v-show="actionsVisible">
                         <div class="action" @click="onClickAction('cart')">购物车</div>
                         <div class="action" @click="onClickAction('logout')">注销登录</div>
                     </div>
                 </transition>
+            </div>
+        </div>
+        <header class="header" :class="{['is-login']:isLogin}">
+            <div class="header-inner">
+                <div class="logo">Sunglass<sup>&reg;</sup></div>
             </div>
         </header>
         <main class="main">

@@ -22,7 +22,8 @@ new Vue({
     },
     computed: {
         ...mapState({
-            isLogin: state => state.isLogin
+            isLogin: state => state.isLogin,
+            user: state => state.user
         })
     },
     watch: {
@@ -55,9 +56,12 @@ new Vue({
         ...mapMutations(['setLogin', 'setUser']),
         ...mapActions(['check', 'logout']),
         onLink(type) {
+            // type === 'user' ? window.open('/member.html', '_blank') : ''
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
+
         },
         onClickUser() {
+            if (!this.isLogin) { return }
             this.actionsVisible = true
         },
         listenDocument() {

@@ -30,30 +30,26 @@
         mixins: [],
         components: {},
         props: {},
-        data() {
-            return {}
-        },
+        data() { return {} },
         computed: {},
         watch: {},
         created() {},
         mounted() {},
         beforedestroy() {},
         methods: {
-            onClickTab(tab) {
-
-            }
+            onClickTab(tab) {}
         }
     }
 </script>
 <style scoped lang="scss">
     .index {
-        border: 1px solid rgba(0, 0, 0, .15);
+        border: 1px solid rgba(0, 0, 0, 0.15);
         border-radius: 2px;
         >.title-wrapper {
             display: flex;
             justify-content: flex-start;
             >.title {
-                border-bottom: 1px solid rgba(0, 0, 0, .15);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.15);
                 padding-bottom: 5px;
                 padding-left: 20px;
                 padding-right: 40px;
