@@ -29,17 +29,11 @@ export default new Vuex.Store({
         async logout({ commit }) {
             return await request({ url: URL.logout })
         },
-        async patchPassword({ commit }, data) {
-            return await request({ url: URL.patchPassword, method: 'POST', data })
-        },
-        async patchProfile({ commit }, data) {
-            return await request({ url: URL.patchProfile, method: 'POST', data })
-        },
-        async patchAddress({ commit }, data) {
-            return await request({ url: URL.patchAddress, method: 'POST', data })
-        },
         async changeCount({ commit }, data) {
             return await request({ url: URL.changeCount, method: 'POST', data })
+        },
+        async removeGoods({ commit }, data) {
+            return await request({ url: URL.removeGoods, method: 'POST', data })
         }
     }
 })

@@ -9,5 +9,6 @@ const URL = {
     newArrival: `${prefix}/api/newarrival`,
     addToCart: `${prefix}/api/addtocart`,
     changeCount: `${prefix}/api/changecount`,
+    removeGoods: `${prefix}/api/removegoods`
 }
 export default URL

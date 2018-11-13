@@ -34,7 +34,7 @@
                     </div>
                     <div class="total">￥{{(goods.attributes.price*goods.count)&&(goods.attributes.price*goods.count).toFixed(2)||'0.00'}}</div>
                     <div class="action">
-                        <span>删除</span>
+                        <span @click="onClickDelete(goods)">删除</span>
                     </div>
                 </li>
             </template>
@@ -73,7 +73,7 @@
         beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
-            ...mapActions(['changeCount']),
+            ...mapActions(['changeCount', 'removeGoods']),
             changeGoodsCount(goods, payload) {
                 if (payload) {
                     if (goods.count + payload < 0) { return }
@@ -88,6 +88,17 @@
                     .catch(error => {
                         this.$error({ message: error.msg })
                     })
+            },
+            onClickDelete(goods){
+                this.removeGoods({id:goods.id})
+                .then(res=>{
+                    this.setUser(res.data)
+                    console.log(res);
+                    
+                })
+                .catch(error=>{
+                    this.$error({message:error.msg})
+                })
             }
         }
     }
