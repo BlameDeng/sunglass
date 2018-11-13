@@ -8,5 +8,6 @@ const URL = {
     patchAddress: `${prefix}/auth/patchaddress`,
     newArrival: `${prefix}/api/newarrival`,
     addToCart: `${prefix}/api/addtocart`,
+    changeCount: `${prefix}/api/changecount`,
 }
 export default URL

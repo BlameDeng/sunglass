@@ -4,6 +4,8 @@ import store from './store.js'
 import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
+import Message from '@/components/message/index.js'
+Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
@@ -40,7 +42,7 @@ new Vue({
                 // this.$router.push('/user')
             })
             .catch(error => {
-                window.open('/member.html','_self')
+                window.open('/member.html', '_self')
             })
     },
     mounted() {},

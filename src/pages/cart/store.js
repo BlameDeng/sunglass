@@ -37,6 +37,9 @@ export default new Vuex.Store({
         },
         async patchAddress({ commit }, data) {
             return await request({ url: URL.patchAddress, method: 'POST', data })
+        },
+        async changeCount({ commit }, data) {
+            return await request({ url: URL.changeCount, method: 'POST', data })
         }
     }
 })

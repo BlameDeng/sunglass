@@ -77,15 +77,14 @@
         mounted() {},
         beforedestroy() {},
         methods: {
+            ...mapMutations(['setUser']),
             ...mapActions(['addToCart']),
             onAdd(goods) {
-                this.addToCart({ id: goods.id, count: 1 })
+                this.addToCart({ count: 1, ...goods })
                     .then(res => {
-                        console.log(res);
-
+                        this.setUser(res.data)
                     })
                     .catch(error => {
-                        console.log(error.status);
                         if (error.status === 401) {
                             this.$info({ message: '需登录后才能操作' })
                         }
