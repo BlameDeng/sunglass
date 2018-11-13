@@ -81,7 +81,7 @@
                 }
             },
             allSelected() {
-                if (!this.selectedIds) { return false }
+                if (!this.selectedIds||!this.user.cart.length) { return false }
                 if (this.selectedIds.length !== this.user.cart.length) {
                     return false
                 }
@@ -139,6 +139,9 @@
                 }
             },
             selectAll() {
+                if (!this.user.cart.length) {
+                    return
+                }
                 if (this.allSelected) {
                     this.selectedIds = null
                 } else {
