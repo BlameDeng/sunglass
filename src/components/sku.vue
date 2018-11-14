@@ -1,6 +1,6 @@
 <template>
     <div class="sun-sku">
-        <div class="show-img">
+        <div class="show-img" @click="onDetail(goods)">
             <div class="icon-wrapper" v-if="goods.attributes.price<goods.attributes.originPrice">
                 <x-icon name="sale" class="icon"></x-icon>
             </div>
@@ -23,11 +23,11 @@
                 <span>￥{{goods.attributes.originPrice}}.00</span>
             </div>
         </div>
-        <div class="title">
+        <div class="title" @click="onDetail(goods)">
             {{goods.attributes.title}}
         </div>
         <div class="actions">
-            <div class="detail" role="button">
+            <div class="detail" role="button" @click="onDetail(goods)">
                 <x-icon name="detail" class="icon"></x-icon>
                 查看详情
             </div>
@@ -58,13 +58,18 @@
         created() {},
         mounted() {},
         beforedestroy() {},
-        methods: {}
+        methods: {
+            onDetail(goods){
+                window.open(`/goods.html?id=${goods.id}`,'_blank')
+            }
+        }
     }
 </script>
 <style scoped lang="scss">
     .sun-sku {
         padding: 10px 0;
         overflow: hidden;
+        margin-bottom: 10px;
         >.show-img {
             margin: 0 auto;
             width: 200px;
@@ -73,6 +78,7 @@
             justify-content: center;
             align-items: center;
             position: relative;
+            cursor: pointer;
             >.icon-wrapper {
                 position: absolute;
                 top: 0;
@@ -151,11 +157,14 @@
             }
         }
         >.title {
-            cursor: default;
+            cursor: pointer;
             margin: 10px auto;
             width: 200px;
             font-size: 12px;
             height: 60px;
+            &:hover{
+                color: #f10215;
+            }
         }
         >.actions {
             cursor: pointer;
@@ -187,11 +196,13 @@
                     margin-right: 2px;
                 }
                 &.detail {
+                    user-select: none;
                     &:hover {
                         background: rgba(0, 0, 0, .04);
                     }
                 }
                 &.add-to-cart {
+                    user-select: none;
                     &:hover {
                         background: lighten(#f10215, 50%);
                         color: #f10215;

@@ -4,6 +4,7 @@ import store from './store.js'
 import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
+import sunSider from './components/sider.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
@@ -15,7 +16,7 @@ new Vue({
     provide() {
         return { eventBus: this.eventBus }
     },
-    components: { xIcon },
+    components: { xIcon, sunSider },
     data: { currentTab: 'index', actionsVisible: false, eventBus: new Vue() },
     computed: {
         ...mapState({
@@ -96,7 +97,7 @@ new Vue({
                         this.setLogin(res.isLogin)
                         this.setUser(null)
                     })
-            } else if (type === 'account') {
+            } else if (type === 'member') {
                 window.open('/member.html', '_blank')
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
