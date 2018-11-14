@@ -1,6 +1,9 @@
 <template>
     <div class="sun-sku">
         <div class="show-img">
+            <div class="icon-wrapper" v-if="goods.attributes.price<goods.attributes.originPrice">
+                <x-icon name="sale" class="icon"></x-icon>
+            </div>
             <img :src="goods.attributes.cover" v-if="currentImg==='cover'">
             <img :src="goods.attributes.feature" v-else>
         </div>
@@ -61,6 +64,7 @@
 <style scoped lang="scss">
     .sun-sku {
         padding: 10px 0;
+        overflow: hidden;
         >.show-img {
             margin: 0 auto;
             width: 200px;
@@ -68,6 +72,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            >.icon-wrapper {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 50px;
+                height: 40px;
+                background: #fff;
+                transform: rotateZ(45deg) translateX(4px) translateY(-27px);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                >.icon {
+                    color: #f10215;
+                    width: 35px;
+                    height: 35px;
+                }
+            }
+
             >img {
                 width: 200px;
                 border-radius: 2px;
@@ -163,14 +186,14 @@
                 >.icon {
                     margin-right: 2px;
                 }
-                &.detail{
-                    &:hover{
-                        background: rgba(0,0,0,.04);
+                &.detail {
+                    &:hover {
+                        background: rgba(0, 0, 0, .04);
                     }
                 }
-                &.add-to-cart{
-                    &:hover{
-                        background: lighten(#f10215,50%);
+                &.add-to-cart {
+                    &:hover {
+                        background: lighten(#f10215, 50%);
                         color: #f10215;
                     }
                 }

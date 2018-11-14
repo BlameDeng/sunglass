@@ -47,11 +47,20 @@ body {
                         text-align: center;
                         line-height: 40px;
                         color: rgba(0, 0, 0, .65);
+                        position: relative;
                         &:hover {
                             color: #f10215;
                         }
                         &.active {
                             color: #f10215;
+                        }
+                        >.icon{
+                            color: #f10215;
+                            position: absolute;
+                            top: 0;
+                            right: 8px;
+                            width: 18px;
+                            height: 18px;
                         }
                     }
                     >.slider {
