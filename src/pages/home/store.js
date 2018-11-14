@@ -8,11 +8,15 @@ import URL from '../../http/url.js'
 
 export default new Vuex.Store({
     state: {
+        allGoods: null,
         newArrival: null,
         isLogin: false,
         user: null
     },
     mutations: {
+        setAllGoods(state, payload) {
+            state.allGoods = payload
+        },
         setNewArrival(state, payload) {
             state.newArrival = payload
         },
@@ -24,8 +28,8 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async fetchNewArrival({ commit }) {
-            return await request({ url: URL.newArrival })
+        async fetchGoods({ commit }, data) {
+            return await request({ url: URL.fetchGoods, data })
         },
         async check({ commit }) {
             return await request({ url: URL.check })

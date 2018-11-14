@@ -37,7 +37,7 @@ new Vue({
         }
     },
     created() {
-        this.fetchNewArrival()
+        this.fetchGoods({type:'newArrival'})
             .then(res => {
                 this.setNewArrival(res.data)
             })
@@ -58,7 +58,7 @@ new Vue({
     },
     methods: {
         ...mapMutations(['setNewArrival', 'setLogin', 'setUser']),
-        ...mapActions(['fetchNewArrival', 'check', 'logout']),
+        ...mapActions(['fetchGoods', 'check', 'logout']),
         onTab(tab) {
             tab === 'index' ? this.$router.push('/') : this.$router.push({ path: '/category', query: { tab } })
             this.currentTab = tab

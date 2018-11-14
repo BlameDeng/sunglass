@@ -1,25 +1,46 @@
 <template>
     <div class="category">
-        分类
+        <x-waterfall v-if="allGoods&&allGoods.length" :width="180" :source="allGoods">
+            <div slot-scope="slotProps">{{slotProps.prop.attributes.title}}</div>
+        </x-waterfall>
     </div>
 </template>
 <script>
+    import xWaterfall from '@/components/waterfall.vue'
+    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Category',
         mixins: [],
-        components: {},
+        components: { xWaterfall },
         props: {},
         data() {
             return {}
         },
-        computed: {},
+        computed: {
+            ...mapState({
+                allGoods: state => state.allGoods
+            })
+        },
         watch: {},
-        created() {},
-        mounted() {},
+        created() {
+            !this.allGoods && this.fetchGoods({ type: 'all' })
+                .then(res => {
+                    this.setAllGoods(res.data)
+                })
+        },
+        mounted() {
+
+        },
         beforedestroy() {},
-        methods: {}
+        methods: {
+            ...mapMutations(['setAllGoods']),
+            ...mapActions(['fetchGoods'])
+        }
     }
 </script>
 <style scoped lang="scss">
-    .category {}
+    .category {
+        width: 1200px;
+        margin: 0 auto;
+    }
 </style>
