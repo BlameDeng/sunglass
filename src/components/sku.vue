@@ -23,13 +23,24 @@
         <div class="title">
             {{goods.attributes.title}}
         </div>
+        <div class="actions">
+            <div class="detail" role="button">
+                <x-icon name="detail" class="icon"></x-icon>
+                查看详情
+            </div>
+            <div class="add-to-cart" role="button">
+                <x-icon name="cart" class="icon"></x-icon>
+                加入购物车
+            </div>
+        </div>
     </div>
 </template>
 <script>
+    import xIcon from '@/components/icon/icon.vue'
     export default {
         name: 'SunSku',
         mixins: [],
-        components: {},
+        components: { xIcon },
         props: {
             goods: {
                 type: Object,
@@ -122,6 +133,48 @@
             width: 200px;
             font-size: 12px;
             height: 60px;
+        }
+        >.actions {
+            cursor: pointer;
+            margin: 10px auto;
+            width: 200px;
+            font-size: 12px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            >div {
+                width: 100px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                border: 1px solid rgba(0, 0, 0, .15);
+                border-left: none;
+                &:first-child {
+                    border-left: 1px solid rgba(0, 0, 0, .15);
+                    border-top-left-radius: 2px;
+                    border-bottom-left-radius: 2px;
+                }
+                &:last-child {
+                    border-top-right-radius: 2px;
+                    border-bottom-right-radius: 2px;
+                }
+                >.icon {
+                    margin-right: 2px;
+                }
+                &.detail{
+                    &:hover{
+                        background: rgba(0,0,0,.04);
+                    }
+                }
+                &.add-to-cart{
+                    &:hover{
+                        background: lighten(#f10215,50%);
+                        color: #f10215;
+                    }
+                }
+            }
         }
         &:hover {
             box-shadow: 2px 0 8px rgba(0, 0, 0, .15);
