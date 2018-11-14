@@ -31,7 +31,7 @@
                 <x-icon name="detail" class="icon"></x-icon>
                 查看详情
             </div>
-            <div class="add-to-cart" role="button">
+            <div class="add-to-cart" role="button" @click="onAddToCart(goods)">
                 <x-icon name="cart" class="icon"></x-icon>
                 加入购物车
             </div>
@@ -59,8 +59,11 @@
         mounted() {},
         beforedestroy() {},
         methods: {
-            onDetail(goods){
-                window.open(`/goods.html?id=${goods.id}`,'_blank')
+            onDetail(goods) {
+                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            },
+            onAddToCart(goods) {
+                this.$emit('add-to-cart', goods)
             }
         }
     }
@@ -162,7 +165,7 @@
             width: 200px;
             font-size: 12px;
             height: 60px;
-            &:hover{
+            &:hover {
                 color: #f10215;
             }
         }

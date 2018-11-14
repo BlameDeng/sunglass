@@ -92,7 +92,7 @@
                     })
                     .catch(error => {
                         if (error.status === 401) {
-                            this.$info({ message: '需登录后才能操作' })
+                            window.open(`/member.html`, '_blank')
                         }
                     })
             }

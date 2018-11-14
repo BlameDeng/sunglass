@@ -2,7 +2,7 @@
     <div class="category">
         <x-waterfall v-if="goodsList&&goodsList.length" :width="220" :source="goodsList" @scroll-bottom="scrollBottom">
             <div slot-scope="slotProps">
-                <sun-sku :goods="slotProps.prop"></sun-sku>
+                <sun-sku :goods="slotProps.prop" @add-to-cart="handleAddToCart($event)"></sun-sku>
             </div>
         </x-waterfall>
     </div>
@@ -55,11 +55,21 @@
         mounted() {},
         beforedestroy() {},
         methods: {
-            ...mapMutations(['setAllGoods']),
-            ...mapActions(['fetchGoods']),
+            ...mapMutations(['setAllGoods', 'setUser']),
+            ...mapActions(['fetchGoods', 'addToCart']),
             scrollBottom() {
-                console.log(1);
-
+                console.log(1)
+            },
+            handleAddToCart(goods) {
+                this.addToCart({ count: 1, ...goods })
+                    .then(res => {
+                        this.setUser(res.data)
+                    })
+                    .catch(error => {
+                        if (error.status === 401) {
+                            window.open(`/member.html`, '_blank')
+                        }
+                    })
             }
         }
     }

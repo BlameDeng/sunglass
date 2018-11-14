@@ -3,37 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import request from '../../http/request.js'
-import URL from '../../http/url.js'
+import Options from '@/utils/storeOptions.js'
+const options = new Options()
 
-export default new Vuex.Store({
-    state: {
-        isLogin: false,
-        user: null
-    },
-    mutations: {
-        setLogin(state, payload) {
-            state.isLogin = payload
-        },
-        setUser(state, payload) {
-            state.user = payload
-        }
-    },
-    actions: {
-        async login({ commit }, data) {
-            return await request({ url: URL.login, method: 'POST', data })
-        },
-        async check({ commit }) {
-            return await request({ url: URL.check })
-        },
-        async logout({ commit }) {
-            return await request({ url: URL.logout })
-        },
-        async changeCount({ commit }, data) {
-            return await request({ url: URL.changeCount, method: 'POST', data })
-        },
-        async removeGoods({ commit }, data) {
-            return await request({ url: URL.removeGoods, method: 'POST', data })
-        }
-    }
-})
+export default new Vuex.Store(options)

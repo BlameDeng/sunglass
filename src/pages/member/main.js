@@ -5,6 +5,7 @@ import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunInput from '@/components/input.vue'
+import sunSider from '@/components/sider.vue'
 import sunCaptcha from '@/components/captcha.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
@@ -14,7 +15,7 @@ new Vue({
     router,
     store,
     mixins: [],
-    components: { xIcon, sunInput, sunCaptcha },
+    components: { xIcon, sunInput, sunCaptcha,sunSider },
     data: {
         username: '',
         password: '',
@@ -80,6 +81,8 @@ new Vue({
                         this.setUser(null)
                         this.$router.push('/')
                     })
+            } else if (type === 'cart') {
+                window.open('/cart.html', '_blank')
             }
         }
     }

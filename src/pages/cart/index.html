@@ -14,6 +14,7 @@
 
 <body>
     <div id="app" v-cloak>
+        <sun-sider></sun-sider>
         <div class="top">
             <div class="top-userbar">
                 <div class="user">
@@ -29,7 +30,6 @@
                 </div>
                 <transition name="actions-fade">
                     <div class="actions" v-show="actionsVisible">
-                        <div class="action" @click="onClickAction('cart')">购物车</div>
                         <div class="action" @click="onClickAction('logout')">注销登录</div>
                     </div>
                 </transition>

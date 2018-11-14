@@ -4,6 +4,7 @@ import store from './store.js'
 import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
+import sunSider from '@/components/sider.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
@@ -12,7 +13,7 @@ new Vue({
     router,
     store,
     mixins: [],
-    components: { xIcon },
+    components: { xIcon, sunSider },
     props: {},
     data() {
         return {
@@ -39,7 +40,6 @@ new Vue({
             .then(res => {
                 this.setLogin(res.isLogin)
                 this.setUser(res.data)
-                // this.$router.push('/user')
             })
             .catch(error => {
                 window.open('/member.html', '_self')

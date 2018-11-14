@@ -1,6 +1,6 @@
 @import '@/assets/common.scss';
-html, body {
-    width: 100%;
+body {
+    overflow-y: scroll;
 }
 
 #app {

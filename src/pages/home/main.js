@@ -4,10 +4,11 @@ import store from './store.js'
 import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
-import sunSider from './components/sider.vue'
+import sunSider from '@/components/sider.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
+import smoothScroll from '@/utils/smoothScroll.js'
 new Vue({
     el: '#app',
     router,
@@ -102,6 +103,9 @@ new Vue({
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }
+        },
+        onClickFooterLogo() {
+            smoothScroll(window, { x: 0, y: 0 })
         }
     }
 })

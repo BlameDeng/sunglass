@@ -1,9 +1,9 @@
 <template>
     <div class="user">
         <nav class="user-navbar">
-            <div class="user-avatar" @click="changeComponent('Profile')">
+            <div class="user-avatar">
                 <x-icon name="avatar" class="icon"></x-icon>
-                <span v-if="user" :class="{active:currentComponent==='Profile'}">{{user.nickyname||user.username}}</span>
+                <span v-if="user">{{user.nickyname||user.username}}</span>
             </div>
             <div class="index" @click="changeComponent('Index')" :class="{active:currentComponent==='Index'}">我的首页</div>
             <div class="account" @click="changeComponent('Account')" :class="{active:currentComponent==='Account'}">账户设置</div>
@@ -19,26 +19,42 @@
     import xIcon from '@/components/icon/icon.vue'
     import Index from './components/index.vue'
     import Account from './components/account.vue'
-    import Profile from './components/profile.vue'
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'User',
         mixins: [],
-        components: { xIcon, Index, Account, Profile },
+        components: { xIcon, Index, Account },
         props: {},
         data() {
             return { currentComponent: 'Index' }
         },
         computed: {
             ...mapState({
-                user: state => state.user
+                user: state => state.user,
+                recommendGoods: state => state.recommendGoods
             })
         },
-        watch: {},
+        watch: {
+            user: {
+                handler(val) {
+                    if (val) {
+                        this.fetchGoods({ type: 'recommend', gender: this.user.gender || 'unknown' })
+                            .then(res => {
+                                this.setRecommendGoods(res.data)
+                            })
+                            .catch(error => {})
+                    }
+                },
+                deep: true,
+                immediate: true
+            }
+        },
         created() {},
         mounted() {},
         beforedestroy() {},
         methods: {
+            ...mapMutations(['setRecommendGoods']),
+            ...mapActions(['fetchGoods']),
             changeComponent(name) {
                 this.currentComponent = name
             }
@@ -62,20 +78,14 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                cursor: pointer;
+                cursor: default;
                 >.icon {
                     width: 40px;
                     height: 40px;
                 }
                 >span {
-                    font-size: 18px;
+                    font-size: 16px;
                     margin-left: 4px;
-                    &:hover {
-                        color: #f10215;
-                    }
-                    &.active {
-                        color: #f10215;
-                    }
                 }
             }
             >.index, >.account {
