@@ -5,11 +5,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sunglass - 商品</title>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-    <div id="app">
-        {{title}}
+    <div id="app" v-cloak>
+        <sun-sider></sun-sider>
+        <div class="top">
+            <div class="top-userbar">
+                <div class="user">
+                    <span class="icon-wrapper">
+                        <x-icon name="user" class="icon" @click="onClickUser"></x-icon>
+                    </span>
+                    <span class="username" v-if="user" @click="onClickUser">{{user.nickyname||user.username}}</span>
+                    <span class="username" v-else @click="onClickUser">未登录</span>
+                    <span class="icon-wrapper">
+                        <x-icon name="cart" class="icon" @click="onClickAction('cart')"></x-icon>
+                        <span class="badge" v-if="user&&user.cart&&user.cart.length">{{user.cart.length}}</span>
+                    </span>
+                </div>
+                <transition name="actions-fade">
+                    <div class="actions" v-show="actionsVisible">
+                        <div class="action" @click="onClickAction('logout')">注销登录</div>
+                    </div>
+                </transition>
+            </div>
+        </div>
+        <header class="header" :class="{['is-login']:isLogin}">
+            <div class="header-inner">
+                <div class="logo" @click="onLogo">Sunglass<sup>&reg;</sup></div>
+            </div>
+        </header>
+        <main class="main">
+            <template v-if="goods">
+                <div class="content">
+                    <div class="imgs">
+                        <div class="show-img">
+                            <img :src="goods.attributes.cover">
+                            <!-- <img src="" alt=""> -->
+                        </div>
+                        <div class="focus-img">
+                            <div class="cover">
+                                <img :src="goods.attributes.cover">
+                            </div>
+                            <div class="feature">
+                                <img :src="goods.attributes.feature">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="goods-info">
+                        <h2 class="title">{{goods.attributes.title}}</h2>
+                    </div>
+                </div>
+            </template>
+        </main>
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="link">
+                    <div class="logo" @click="onLogo">Sunglass<sup>&reg;</sup></div>
+                    <div class="icons">
+                        <x-icon name="github" class="icon" @click="onLink('github')"></x-icon>
+                        <x-icon name="jianshu" class="icon" @click="onLink('jianshu')"></x-icon>
+                    </div>
+                </div>
+                <div class="portfolio">
+                    <div>Portfolio</div>
+                    <a href="https://xue-ui.com.cn" target="_blank">Xue-ui</a>
+                    <a href="https://github.com/BlameDeng/todos" target="_blank">Todos</a>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 

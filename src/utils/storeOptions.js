@@ -8,7 +8,8 @@ class Options {
             user: null,
             allGoods: null,
             newArrival: null,
-            recommendGoods: null
+            recommendGoods: null,
+            goods: null
         }
         this.mutations = {
             setLogin(state, payload) {
@@ -25,6 +26,9 @@ class Options {
             },
             setRecommendGoods(state, payload) {
                 state.recommendGoods = payload
+            },
+            setGoods(state, payload) {
+                state.goods = payload
             }
         }
         this.actions = {

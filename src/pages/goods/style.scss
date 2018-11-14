@@ -1,0 +1,86 @@
+@import '@/assets/common.scss';
+body {
+    overflow-y: scroll;
+}
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    color: rgba(0, 0, 0, .65);
+
+    >.top {
+        @include top;
+    }
+
+    >.header {
+        @include header;
+    }
+
+    >.main {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: flex-start;
+        >.content {
+            width: 800px;
+            margin: 10px auto;
+            border: 1px solid rgba(0, 0, 0, .15);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            >.imgs {
+                width: 40%;
+                >.show-img {
+                    width: 300px;
+                    height: 300px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    >img {
+                        width: 350px;
+                    }
+                }
+                >.focus-img {
+                    margin: 10px auto;
+                    width: 300px;
+                    height: 32px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    >div {
+                        width: 34px;
+                        height: 34px;
+                        display: flex;
+                        padding: 1px;
+                        justify-content: flex-start;
+                        align-items: center;
+                        border: 1px solid transparent;
+                        border-radius: 2px;
+                        margin-right: 2px;
+                        >img {
+                            width: 30px;
+                            border-radius: 2px;
+                        }
+                        &.active {
+                            border: 1px solid #f10215;
+                        }
+                    }
+                }
+            }
+            >.goods-info {
+                width: 60%;
+            }
+        }
+    }
+
+    >.footer {
+        @include footer;
+    }
+}
+
+@include transitions;
