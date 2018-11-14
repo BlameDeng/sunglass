@@ -1,14 +1,23 @@
 <template>
     <div class="sun-sku">
         <div class="show-img">
-            <img :src="currentImg">
+            <img :src="goods.attributes.cover" v-if="currentImg==='cover'">
+            <img :src="goods.attributes.feature" v-else>
         </div>
         <div class="focus-img">
-            <div class="cover" @mouseenter="currentImg=goods.attributes.cover" :class="{active:currentImg===goods.attributes.cover}">
+            <div class="cover" @mouseenter="currentImg='cover'" :class="{active:currentImg==='cover'}">
                 <img :src="goods.attributes.cover">
             </div>
-            <div class="feature" @mouseenter="currentImg=goods.attributes.feature" :class="{active:currentImg===goods.attributes.feature}">
+            <div class="feature" @mouseenter="currentImg='feature'" :class="{active:currentImg==='feature'}">
                 <img :src="goods.attributes.feature">
+            </div>
+        </div>
+        <div class="goods-price">
+            <div class="price">
+                <span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+            </div>
+            <div class="origin-price" v-if="goods.attributes.price<goods.attributes.originPrice">
+                <span>￥{{goods.attributes.originPrice}}.00</span>
             </div>
         </div>
         <div class="title">
@@ -28,18 +37,12 @@
             }
         },
         data() {
-            return { currentImg: '' }
+            return { currentImg: 'cover' }
         },
         computed: {},
         watch: {},
         created() {},
-        mounted() {
-            if (Math.random() > 0.5) {
-                this.currentImg = this.goods.attributes.cover
-            } else {
-                this.currentImg = this.goods.attributes.feature
-            }
-        },
+        mounted() {},
         beforedestroy() {},
         methods: {}
     }
@@ -67,19 +70,49 @@
             justify-content: flex-start;
             align-items: center;
             >div {
-                width: 32px;
-                height: 32px;
+                width: 34px;
+                height: 34px;
                 display: flex;
+                padding: 1px;
                 justify-content: flex-start;
                 align-items: center;
                 border: 1px solid transparent;
                 border-radius: 2px;
+                margin-right: 2px;
                 >img {
                     width: 30px;
                     border-radius: 2px;
                 }
                 &.active {
                     border: 1px solid #f10215;
+                }
+            }
+        }
+        >.goods-price {
+            margin: 10px auto;
+            width: 200px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            >.price {
+                cursor: default;
+                margin-right: 4px;
+                >span {
+                    font-weight: 700;
+                    font-size: 12px;
+                    color: #f10215;
+                    &.number {
+                        font-size: 18px;
+                    }
+                }
+            }
+            >.origin-price {
+                cursor: default;
+                >span {
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: rgba(0, 0, 0, .45);
+                    text-decoration: line-through;
                 }
             }
         }

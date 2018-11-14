@@ -41,11 +41,11 @@
                 <div class="logo">Sunglass<sup>&reg;</sup></div>
                 <nav class="navbar">
                     <div class="category">
-                        <div class="item" @click="onTab('index')" :class="{active:currentTab==='index'}">首页</div>
-                        <div class="item" @click="onTab('all')" :class="{active:currentTab==='all'}">全部</div>
-                        <div class="item" @click="onTab('female')" :class="{active:currentTab==='female'}">女士</div>
-                        <div class="item" @click="onTab('male')" :class="{active:currentTab==='male'}">男士</div>
-                        <div class="item" @click="onTab('onsale')" :class="{active:currentTab==='onsale'}">特惠</div>
+                        <a href="javascript:0;" class="item" @click="onTab('index')" :class="{active:currentTab==='index'}">首页</a>
+                        <a href="javascript:0;" class="item" @click="onTab('all')" :class="{active:currentTab==='all'}">全部</a>
+                        <a href="javascript:0;" class="item" @click="onTab('female')" :class="{active:currentTab==='female'}">女士</a>
+                        <a href="javascript:0;" class="item" @click="onTab('male')" :class="{active:currentTab==='male'}">男士</a>
+                        <a href="javascript:0;" class="item" @click="onTab('discount')" :class="{active:currentTab==='discount'}">特惠</a>
                         <div class="slider" ref="slider"></div>
                         <div class="fill" ref="fill"></div>
                     </div>

@@ -303,7 +303,6 @@
                             font-size: 14px;
                             background: rgba(0, 0, 0, 0.05);
                             cursor: pointer;
-                            border-radius: 2px;
                             border: 1px solid transparent;
                             user-select: none;
                             &:hover {
@@ -318,6 +317,14 @@
                                     border-color: transparent;
                                 }
                             }
+                            &.minus{
+                                border-top-left-radius: 2px;
+                                border-bottom-left-radius: 2px;
+                            }
+                            &.plus{
+                                border-top-right-radius: 2px;
+                                border-bottom-right-radius: 2px;
+                            }
                         }
                         >input {
                             display: block;
@@ -325,8 +332,8 @@
                             text-align: center;
                             font-size: 12px;
                             box-shadow: none;
-                            border: 1px solid rgba(0, 0, 0, 0.15);
-                            border-radius: 2px;
+                            border: 1px solid rgba(0, 0, 0, 0.1);
+                            // border-radius: 2px;
                             cursor: default;
                             &:focus {
                                 outline: none;

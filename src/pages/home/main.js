@@ -12,8 +12,11 @@ new Vue({
     router,
     store,
     mixins: [],
+    provide() {
+        return { eventBus: this.eventBus }
+    },
     components: { xIcon },
-    data: { currentTab: 'index', actionsVisible: false },
+    data: { currentTab: 'index', actionsVisible: false, eventBus: new Vue() },
     computed: {
         ...mapState({
             isLogin: state => state.isLogin,
@@ -26,7 +29,7 @@ new Vue({
             val === 'all' && this.hanleSlider(2)
             val === 'female' && this.hanleSlider(3)
             val === 'male' && this.hanleSlider(4)
-            val === 'onsale' && this.hanleSlider(5)
+            val === 'discount' && this.hanleSlider(5)
         },
         actionsVisible(val) {
             if (val) {
@@ -37,13 +40,14 @@ new Vue({
         }
     },
     created() {
-        this.fetchGoods({type:'newArrival'})
+        this.fetchGoods({ type: 'newArrival' })
             .then(res => {
                 this.setNewArrival(res.data)
             })
             .catch(error => {})
     },
-    mounted() {
+    async mounted() {
+        await this.$nextTick()
         const pattern = /^.*\?tab=(\w+)$/
         if (pattern.test(window.location.href)) { this.currentTab = RegExp.$1 }
         this.check()

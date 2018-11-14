@@ -5,6 +5,9 @@ Vue.use(Router)
 const router = new Router({
     routes: [{
         path: '/',
+        redirect: '/index'
+    }, {
+        path: '/index',
         component: () => import('./views/index.vue')
     }, {
         path: '/category',
