@@ -1,17 +1,20 @@
 <template>
     <div class="category">
-        <x-waterfall v-if="allGoods&&allGoods.length" :width="180" :source="allGoods">
-            <div slot-scope="slotProps">{{slotProps.prop.attributes.title}}</div>
+        <x-waterfall v-if="allGoods&&allGoods.length" :width="220" :source="allGoods">
+            <div slot-scope="slotProps">
+                <sun-sku :goods="slotProps.prop"></sun-sku>
+            </div>
         </x-waterfall>
     </div>
 </template>
 <script>
     import xWaterfall from '@/components/waterfall.vue'
+    import sunSku from '@/components/sku.vue'
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Category',
         mixins: [],
-        components: { xWaterfall },
+        components: { xWaterfall, sunSku },
         props: {},
         data() {
             return {}

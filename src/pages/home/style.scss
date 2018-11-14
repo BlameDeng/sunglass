@@ -5,6 +5,11 @@ body {
 
 #app {
     width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
     color: rgba(0, 0, 0, .65);
 
     >.top {
@@ -105,6 +110,8 @@ body {
 
     >.main {
         width: 1200px;
+        min-height: 100vh;
+        flex-grow: 1;
         margin: 0 auto;
     }
 
