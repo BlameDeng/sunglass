@@ -77,6 +77,8 @@ new Vue({
                         this.setUser(null)
                         this.$router.push('/')
                     })
+            } else if (type === 'member') {
+                window.open('/member.html', '_blank')
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }

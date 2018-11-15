@@ -19,6 +19,7 @@ body {
     >.header {
         margin-bottom: 10px;
         border-bottom: 1px solid rgba(0, 0, 0, .15);
+        min-width: 1200px;
         >.header-inner {
             width: 1200px;
             height: 60px;

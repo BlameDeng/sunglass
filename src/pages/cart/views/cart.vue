@@ -9,10 +9,10 @@
                 <span>全选</span>
             </li>
             <li class="info">商品信息</li>
-            <li>单价</li>
+            <li class="price">单价</li>
             <li>数量</li>
             <li>金额</li>
-            <li>操作</li>
+            <li class="action">操作</li>
         </ul>
         <ul class="goods">
             <template v-if="user&&user.cart&&user.cart.length">
@@ -21,12 +21,18 @@
                         <label @click="onGoodsLabel(goods.id)" :class="{selected:selectedIds&&selectedIds.indexOf(goods.id)>-1}"></label>
                     </div>
                     <div class="info">
-                        <img :src="goods.attributes.cover">
-                        <span>
+                        <img :src="goods.attributes.cover" @click="onGoodsDetail(goods)">
+                        <span @click="onGoodsDetail(goods)">
                             {{goods.attributes.title}}
                         </span>
                     </div>
-                    <div class="price">￥{{goods.attributes.price.toFixed(2)}}</div>
+                    <div class="price">
+                        <span>￥{{goods.attributes.price.toFixed(2)}}</span>
+                        <span class="origin" v-if="goods.attributes.price<goods.attributes.originPrice">
+                            <span>原价</span>
+                            ￥{{goods.attributes.originPrice.toFixed(2)}}
+                        </span>
+                    </div>
                     <div class="count">
                         <span class="minus" @click="changeGoodsCount(goods,-1)" :class="{disabled:goods.count<=1}">-</span>
                         <input type="text" v-model.number="goods.count" @blur="changeGoodsCount(goods)">
@@ -81,7 +87,7 @@
                 }
             },
             allSelected() {
-                if (!this.selectedIds||!this.user.cart.length) { return false }
+                if (!this.selectedIds || !this.user.cart.length) { return false }
                 if (this.selectedIds.length !== this.user.cart.length) {
                     return false
                 }
@@ -152,6 +158,9 @@
                         }
                     })
                 }
+            },
+            onGoodsDetail(goods) {
+                window.open(`/goods.html?id=${goods.id}`, '_blank')
             }
         }
     }
@@ -221,6 +230,12 @@
                 &.info {
                     flex-grow: 1;
                 }
+                &.action {
+                    width: 60px;
+                }
+                &.price {
+                    width: 140px;
+                }
             }
         }
         >.goods {
@@ -278,15 +293,38 @@
                             height: 80px;
                             flex-shrink: 0;
                             transform: translateX(-20px);
+                            cursor: pointer;
                         }
                         >span {
-                            cursor: default;
-                            font-size: 14px;
+                            cursor: pointer;
+                            font-size: 12px;
+                            &:hover {
+                                color: #f10215;
+                                text-decoration: underline;
+                            }
                         }
                     }
                     &.price {
-                        font-weight: 700;
                         cursor: default;
+                        width: 140px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-content: center;
+                        >span {
+                            font-size: 14px;
+                            font-weight: 700;
+                            &.origin {
+                                font-size: 12px;
+                                color: rgba(0, 0, 0, 0.45);
+                                text-decoration: line-through;
+                                >span {
+                                    color: rgba(0, 0, 0, 0.45);
+                                    font-size: 12px;
+                                    font-weight: 400;
+                                }
+                            }
+                        }
                     }
                     &.count {
                         font-weight: 700;
@@ -317,11 +355,11 @@
                                     border-color: transparent;
                                 }
                             }
-                            &.minus{
+                            &.minus {
                                 border-top-left-radius: 2px;
                                 border-bottom-left-radius: 2px;
                             }
-                            &.plus{
+                            &.plus {
                                 border-top-right-radius: 2px;
                                 border-bottom-right-radius: 2px;
                             }
@@ -333,7 +371,6 @@
                             font-size: 12px;
                             box-shadow: none;
                             border: 1px solid rgba(0, 0, 0, 0.1);
-                            // border-radius: 2px;
                             cursor: default;
                             &:focus {
                                 outline: none;
@@ -346,6 +383,7 @@
                         cursor: default;
                     }
                     &.action {
+                        width: 60px;
                         >span {
                             font-size: 12px;
                             cursor: pointer;

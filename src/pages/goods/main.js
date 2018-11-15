@@ -71,7 +71,10 @@ new Vue({
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         },
         onClickUser() {
-            if (!this.isLogin) { return }
+            if (!this.isLogin) {
+                window.open('/member.html', '_blank')
+                return
+            }
             this.actionsVisible = true
         },
         listenDocument() {
@@ -91,6 +94,8 @@ new Vue({
                         this.setUser(null)
                         this.$router.push('/')
                     })
+            } else if (type === 'member') {
+                window.open('/member.html', '_blank')
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }

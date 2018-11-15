@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/logo.png" type="image/png">
     <title>Sunglass - 购物车</title>
     <style>
         [v-cloak] {
@@ -30,6 +31,8 @@
                 </div>
                 <transition name="actions-fade">
                     <div class="actions" v-show="actionsVisible">
+                        <div class="action" @click="onClickAction('cart')">购物车</div>
+                        <div class="action" @click="onClickAction('member')">账户管理</div>
                         <div class="action" @click="onClickAction('logout')">注销登录</div>
                     </div>
                 </transition>

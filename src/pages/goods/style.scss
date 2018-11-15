@@ -327,9 +327,8 @@ body {
         }
         >.detail-container {
             width: 800px;
-            margin: 10px auto;
+            margin: 10px auto 30px;
             border-radius: 2px;
-            border: 1px solid rgba(0, 0, 0, 0.15);
             >.navbar {
                 height: 40px;
                 display: flex;
@@ -337,6 +336,9 @@ body {
                 align-items: center;
                 background: rgb(250, 250, 250);
                 position: relative;
+                width: 100%;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                border-bottom: none;
                 >li {
                     width: 150px;
                     height: 100%;
@@ -347,6 +349,7 @@ body {
                     user-select: none;
                     &:first-child {
                         border-top-left-radius: 2px;
+                        margin-left: 1px;
                     }
                     &.active {
                         background: #fff;
@@ -371,23 +374,30 @@ body {
                     }
                 }
             }
-            >.detail {
-                width: 80%;
-                margin: 30px auto;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                flex-wrap: wrap;
-                padding: 20px;
-                border-radius: 2px;
+            >.content-area {
+                width: 100%;
                 border: 1px solid rgba(0, 0, 0, 0.15);
-                >.detail-item {
-                    width: 50%;
-                    margin: 5px 0;
-                    font-size: 12px;
-                    cursor: default;
+                border-top: none;
+                padding-top: 30px;
+                >.detail {
+                    width: 80%;
+                    margin: 0 auto 30px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    padding: 20px;
+                    border-radius: 2px;
+                    border: 1px solid rgba(0, 0, 0, 0.15);
+                    >.detail-item {
+                        width: 50%;
+                        margin: 5px 0;
+                        font-size: 12px;
+                        cursor: default;
+                    }
                 }
             }
+
         }
     }
 

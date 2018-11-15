@@ -17,11 +17,11 @@
             <h1 class="title">New Arrival</h1>
             <div class="goods-wrapper">
                 <template v-if="newArrival&&newArrival.length">
-                    <div class="goods" v-for="goods in newArrival" :key="goods.id">
+                    <div class="goods" v-for="goods in newArrival" :key="goods.id" @click="onClickGoods(goods)">
                         <h2 class="name">{{goods.attributes.name}}</h2>
                         <img :src="goods.attributes.feature">
                         <span class="price">￥{{goods.attributes.price.toFixed(2)}}</span>
-                        <div class="add" @click="onAdd(goods)">
+                        <div class="add" @click.stop="onAdd(goods)">
                             <x-icon name="cart" class="icon"></x-icon>
                             添加到购物车
                         </div>
@@ -95,6 +95,9 @@
                             window.open(`/member.html`, '_blank')
                         }
                     })
+            },
+            onClickGoods(goods) {
+                window.open(`/goods.html?id=${goods.id}`, '_blank')
             }
         }
     }
@@ -115,6 +118,7 @@
         }
         >.new-arrival {
             width: 70%;
+            height: 460px;
             min-width: 650px;
             margin: -100px auto 0;
             background: #fff;
@@ -133,6 +137,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
+                cursor: pointer;
                 >.goods {
                     flex-grow: 1;
                     display: flex;
@@ -142,9 +147,6 @@
                     padding-top: 20px;
                     box-shadow: none;
                     transition: all 0.2s linear;
-                    >.name {
-                        cursor: default;
-                    }
                     >img {
                         width: 200px;
                         margin: 40px 0;
@@ -152,7 +154,6 @@
                     >.price {
                         font-size: 16px;
                         font-weight: 600;
-                        cursor: default;
                     }
                     >.add {
                         display: flex;
@@ -160,7 +161,6 @@
                         align-items: center;
                         width: 100%;
                         padding: 15px 0;
-                        cursor: pointer;
                         margin-top: 20px;
                         background: transparent;
                         color: transparent;
