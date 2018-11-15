@@ -46,7 +46,7 @@
                 <sun-input style="width:500px;" placeholder="详细地址，如：门牌、街道、村镇" v-model="detailAddress"></sun-input>
             </p>
             <p>
-                现有收货地址：<span>{{`${user.contract&&(user.contract)}${user.phone&&(' '+user.phone)}${user.address&&(' '+user.address)}${user.detailAddress&&(' '+user.detailAddress)}`}}</span>
+                现有收货地址：<span>{{`${user.contract||''} ${user.phone||''} ${user.address||''} ${user.detailAddress||''}`}}</span>
             </p>
         </div>
         <div class="btn" role="button" @click="onSave">保存</div>

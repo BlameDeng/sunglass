@@ -53,7 +53,7 @@
             <li class="info"></li>
             <li>已选商品<span class="number">{{(selectedIds&&selectedIds.length)||0}}</span>件</li>
             <li>合计<span class="number">{{'￥'+total.toFixed(2)}}</span></li>
-            <li class="pay" :class="{disabled:!selectedIds||!selectedIds.length}">结 算</li>
+            <li class="pay" :class="{disabled:!selectedIds||!selectedIds.length}" @click="onPay">结 算</li>
         </ul>
     </div>
 </template>
@@ -161,6 +161,9 @@
             },
             onGoodsDetail(goods) {
                 window.open(`/goods.html?id=${goods.id}`, '_blank')
+            },
+            onPay(){
+                this.$router.push({path:'/order',query:{selectedIds:this.selectedIds}})
             }
         }
     }
