@@ -42,23 +42,51 @@
         </header>
         <main class="main">
             <template v-if="goods">
+                <div class="tags-bar">
+                    <a href="/home.html" target="_blank" class="tag">首页</a>
+                    <x-icon name="next" class="icon"></x-icon>
+                    <a href="/home.html#/category?tab=all" target="_blank" class="tag">全部</a>
+                    <x-icon name="next" class="icon"></x-icon>
+                    <a href="/home.html#/category?tab=male" target="_blank" class="tag" v-if="goods.attributes.category==='male'">男士</a>
+                    <a href="/home.html#/category?tab=female" target="_blank" class="tag" v-if="goods.attributes.category==='female'">女士</a>
+                    <x-icon name="next" class="icon"></x-icon>
+                    <a href="javascript:0;" class="tag">{{goods.attributes.name}}</a>
+                </div>
                 <div class="content">
                     <div class="imgs">
                         <div class="show-img">
-                            <img :src="goods.attributes.cover">
-                            <!-- <img src="" alt=""> -->
+                            <img :src="goods.attributes.cover" v-if="currentImg==='cover'">
+                            <img :src="goods.attributes.feature" v-if="currentImg==='feature'">
                         </div>
                         <div class="focus-img">
-                            <div class="cover">
+                            <div class="cover" @mouseenter="currentImg='cover'" :class="{active:currentImg==='cover'}">
                                 <img :src="goods.attributes.cover">
                             </div>
-                            <div class="feature">
+                            <div class="feature" @mouseenter="currentImg='feature'" :class="{active:currentImg==='feature'}">
                                 <img :src="goods.attributes.feature">
                             </div>
                         </div>
                     </div>
                     <div class="goods-info">
                         <h2 class="title">{{goods.attributes.title}}</h2>
+                        <div class="goods-price">
+                            <template v-if="goods.attributes.price<goods.attributes.originPrice">
+                                <div class="origin-price">
+                                    <span class="label w3">参考价</span><span>￥{{goods.attributes.originPrice}}.00</span>
+                                </div>
+                                <div class="price">
+                                    <span class="label w3">优惠价</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="price">
+                                    <span class="label w2">价格</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                </div>
+                            </template>
+                            <div class="ems">
+                                <span class="label w2">快递</span><span>EMS</span><span class="number"> 0.00 </span><span style="margin-left:2px;font-weight:400;">免运费</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>

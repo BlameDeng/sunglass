@@ -14,7 +14,8 @@ new Vue({
     components: { xIcon, sunSider },
     data() {
         return {
-            actionsVisible: false
+            actionsVisible: false,
+            currentImg: 'cover'
         }
     },
     computed: {
@@ -40,7 +41,7 @@ new Vue({
                 this.setUser(res.data)
             })
             .catch(error => {
-                window.open('/member.html', '_self')
+                // window.open('/member.html', '_self')
             })
     },
     mounted() {
