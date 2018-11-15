@@ -16,7 +16,8 @@ new Vue({
         return {
             actionsVisible: false,
             currentImg: 'cover',
-            currentTab: 'detail'
+            currentTab: 'detail',
+            count: 1
         }
     },
     computed: {
@@ -41,9 +42,7 @@ new Vue({
                 this.setLogin(res.isLogin)
                 this.setUser(res.data)
             })
-            .catch(error => {
-                // window.open('/member.html', '_self')
-            })
+            .catch(error => {})
     },
     mounted() {
         let href = window.location.href
@@ -52,8 +51,6 @@ new Vue({
             this.fetchGoods({ id: RegExp.$1 })
                 .then(res => {
                     this.setGoods(res.data)
-                    console.log(this.goods.attributes.detail.split('\n'));
-
                 })
                 .catch(error => {
                     window.open('/home.html', '_self')
@@ -65,7 +62,7 @@ new Vue({
     },
     methods: {
         ...mapMutations(['setLogin', 'setUser', 'setGoods']),
-        ...mapActions(['check', 'logout', 'fetchGoods']),
+        ...mapActions(['check', 'logout', 'fetchGoods', 'addToCart', 'changeCount']),
         onLogo() { window.open('/home.html', '_self') },
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
@@ -99,6 +96,50 @@ new Vue({
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }
+        },
+        countBlur() {
+            if (!this.count || typeof this.count !== 'number' || this.count < 0) {
+                this.count = 1
+            }
+        },
+        onChangeCount(n) {
+            if (this.count + n < 1) {
+                return
+            } else {
+                this.count += n
+            }
+        },
+        handleClickAction() {
+            if (this.count === 1) {
+                return this.addToCart({ count: 1, ...this.goods })
+            } else {
+                let goods = JSON.parse(JSON.stringify(this.goods))
+                goods.count = this.count
+                return this.changeCount(goods)
+            }
+        },
+        onAddToCart() {
+            this.handleClickAction()
+                .then(res => {
+                    this.setUser(res.data)
+                })
+                .catch(error => {
+                    if (error.status === 401) {
+                        window.open(`/member.html`, '_blank')
+                    }
+                })
+        },
+        onBuy() {
+            this.handleClickAction()
+                .then(res => {
+                    this.setUser(res.data)
+                    window.open('/cart.html', '_blank')
+                })
+                .catch(error => {
+                    if (error.status === 401) {
+                        window.open(`/member.html`, '_blank')
+                    }
+                })
         }
     }
 })

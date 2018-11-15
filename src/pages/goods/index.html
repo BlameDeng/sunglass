@@ -96,9 +96,9 @@
                             </div>
                             <div class="count">
                                 <div class="label w2">数量</div>
-                                <span class="minus">-</span>
-                                <input type="text">
-                                <span class="plus">+</span>
+                                <span class="minus" @click="onChangeCount(-1)" :class="{disabled:count===1}">-</span>
+                                <input type="text" v-model.number="count" @blur="countBlur">
+                                <span class="plus" @click="onChangeCount(1)">+</span>
                                 <span class="remain">库存充足</span>
                             </div>
                             <div class="service">
@@ -108,10 +108,10 @@
                             </div>
                         </div>
                         <div class="actions">
-                            <div class="pay" role="button">
+                            <div class="pay" role="button" @click="onBuy">
                                 立即购买
                             </div>
-                            <div class="add-to-cart" role="button">
+                            <div class="add-to-cart" role="button" @click="onAddToCart">
                                 <x-icon name="cart" class="icon"></x-icon>
                                 加入购物车
                             </div>
