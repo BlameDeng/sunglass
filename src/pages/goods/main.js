@@ -15,7 +15,8 @@ new Vue({
     data() {
         return {
             actionsVisible: false,
-            currentImg: 'cover'
+            currentImg: 'cover',
+            currentTab: 'detail'
         }
     },
     computed: {
@@ -51,6 +52,8 @@ new Vue({
             this.fetchGoods({ id: RegExp.$1 })
                 .then(res => {
                     this.setGoods(res.data)
+                    console.log(this.goods.attributes.detail.split('\n'));
+
                 })
                 .catch(error => {
                     window.open('/home.html', '_self')

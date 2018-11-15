@@ -67,26 +67,63 @@
                             </div>
                         </div>
                     </div>
-                    <div class="goods-info">
-                        <h2 class="title">{{goods.attributes.title}}</h2>
-                        <div class="goods-price">
-                            <template v-if="goods.attributes.price<goods.attributes.originPrice">
-                                <div class="origin-price">
-                                    <span class="label w3">参考价</span><span>￥{{goods.attributes.originPrice}}.00</span>
+                    <div class="goods-wrapper">
+                        <div class="goods-info">
+                            <div class="title">
+                                <h2 class="main-title">{{goods.attributes.title}}</h2>
+                                <h4 class="sub-title">品牌授权 正品保障 急速物流</h4>
+                            </div>
+                            <div class="goods-price">
+                                <template v-if="goods.attributes.price<goods.attributes.originPrice">
+                                    <div class="origin-price">
+                                        <span class="label w3">参考价</span><span>￥{{goods.attributes.originPrice}}.00</span>
+                                    </div>
+                                    <div class="price">
+                                        <span class="label w3">优惠价</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="price">
+                                        <span class="label w2">价格</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                    </div>
+                                </template>
+                                <div class="ems">
+                                    <span class="label w2">快递</span><span>EMS</span><span class="number"> 0.00 </span><span style="margin-left:2px;font-weight:400;">免运费</span>
                                 </div>
-                                <div class="price">
-                                    <span class="label w3">优惠价</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div class="price">
-                                    <span class="label w2">价格</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
-                                </div>
-                            </template>
-                            <div class="ems">
-                                <span class="label w2">快递</span><span>EMS</span><span class="number"> 0.00 </span><span style="margin-left:2px;font-weight:400;">免运费</span>
+                            </div>
+                            <div class="count">
+                                <div class="label w2">数量</div>
+                                <span class="minus">-</span>
+                                <input type="text">
+                                <span class="plus">+</span>
+                                <span class="remain">库存充足</span>
+                            </div>
+                            <div class="service">
+                                <div class="label w2">服务</div>
+                                <x-icon name="return" class="icon"></x-icon>
+                                <span>七天无理由退货</span>
                             </div>
                         </div>
+                        <div class="actions">
+                            <div class="pay" role="button">
+                                立即购买
+                            </div>
+                            <div class="add-to-cart" role="button">
+                                <x-icon name="cart" class="icon"></x-icon>
+                                加入购物车
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-container">
+                    <ul class="navbar" :class="{active:currentTab==='detail'}">
+                        <li :class="{active:currentTab==='detail'}" @click="currentTab='detail'">商品详情</li>
+                        <li :class="{active:currentTab==='recommend'}" @click="currentTab='recommend'">评价</li>
+                    </ul>
+                    <div class="detail">
+                        <p class="detail-item" v-for="(item,index) in goods.attributes.detail.split('\n')" :key="index">
+                            {{item}}
+                        </p>
                     </div>
                 </div>
             </template>
