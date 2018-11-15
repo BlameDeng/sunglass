@@ -7,7 +7,7 @@
             <div class="cart" @click="onLink('cart')">
                 <x-icon name="cart" class="icon"></x-icon>
                 <span>购<br>物<br>车</span>
-                <span class="count">{{(user&&user.cart.length)||0}}</span>
+                <span class="count">{{(user&&user.cart&&user.cart.length)||0}}</span>
             </div>
         </div>
         <div class="to-top" @mouseenter="tipsVisible=true" @mouseleave="tipsVisible=false" @click="onClickToTop">

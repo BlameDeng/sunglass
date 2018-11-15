@@ -61,6 +61,9 @@ class Options {
             },
             async removeGoods({ commit }, data) {
                 return await request({ url: URL.removeGoods, method: 'POST', data })
+            },
+            async pay({ commit }, data) {
+                return await request({ url: URL.pay, method: 'POST', data })
             }
         }
     }

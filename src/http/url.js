@@ -6,6 +6,7 @@ const URL = {
     patchPassword: `${prefix}/auth/patchpassword`,
     patchProfile: `${prefix}/auth/patchprofile`,
     patchAddress: `${prefix}/auth/patchaddress`,
+    pay: `${prefix}/auth/pay`,
     fetchGoods: `${prefix}/api/fetchgoods`,
     addToCart: `${prefix}/api/addtocart`,
     changeCount: `${prefix}/api/changecount`,
