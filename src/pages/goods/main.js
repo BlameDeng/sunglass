@@ -19,7 +19,8 @@ new Vue({
             currentTab: 'detail',
             count: 1,
             record: null,
-            content: ''
+            content: '',
+            evaluation: null
         }
     },
     computed: {
@@ -65,19 +66,23 @@ new Vue({
         const pattern1 = /^.*\?id=(\w+)$/
         const pattern2 = /^.*\?rid=(\w+)$/
         if (pattern1.test(href)) {
-            this.fetchGoods({ id: RegExp.$1 })
+            let gid = RegExp.$1
+            this.fetchGoods({ id: gid })
                 .then(res => {
                     this.setGoods(res.data)
+                    this.getEvaluation()
                     this.currentTab = 'detail'
                 })
                 .catch(error => {
                     window.open('/home.html', '_self')
                 })
         } else if (pattern2.test(href)) {
-            this.getRecord({ id: RegExp.$1 })
+            let rid = RegExp.$1
+            this.getRecord({ id: rid })
                 .then(res => {
                     this.record = res.data
                     this.setGoods(res.data.goods)
+                    this.getEvaluation()
                     this.currentTab = 'evaluation'
                 })
                 .catch(error => {
@@ -90,7 +95,28 @@ new Vue({
     },
     methods: {
         ...mapMutations(['setLogin', 'setUser', 'setGoods']),
-        ...mapActions(['check', 'logout', 'fetchGoods', 'addToCart', 'changeCount', 'getRecord', 'evaluate']),
+        ...mapActions([
+            'check',
+            'logout',
+            'fetchGoods',
+            'addToCart',
+            'changeCount',
+            'getRecord',
+            'evaluate',
+            'getGoodsEvaluation'
+        ]),
+        getEvaluation() {
+            if (this.goods) {
+                this.getGoodsEvaluation({ id: this.goods.id })
+                    .then(res => {
+                        this.evaluation = res.data
+                    })
+                    .catch(error => {
+                        console.log(error);
+
+                    })
+            }
+        },
         onLogo() { window.open('/home.html', '_self') },
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
@@ -175,6 +201,7 @@ new Vue({
                 return
             }
             //data:{rid,gid,uid,username,nickyname,content}
+            if (this.record.status !== 'toEvaluate') { return }
             this.evaluate({
                 rid: this.record.id,
                 gid: this.record.goods.id,
@@ -183,9 +210,8 @@ new Vue({
                 nickyname: this.user.nickyname || '',
                 content: this.content
             }).then(res => {
-                console.log(res);
-                
                 this.setUser(res.data)
+                this.getEvaluation() //获取最新商品评论列表
                 let userRecord = res.data.record
                 for (let i = 0; i < userRecord.length; i++) {
                     if (userRecord[i].id === this.record.id) {
@@ -196,6 +222,24 @@ new Vue({
             }).catch(error => {
                 this.$error({ message: error.msg })
             })
-        }
+        },
+        formatDate(params) {
+            let time
+            if (typeof params === 'string') {
+                time = new Date(params)
+            } else {
+                time = params
+            }
+            let year = time.getFullYear()
+            let month = time.getMonth() + 1
+            if (month < 10) {
+                month = '0' + month
+            }
+            let date = time.getDate()
+            if (date < 10) {
+                date = '0' + date
+            }
+            return '' + year + '-' + month + '-' + date
+        },
     }
 })

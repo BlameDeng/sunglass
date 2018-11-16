@@ -355,6 +355,10 @@ body {
                         background: #fff;
                         color: #f10215;
                     }
+                    >span {
+                        margin-left: 4px;
+                        color: #1890ff;
+                    }
                 }
                 &::before {
                     content: '';
@@ -399,6 +403,7 @@ body {
                 }
                 >.evaluation {
                     padding: 20px;
+                    padding-bottom: 30px;
                     >.add-evaluation {
                         >h2 {
                             font-size: 20px;
@@ -449,6 +454,60 @@ body {
                                 background: #f10215;
                                 border-radius: 2px;
                                 cursor: pointer;
+                            }
+                        }
+                    }
+                    >.content {
+                        >li {
+                            position: relative;
+                            padding: 10px 0;
+                            &::after{
+                                content: '';
+                                display: block;
+                                height: 1px;
+                                background: rgba(0, 0, 0, 0.15);
+                                position: absolute;
+                                left: -20px;
+                                right: -20px;
+                                bottom: 0;
+                            }
+                            &.comment {
+                                >.user {
+                                    display: flex;
+                                    justify-content: flex-start;
+                                    align-items: center;
+                                    border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+                                    position: relative;
+                                    >.avatar {
+                                        display: flex;
+                                        justify-content: center;
+                                        align-items: center;
+                                        >.icon {
+                                            width: 28px;
+                                            height: 28px;
+                                        }
+                                    }
+                                    >.username {
+                                        font-size: 12px;
+                                        margin-left: 4px;
+                                        color: rgba(0, 0, 0, 0.45);
+                                        cursor: default;
+                                    }
+                                    >.time {
+                                        font-size: 12px;
+                                        color: rgba(0, 0, 0, 0.45);
+                                        cursor: default;
+                                        position: absolute;
+                                        top: 50%;
+                                        right: 0;
+                                        transform: translateY(-50%);
+                                    }
+                                }
+                                >.evaluation-content{
+                                    font-size: 12px;
+                                    cursor: default;
+                                    margin-bottom: 0;
+                                }
                             }
                         }
                     }

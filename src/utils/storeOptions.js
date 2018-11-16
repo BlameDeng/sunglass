@@ -73,6 +73,12 @@ class Options {
             },
             async getRecord({ commit }, data) {
                 return await request({ url: URL.record, data })
+            },
+            async getGoodsEvaluation({ commit }, data) {
+                return await request({ url: URL.goodsEvaluation, data })
+            },
+            async destroyRecord({ commit }, data) {
+                return await request({ url: URL.destroyRecord, method: 'DELETE', data })
             }
         }
     }

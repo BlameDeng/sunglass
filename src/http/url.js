@@ -14,5 +14,7 @@ const URL = {
     delivery: `${prefix}/api/delivery`,
     evaluate: `${prefix}/api/evaluate`,
     record: `${prefix}/api/record`,
+    goodsEvaluation: `${prefix}/api/goodsevaluation`,
+    destroyRecord: `${prefix}/api/destroyrecord`
 }
 export default URL

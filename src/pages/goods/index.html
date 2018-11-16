@@ -120,8 +120,13 @@
                 </div>
                 <div class="detail-container">
                     <ul class="navbar" :class="{active:currentTab==='detail'}">
-                        <li :class="{active:currentTab==='detail'}" @click="currentTab='detail'">商品详情</li>
-                        <li :class="{active:currentTab==='evaluation'}" @click="currentTab='evaluation'">累计评价</li>
+                        <li :class="{active:currentTab==='detail'}" @click="currentTab='detail'">
+                            商品详情
+                        </li>
+                        <li :class="{active:currentTab==='evaluation'}" @click="currentTab='evaluation'">
+                            累计评价
+                            <span class="number" v-if="evaluation&&evaluation.length">{{evaluation.length}}</span>
+                        </li>
                     </ul>
                     <div class="content-area">
                         <div class="detail" v-show="currentTab==='detail'">
@@ -142,7 +147,27 @@
                                     <div class="btn" role="button" @click="onSubmit">提交评价</div>
                                 </div>
                             </div>
-                            <div class="content"></div>
+                            <ul class="content">
+                                <template v-if="evaluation&&evaluation.length">
+                                    <li v-for="item in evaluation" :key="evaluation.id" class="comment">
+                                        <div class="user">
+                                            <div class="avatar">
+                                                <x-icon name="avatar" class="icon"></x-icon>
+                                            </div>
+                                            <span class="username">{{item.nickyname||item.username}}</span>
+                                            <span class="time">{{formatDate(item.createdAt)}}</span>
+                                        </div>
+                                        <p class="evaluation-content">
+                                            {{item.content}}
+                                        </p>
+                                    </li>
+                                </template>
+                                <template v-else>
+                                    <li style="text-align:center;">
+                                        <span style="font-size:12px;cursor:default;color:rgba(0,0,0,.45);">该商品还没有评论</span>
+                                    </li>
+                                </template>
+                            </ul>
                         </div>
                     </div>
                 </div>
