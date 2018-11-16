@@ -121,13 +121,28 @@
                 <div class="detail-container">
                     <ul class="navbar" :class="{active:currentTab==='detail'}">
                         <li :class="{active:currentTab==='detail'}" @click="currentTab='detail'">商品详情</li>
-                        <li :class="{active:currentTab==='recommend'}" @click="currentTab='recommend'">评价</li>
+                        <li :class="{active:currentTab==='evaluation'}" @click="currentTab='evaluation'">累计评价</li>
                     </ul>
                     <div class="content-area">
-                        <div class="detail">
+                        <div class="detail" v-show="currentTab==='detail'">
                             <p class="detail-item" v-for="(item,index) in goods.attributes.detail.split('\n')" :key="index">
                                 {{item}}
                             </p>
+                        </div>
+                        <div class="evaluation" v-show="currentTab==='evaluation'">
+                            <div class="add-evaluation" v-if="record&&record.status==='toEvaluate'">
+                                <h2>其他买家，需要你的建议哦！</h2>
+                                <div class="textarea-wrapper">
+                                    <textarea v-model.trim="content"></textarea>
+                                    <span class="tips">
+                                        <span :class="{warning:content.length>=300}">{{content.length}}</span> / 300
+                                    </span>
+                                </div>
+                                <div class="action">
+                                    <div class="btn" role="button" @click="onSubmit">提交评价</div>
+                                </div>
+                            </div>
+                            <div class="content"></div>
                         </div>
                     </div>
                 </div>

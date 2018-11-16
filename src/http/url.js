@@ -11,6 +11,8 @@ const URL = {
     addToCart: `${prefix}/api/addtocart`,
     changeCount: `${prefix}/api/changecount`,
     removeGoods: `${prefix}/api/removegoods`,
-    delivery: `${prefix}/api/delivery`
+    delivery: `${prefix}/api/delivery`,
+    evaluate: `${prefix}/api/evaluate`,
+    record: `${prefix}/api/record`,
 }
 export default URL

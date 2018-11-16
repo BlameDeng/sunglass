@@ -17,7 +17,9 @@ new Vue({
             actionsVisible: false,
             currentImg: 'cover',
             currentTab: 'detail',
-            count: 1
+            count: 1,
+            record: null,
+            content: ''
         }
     },
     computed: {
@@ -35,14 +37,19 @@ new Vue({
                 document.removeEventListener('click', this.listenDocument)
             }
         },
-        goods:{
-            handler(val){
+        goods: {
+            handler(val) {
                 if (val) {
-                    document.title=`商品详情-${val.attributes.name}`
+                    document.title = `商品详情-${val.attributes.name}`
                 }
             },
-            deep:true,
-            immediate:true
+            deep: true,
+            immediate: true
+        },
+        content(val) {
+            if (val.length > 300) {
+                this.content = val.substr(0, 300)
+            }
         }
     },
     created() {
@@ -55,14 +62,26 @@ new Vue({
     },
     mounted() {
         let href = window.location.href
-        const pattern = /^.*?id=(\w+)$/
-        if (pattern.test(href)) {
+        const pattern1 = /^.*\?id=(\w+)$/
+        const pattern2 = /^.*\?rid=(\w+)$/
+        if (pattern1.test(href)) {
             this.fetchGoods({ id: RegExp.$1 })
                 .then(res => {
                     this.setGoods(res.data)
+                    this.currentTab = 'detail'
                 })
                 .catch(error => {
                     window.open('/home.html', '_self')
+                })
+        } else if (pattern2.test(href)) {
+            this.getRecord({ id: RegExp.$1 })
+                .then(res => {
+                    this.record = res.data
+                    this.setGoods(res.data.goods)
+                    this.currentTab = 'evaluation'
+                })
+                .catch(error => {
+                    // window.open('/home.html', '_self')
                 })
         }
     },
@@ -71,7 +90,7 @@ new Vue({
     },
     methods: {
         ...mapMutations(['setLogin', 'setUser', 'setGoods']),
-        ...mapActions(['check', 'logout', 'fetchGoods', 'addToCart', 'changeCount']),
+        ...mapActions(['check', 'logout', 'fetchGoods', 'addToCart', 'changeCount', 'getRecord', 'evaluate']),
         onLogo() { window.open('/home.html', '_self') },
         onLink(type) {
             type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
@@ -149,6 +168,34 @@ new Vue({
                         window.open(`/member.html`, '_blank')
                     }
                 })
+        },
+        onSubmit() {
+            if (!this.content) {
+                this.$info({ message: '评价内容不能为空' })
+                return
+            }
+            //data:{rid,gid,uid,username,nickyname,content}
+            this.evaluate({
+                rid: this.record.id,
+                gid: this.record.goods.id,
+                uid: this.record.uid,
+                username: this.user.username,
+                nickyname: this.user.nickyname || '',
+                content: this.content
+            }).then(res => {
+                console.log(res);
+                
+                this.setUser(res.data)
+                let userRecord = res.data.record
+                for (let i = 0; i < userRecord.length; i++) {
+                    if (userRecord[i].id === this.record.id) {
+                        this.record = userRecord[i]
+                        break
+                    }
+                }
+            }).catch(error => {
+                this.$error({ message: error.msg })
+            })
         }
     }
 })
