@@ -6,8 +6,8 @@
 
 ### 技术栈
 
-**前端**：Vue + Vue-Router + Vuex
-**后端**：Node + Koa2 + Seqlize + Leancloud
+**前端**：Vue + Vue-Router + Vuex   
+**后端**：Node + Koa2 + Sequelize + Leancloud
 
 ### 实现的页面
 * 首页
