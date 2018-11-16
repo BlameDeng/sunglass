@@ -6,6 +6,7 @@ import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunInput from '@/components/input.vue'
 import sunSider from '@/components/sider.vue'
+import sunFooter from '@/components/footer.vue'
 import sunCaptcha from '@/components/captcha.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
@@ -15,7 +16,7 @@ new Vue({
     router,
     store,
     mixins: [],
-    components: { xIcon, sunInput, sunCaptcha, sunSider },
+    components: { xIcon, sunInput, sunCaptcha, sunSider, sunFooter },
     data: {
         username: '',
         password: '',
@@ -57,9 +58,6 @@ new Vue({
         ...mapMutations(['setLogin', 'setUser']),
         ...mapActions(['check', 'logout']),
         onLogo() { window.open('/home.html', '_self') },
-        onLink(type) {
-            type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
-        },
         onClickUser() {
             if (!this.isLogin) { return }
             this.actionsVisible = true

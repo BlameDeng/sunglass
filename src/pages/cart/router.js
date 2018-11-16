@@ -1,8 +1,8 @@
 import Vue from 'vue/dist/vue.js'
-import Router from 'vue-router'
-Vue.use(Router)
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
 
-const router = new Router({
+const router = new VueRouter({
     routes: [{
             path: '/',
             redirect: '/cart'

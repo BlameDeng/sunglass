@@ -5,6 +5,7 @@ import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunSider from '@/components/sider.vue'
+import sunFooter from '@/components/footer.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
@@ -12,7 +13,7 @@ new Vue({
     el: '#app',
     router,
     store,
-    components: { xIcon, sunSider },
+    components: { xIcon, sunSider, sunFooter },
     data() {
         return {
             actionsVisible: false,
@@ -38,10 +39,10 @@ new Vue({
             if (tab === 'cart' || tab === 'record') {
                 this.currentTab = tab
             }
-            if (tab==='record') {
-                document.title='已买到的宝贝'
-            }else{
-                document.title='我的购物车'
+            if (tab === 'record') {
+                document.title = '已买到的宝贝'
+            } else {
+                document.title = '我的购物车'
             }
         }
     },
@@ -62,9 +63,6 @@ new Vue({
         ...mapMutations(['setLogin', 'setUser']),
         ...mapActions(['check', 'logout']),
         onLogo() { window.open('/home.html', '_self') },
-        onLink(type) {
-            type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
-        },
         onClickUser() {
             if (!this.isLogin) { return }
             this.actionsVisible = true
@@ -92,7 +90,7 @@ new Vue({
                 window.open('/cart.html', '_blank')
             }
         },
-        onLink(tab){
+        onLink(tab) {
             this.$router.push(`/${tab}`)
         }
     }

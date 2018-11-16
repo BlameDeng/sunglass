@@ -516,10 +516,6 @@ body {
 
         }
     }
-
-    >.footer {
-        @include footer;
-    }
 }
 
 @include transitions;

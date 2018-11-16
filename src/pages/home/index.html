@@ -5,6 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <link rel="icon" href="https://sunglassstore.oss-cn-hangzhou.aliyuncs.com/banners/logo.png" type="image/png">
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vuex@3.0.1/dist/vuex.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.2.0/Tween.min.js"></script> -->
     <title>Sunglass - 首页</title>
     <style>
         [v-cloak] {
@@ -72,22 +77,7 @@
         <main class="main">
             <router-view />
         </main>
-        <footer class="footer">
-            <div class="footer-inner">
-                <div class="link">
-                    <div class="logo" @click="onClickFooterLogo">Sunglass<sup>&reg;</sup></div>
-                    <div class="icons">
-                        <x-icon name="github" class="icon" @click="onLink('github')"></x-icon>
-                        <x-icon name="jianshu" class="icon" @click="onLink('jianshu')"></x-icon>
-                    </div>
-                </div>
-                <div class="portfolio">
-                    <div>Portfolio</div>
-                    <a href="https://xue-ui.com.cn" target="_blank">Xue-ui</a>
-                    <a href="https://github.com/BlameDeng/todos" target="_blank">Todos</a>
-                </div>
-            </div>
-        </footer>
+        <sun-footer></sun-footer>
     </div>
 </body>
 

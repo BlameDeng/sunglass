@@ -4,14 +4,25 @@ import URL from '@/http/url.js'
 class Options {
     constructor() {
         this.state = {
+            newArrival: null,
+            allProducts: null,
+            singleProduct: null,
             isLogin: false,
             user: null,
             allGoods: null,
-            newArrival: null,
             recommendGoods: null,
             goods: null
         }
         this.mutations = {
+            setNewArrival(state, payload) {
+                state.newArrival = payload
+            },
+            setAllProducts(state, payload) {
+                state.allProducts = payload
+            },
+            setSingleProduct(state, payload) {
+                state.singleProduct = payload
+            },
             setLogin(state, payload) {
                 state.isLogin = payload
             },
@@ -21,15 +32,13 @@ class Options {
             setAllGoods(state, payload) {
                 state.allGoods = payload
             },
-            setNewArrival(state, payload) {
-                state.newArrival = payload
-            },
             setRecommendGoods(state, payload) {
                 state.recommendGoods = payload
             },
             setGoods(state, payload) {
                 state.goods = payload
-            }
+            },
+
         }
         this.actions = {
             async login({ commit }, data) {
@@ -79,7 +88,31 @@ class Options {
             },
             async destroyRecord({ commit }, data) {
                 return await request({ url: URL.destroyRecord, method: 'DELETE', data })
-            }
+            },
+
+            async getNewArrival({ commit }) {
+                return await request({ url: URL.newArrival })
+                    .then(res => {
+                        commit('setNewArrival', res.data)
+                        return res
+                    })
+            },
+
+            async getAllProducts({ commit }) {
+                return await request({ url: URL.allProducts })
+                    .then(res => {
+                        commit('setAllProducts', res.data)
+                        return res
+                    })
+            },
+
+            async getSingleProduct({ commit }) {
+                return await request({ url: URL.singleProduct })
+                    .then(res => {
+                        commit('setSingleProduct', res.data)
+                        return res
+                    })
+            },
         }
     }
 }

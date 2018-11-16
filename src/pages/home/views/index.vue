@@ -15,13 +15,13 @@
         </div>
         <div class="new-arrival">
             <h1 class="title">New Arrival</h1>
-            <div class="goods-wrapper">
+            <div class="product-wrapper">
                 <template v-if="newArrival&&newArrival.length">
-                    <div class="goods" v-for="goods in newArrival" :key="goods.id" @click="onClickGoods(goods)">
-                        <h2 class="name">{{goods.attributes.name}}</h2>
-                        <img :src="goods.attributes.feature">
-                        <span class="price">￥{{goods.attributes.price.toFixed(2)}}</span>
-                        <div class="add" @click.stop="onAdd(goods)">
+                    <div class="product" v-for="product in newArrival" :key="product.id" @click="onClickProduct(product)">
+                        <h2 class="name">{{product.name}}</h2>
+                        <img :src="product.sub_image">
+                        <span class="price">￥{{product.price.toFixed(2)}}</span>
+                        <div class="add" @click.stop="onAdd(product)">
                             <x-icon name="cart" class="icon"></x-icon>
                             添加到购物车
                         </div>
@@ -59,12 +59,13 @@
     import xIcon from '@/components/icon/icon.vue'
     import sunSlides from '@/components/slides.vue'
     import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     export default {
         name: 'Index',
         components: { xIcon, sunSlides },
+        mixins: [storeMixin],
         computed: {
             ...mapState({
-                newArrival: state => state.newArrival,
                 isLogin: state => state.isLogin,
                 user: state => state.user
             })
@@ -72,12 +73,12 @@
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['addToCart']),
-            onAdd(goods) {
+            onAdd(product) {
                 if (!this.isLogin) {
                     window.open('/member.html', '_blank')
                     return
                 }
-                this.addToCart({ count: 1, ...goods })
+                this.addToCart({ count: 1, ...product })
                     .then(res => {
                         this.setUser(res.data)
                     })
@@ -87,8 +88,8 @@
                         }
                     })
             },
-            onClickGoods(goods) {
-                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            onClickProduct(product) {
+                window.open(`/product.html?id=${product.id}`, '_blank')
             }
         }
     }
@@ -123,13 +124,13 @@
                 cursor: default;
                 user-select: none;
             }
-            >.goods-wrapper {
+            >.product-wrapper {
                 width: 100%;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 cursor: pointer;
-                >.goods {
+                >.product {
                     flex-grow: 1;
                     display: flex;
                     flex-direction: column;

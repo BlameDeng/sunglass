@@ -5,19 +5,20 @@ import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunSider from '@/components/sider.vue'
+import sunFooter from '@/components/footer.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
-import smoothScroll from '@/utils/smoothScroll.js'
+import storeMixin from '@/mixin/storeMixin'
 new Vue({
     el: '#app',
     router,
     store,
-    mixins: [],
+    mixins: [storeMixin],
     provide() {
         return { eventBus: this.eventBus }
     },
-    components: { xIcon, sunSider },
+    components: { xIcon, sunSider, sunFooter },
     data: { currentTab: 'index', actionsVisible: false, eventBus: new Vue() },
     computed: {
         ...mapState({
@@ -59,11 +60,7 @@ new Vue({
         }
     },
     created() {
-        this.fetchGoods({ type: 'newArrival' })
-            .then(res => {
-                this.setNewArrival(res.data)
-            })
-            .catch(error => {})
+        this.getNewArrival()
     },
     async mounted() {
         await this.$nextTick()
@@ -89,9 +86,6 @@ new Vue({
         hanleSlider(n) {
             this.$refs.slider.style.transform = `translateX(${(n-1)*80}px)`
             this.$refs.fill.style.transform = `translateX(${(n-1)*80}px)`
-        },
-        onLink(type) {
-            type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
         },
         listenDocument() {
             this.actionsVisible = false
@@ -120,9 +114,6 @@ new Vue({
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }
-        },
-        onClickFooterLogo() {
-            smoothScroll(window, { x: 0, y: 0 })
         }
     }
 })

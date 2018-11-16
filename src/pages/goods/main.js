@@ -4,13 +4,14 @@ import '@/assets/global.scss'
 import './style.scss'
 import xIcon from '@/components/icon/icon.vue'
 import sunSider from '@/components/sider.vue'
+import sunFooter from '@/components/footer.vue'
 import Message from '@/components/message/index.js'
 Vue.use(Message)
 import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
     store,
-    components: { xIcon, sunSider },
+    components: { xIcon, sunSider,sunFooter },
     data() {
         return {
             actionsVisible: false,
@@ -112,9 +113,6 @@ new Vue({
             }
         },
         onLogo() { window.open('/home.html', '_self') },
-        onLink(type) {
-            type === 'github' ? window.open('https://github.com/BlameDeng', '_blank') : window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
-        },
         onClickUser() {
             if (!this.isLogin) {
                 window.open('/member.html', '_blank')

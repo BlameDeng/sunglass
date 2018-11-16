@@ -27,10 +27,6 @@ body {
         justify-content: stretch;
         align-items: flex-start;
     }
-
-    >.footer {
-        @include footer;
-    }
 }
 
 @include transitions;
