@@ -42,7 +42,6 @@
     import xIcon from '@/components/icon/icon.vue'
     export default {
         name: 'SunSku',
-        mixins: [],
         components: { xIcon },
         props: {
             goods: {
@@ -53,11 +52,6 @@
         data() {
             return { currentImg: 'cover' }
         },
-        computed: {},
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             onDetail(goods) {
                 window.open(`/goods.html?id=${goods.id}`, '_blank')

@@ -22,9 +22,7 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'User',
-        mixins: [],
         components: { xIcon, Index, Account },
-        props: {},
         data() {
             return { currentComponent: 'Index' }
         },
@@ -49,9 +47,6 @@
                 immediate: true
             }
         },
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setRecommendGoods']),
             ...mapActions(['fetchGoods']),

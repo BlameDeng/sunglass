@@ -12,9 +12,7 @@ new Vue({
     el: '#app',
     router,
     store,
-    mixins: [],
     components: { xIcon, sunSider },
-    props: {},
     data() {
         return {
             actionsVisible: false,
@@ -57,7 +55,6 @@ new Vue({
                 window.open('/member.html', '_self')
             })
     },
-    mounted() {},
     beforedestroy() {
         document.removeEventListener('click', this.listenDocument)
     },

@@ -61,12 +61,7 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Index',
-        mixins: [],
         components: { xIcon, sunSlides },
-        props: {},
-        data() {
-            return {}
-        },
         computed: {
             ...mapState({
                 newArrival: state => state.newArrival,
@@ -74,10 +69,6 @@
                 user: state => state.user
             })
         },
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['addToCart']),

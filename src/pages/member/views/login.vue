@@ -34,9 +34,7 @@
     import { mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Login',
-        mixins: [],
         components: { xIcon, sunInput, sunCaptcha },
-        props: {},
         data() {
             return {
                 username: '',
@@ -47,10 +45,6 @@
         computed: {
 
         },
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setLogin', 'setUser']),
             ...mapActions(['login']),

@@ -10,7 +10,6 @@ import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
     store,
-    mixins: [],
     components: { xIcon, sunSider },
     data() {
         return {
@@ -85,9 +84,7 @@ new Vue({
                     this.getEvaluation()
                     this.currentTab = 'evaluation'
                 })
-                .catch(error => {
-                    // window.open('/home.html', '_self')
-                })
+                .catch(error => {})
         }
     },
     beforedestroy() {
@@ -111,10 +108,7 @@ new Vue({
                     .then(res => {
                         this.evaluation = res.data
                     })
-                    .catch(error => {
-                        console.log(error);
-
-                    })
+                    .catch(error => {})
             }
         },
         onLogo() { window.open('/home.html', '_self') },
@@ -240,6 +234,6 @@ new Vue({
                 date = '0' + date
             }
             return '' + year + '-' + month + '-' + date
-        },
+        }
     }
 })

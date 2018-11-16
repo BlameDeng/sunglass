@@ -27,9 +27,7 @@
     import { mapState } from 'vuex'
     export default {
         name: 'sunSider',
-        mixins: [],
         components: { xIcon },
-        props: {},
         data() {
             return { tipsVisible: false }
         },
@@ -38,10 +36,6 @@
                 user: state => state.user
             })
         },
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             onLink(type) {
                 if (type === 'member') {

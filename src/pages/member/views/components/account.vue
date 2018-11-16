@@ -58,9 +58,7 @@
     import jsonp from '@/http/jsonp.js'
     export default {
         name: 'Account',
-        mixins: [],
         components: { sunInput },
-        props: {},
         data() {
             return {
                 currentTab: 'password',
@@ -78,8 +76,6 @@
                 user: state => state.user
             })
         },
-        watch: {},
-        created() {},
         mounted() {
             jsonp('https://api.map.baidu.com/location/ip', {
                 ak: '3oZjGfC42rDxKbv7tH3zXEXOvozafX20',
@@ -88,7 +84,6 @@
                 this.address = res.content.address
             })
         },
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['patchPassword', 'patchAddress']),

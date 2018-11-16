@@ -72,9 +72,7 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Record',
-        mixins: [],
         components: { xIcon },
-        props: {},
         data() {
             return { currentTab: 'dispatched' }
         },
@@ -118,10 +116,6 @@
                 }
             }
         },
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['delivery', 'evaluate', 'destroyRecord']),

@@ -37,9 +37,7 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Index',
-        mixins: [],
         components: { sunInput, sunSku },
-        props: {},
         data() { return { nickyname: '', gender: '' } },
         computed: {
             ...mapState({
@@ -59,9 +57,6 @@
                 immediate: true
             }
         },
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['patchProfile', 'addToCart']),

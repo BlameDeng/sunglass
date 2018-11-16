@@ -13,31 +13,38 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Category',
-        mixins: [],
         components: { xWaterfall, sunSku },
-        props: {},
         data() {
-            return { tab: '' }
+            return { tab: '', fakeAllGoods: null, timerId: null }
         },
         computed: {
             ...mapState({
                 allGoods: state => state.allGoods
             }),
             goodsList() {
-                if (!this.allGoods) { return null }
+                if (!this.fakeAllGoods) { return null }
                 if (this.tab === 'male') {
-                    return this.allGoods.filter(goods => goods.attributes.category === 'male')
+                    return this.fakeAllGoods.filter(goods => goods.attributes.category === 'male')
                 }
                 if (this.tab === 'female') {
-                    return this.allGoods.filter(goods => goods.attributes.category === 'female')
+                    return this.fakeAllGoods.filter(goods => goods.attributes.category === 'female')
                 }
                 if (this.tab === 'discount') {
-                    return this.allGoods.filter(goods => goods.attributes.price < goods.attributes.originPrice)
+                    return this.fakeAllGoods.filter(goods => goods.attributes.price < goods.attributes.originPrice)
                 }
-                return this.allGoods
+                return this.fakeAllGoods
             }
         },
         watch: {
+            allGoods: {
+                handler(val) {
+                    if (val) {
+                        this.fakeAllGoods = val
+                    }
+                },
+                deep: true,
+                immediate: true
+            },
             $route: {
                 handler(val) {
                     this.tab = val.query.tab
@@ -52,13 +59,26 @@
                     this.setAllGoods(res.data)
                 })
         },
-        mounted() {},
-        beforedestroy() {},
+        beforedestroy() {
+            if (this.timerId) {
+                window.clearTimeout(this.timerId)
+                this.timerId = null
+            }
+        },
         methods: {
             ...mapMutations(['setAllGoods', 'setUser']),
             ...mapActions(['fetchGoods', 'addToCart']),
             scrollBottom() {
-                console.log(1)
+                if (this.timerId||this.fakeAllGoods.length>80) { return }
+                if (this.fakeAllGoods && this.allGoods) {
+                    this.timerId = setTimeout(() => {
+                        this.fakeAllGoods = this.fakeAllGoods.concat(this.allGoods)
+                        if (this.timerId) {
+                            window.clearTimeout(this.timerId)
+                            this.timerId = null
+                        }
+                    }, 2000)
+                }
             },
             handleAddToCart(goods) {
                 this.addToCart({ count: 1, ...goods })

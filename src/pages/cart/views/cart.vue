@@ -61,9 +61,6 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Cart',
-        mixins: [],
-        components: {},
-        props: {},
         data() {
             return { selectedIds: null }
         },
@@ -103,10 +100,6 @@
                 return result
             }
         },
-        watch: {},
-        created() {},
-        mounted() {},
-        beforedestroy() {},
         methods: {
             ...mapMutations(['setUser']),
             ...mapActions(['changeCount', 'removeGoods']),

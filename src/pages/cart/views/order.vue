@@ -138,9 +138,7 @@
     import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Order',
-        mixins: [],
         components: { xIcon, sunInput },
-        props: {},
         data() {
             return {
                 orderIds: null,
@@ -196,7 +194,6 @@
                 }
             }
         },
-        created() {},
         mounted() {
             this.orderIds = this.$route.query.selectedIds
             document.title = '确认订单'

@@ -25,7 +25,6 @@
                 changing: false
             }
         },
-        computed: {},
         watch: {
             current(newVal, oldVal) {
                 if (!this.transition) {
