@@ -199,7 +199,7 @@
         created() {},
         mounted() {
             this.orderIds = this.$route.query.selectedIds
-            document.title = 'Sunglass 确认订单'
+            document.title = '确认订单'
         },
         beforedestroy() {
             window.removeEventListener('mousewheel', this.listenWindow)

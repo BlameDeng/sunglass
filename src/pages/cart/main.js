@@ -17,7 +17,8 @@ new Vue({
     props: {},
     data() {
         return {
-            actionsVisible: false
+            actionsVisible: false,
+            currentTab: ''
         }
     },
     computed: {
@@ -32,6 +33,17 @@ new Vue({
                 document.addEventListener('click', this.listenDocument)
             } else {
                 document.removeEventListener('click', this.listenDocument)
+            }
+        },
+        $route(val) {
+            let tab = val.path.substr(1)
+            if (tab === 'cart' || tab === 'record') {
+                this.currentTab = tab
+            }
+            if (tab==='record') {
+                document.title='已买到的宝贝'
+            }else{
+                document.title='我的购物车'
             }
         }
     },
@@ -82,6 +94,9 @@ new Vue({
             } else if (type === 'cart') {
                 window.open('/cart.html', '_blank')
             }
+        },
+        onLink(tab){
+            this.$router.push(`/${tab}`)
         }
     }
 })

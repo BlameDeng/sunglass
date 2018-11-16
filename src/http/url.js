@@ -10,6 +10,7 @@ const URL = {
     fetchGoods: `${prefix}/api/fetchgoods`,
     addToCart: `${prefix}/api/addtocart`,
     changeCount: `${prefix}/api/changecount`,
-    removeGoods: `${prefix}/api/removegoods`
+    removeGoods: `${prefix}/api/removegoods`,
+    delivery: `${prefix}/api/delivery`
 }
 export default URL

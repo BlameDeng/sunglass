@@ -34,6 +34,15 @@ new Vue({
             } else {
                 document.removeEventListener('click', this.listenDocument)
             }
+        },
+        goods:{
+            handler(val){
+                if (val) {
+                    document.title=`商品详情-${val.attributes.name}`
+                }
+            },
+            deep:true,
+            immediate:true
         }
     },
     created() {

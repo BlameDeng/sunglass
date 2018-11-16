@@ -162,8 +162,8 @@
             onGoodsDetail(goods) {
                 window.open(`/goods.html?id=${goods.id}`, '_blank')
             },
-            onPay(){
-                this.$router.push({path:'/order',query:{selectedIds:this.selectedIds}})
+            onPay() {
+                this.$router.push({ path: '/order', query: { selectedIds: this.selectedIds } })
             }
         }
     }

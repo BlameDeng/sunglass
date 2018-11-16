@@ -64,6 +64,9 @@ class Options {
             },
             async pay({ commit }, data) {
                 return await request({ url: URL.pay, method: 'POST', data })
+            },
+            async delivery({commit},data){
+                return await request({url:URL.delivery,method:'POST',data})
             }
         }
     }
