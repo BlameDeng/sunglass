@@ -1,5 +1,5 @@
-// const prefix = 'http://localhost:8989'
-const prefix=''
+const prefix = 'http://localhost:8080'
+// const prefix=''
 const URL = {
     login: `${prefix}/auth/login`,
     check: `${prefix}/auth/check`,

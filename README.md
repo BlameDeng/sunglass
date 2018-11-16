@@ -1,29 +1,19 @@
-# sunglass
+# Sunglass
 
-## Project setup
-```
-yarn install
-```
+## 一个基于 Vue 的 WEB 端多页面商城应用
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+[效果预览](http://www.denglin.xyz:8080/home.html)
 
-### Compiles and minifies for production
-```
-yarn run build
-```
+### 技术栈
 
-### Run your tests
-```
-yarn run test
-```
+**前端**：Vue + Vue-Router + Vuex
+**后端**：Node + Koa2 + Seqlize + Leancloud
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 实现的页面
+* 首页
+* 商品分类页
+* 商品详情页
+* 用户登录页
+* 用户资料页
+* 购物车
+* 订单页

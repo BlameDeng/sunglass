@@ -42,8 +42,8 @@
                 errorInfo: ''
             }
         },
-        computed: {
-
+        mounted() {
+            document.title = '会员登录'
         },
         methods: {
             ...mapMutations(['setLogin', 'setUser']),

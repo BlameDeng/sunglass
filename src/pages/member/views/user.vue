@@ -47,6 +47,9 @@
                 immediate: true
             }
         },
+        mounted() {
+            document.title='账户管理'
+        },
         methods: {
             ...mapMutations(['setRecommendGoods']),
             ...mapActions(['fetchGoods']),

@@ -27,11 +27,28 @@ new Vue({
     },
     watch: {
         currentTab(val) {
-            val === 'index' && this.hanleSlider(1)
-            val === 'all' && this.hanleSlider(2)
-            val === 'female' && this.hanleSlider(3)
-            val === 'male' && this.hanleSlider(4)
-            val === 'discount' && this.hanleSlider(5)
+            switch (val) {
+                case 'index':
+                    this.hanleSlider(1)
+                    document.title = 'Sunglass - 首页'
+                    break
+                case 'all':
+                    this.hanleSlider(2)
+                    document.title = 'Sunglass - 全部'
+                    break
+                case 'female':
+                    this.hanleSlider(3)
+                    document.title = 'Sunglass - 女士'
+                    break
+                case 'male':
+                    this.hanleSlider(4)
+                    document.title = 'Sunglass - 男士'
+                    break
+                case 'discount':
+                    this.hanleSlider(5)
+                    document.title = 'Sunglass - 特惠'
+                    break
+            }
         },
         actionsVisible(val) {
             if (val) {
