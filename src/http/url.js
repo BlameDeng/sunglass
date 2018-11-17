@@ -1,10 +1,6 @@
 const prefix = 'http://localhost:8080'
 // const prefix=''
 const URL = {
-    login: `${prefix}/auth/login`,
-    check: `${prefix}/auth/check`,
-    logout: `${prefix}/auth/logout`,
-    patchPassword: `${prefix}/auth/patchpassword`,
     patchProfile: `${prefix}/auth/patchprofile`,
     patchAddress: `${prefix}/auth/patchaddress`,
     pay: `${prefix}/auth/pay`,
@@ -20,5 +16,9 @@ const URL = {
     newArrival: `${prefix}/product/newarrival`,
     allProducts: `${prefix}/product/allproducts`,
     singleProduct: `${prefix}/product/singleProduct`,
+    login: `${prefix}/auth/login`,
+    check: `${prefix}/auth/check`,
+    logout: `${prefix}/auth/logout`,
+    changePassword: `${prefix}/auth/changepassword`,
 }
 export default URL

@@ -1,6 +1,6 @@
 <template>
     <div class="category">
-        <x-waterfall v-if="goodsList&&goodsList.length" :width="220" :source="goodsList" @scroll-bottom="scrollBottom">
+        <x-waterfall v-if="goodsList&&goodsList.length" :width="200" :source="goodsList" @scroll-bottom="scrollBottom">
             <div slot-scope="slotProps">
                 <sun-sku :goods="slotProps.prop" @add-to-cart="handleAddToCart($event)"></sun-sku>
             </div>
@@ -69,7 +69,7 @@
             ...mapMutations(['setAllGoods', 'setUser']),
             ...mapActions(['fetchGoods', 'addToCart']),
             scrollBottom() {
-                if (this.timerId||this.fakeAllGoods.length>80) { return }
+                if (this.timerId || this.fakeAllGoods.length > 80) { return }
                 if (this.fakeAllGoods && this.allGoods) {
                     this.timerId = setTimeout(() => {
                         this.fakeAllGoods = this.fakeAllGoods.concat(this.allGoods)
@@ -96,7 +96,8 @@
 </script>
 <style scoped lang="scss">
     .category {
-        width: 1200px;
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
     }
 </style>

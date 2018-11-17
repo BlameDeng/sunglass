@@ -46,8 +46,8 @@ new Vue({
             this.currentTab = tab
         },
         hanleSlider(n) {
-            this.$refs.slider.style.transform = `translateX(${(n-1)*80}px)`
-            this.$refs.fill.style.transform = `translateX(${(n-1)*80}px)`
+            this.$refs.slider.style.transform = `translateX(${(n-1)*60}px)`
+            this.$refs.fill.style.transform = `translateX(${(n-1)*60}px)`
         }
     }
 })

@@ -58,7 +58,7 @@
                     })
                     .catch(error => {
                         this.handleError(error)
-                        Promise.reject()
+                        return Promise.reject()
                     })
             },
             handleError(error) {

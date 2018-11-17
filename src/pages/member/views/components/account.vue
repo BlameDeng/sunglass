@@ -86,18 +86,18 @@
         },
         methods: {
             ...mapMutations(['setUser']),
-            ...mapActions(['patchPassword', 'patchAddress']),
+            ...mapActions(['changePassword', 'patchAddress']),
             onClickTab(tab) {
                 this.currentTab = tab
             },
             onSave() {
                 if (this.currentTab === 'password') {
-                    this.changePassword()
+                    this.onChangePassword()
                 } else if (this.currentTab === 'address') {
                     this.changeAddress()
                 }
             },
-            changePassword() {
+            onChangePassword() {
                 const pattern = /.{6,18}/
                 if (!this.password || !this.newPassword || !this.newPasswordConfirm) {
                     this.$info({ message: '密码不能为空！' })
@@ -122,11 +122,9 @@
                     this.$info({ message: '密码为6到18位字符！' })
                     return
                 }
-                this.patchPassword({ username: this.user.username, password: this.password, newPassword: this.newPassword })
+                this.changePassword({ username: this.user.username, password: this.password, newPassword: this.newPassword })
                     .then(res => {
-                        this.$success({ message: res.msg + '，请使用新密码登录' })
-                        localStorage.removeItem('user')
-                        this.$router.push('/')
+                        this.$success({ message: '密码修改成功，请使用新密码登录' })
                     })
                     .catch(error => { this.$error({ message: error.msg }) })
             },

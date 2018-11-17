@@ -50,9 +50,7 @@ class Options {
             async logout({ commit }) {
                 return await request({ url: URL.logout })
             },
-            async patchPassword({ commit }, data) {
-                return await request({ url: URL.patchPassword, method: 'POST', data })
-            },
+
             async patchProfile({ commit }, data) {
                 return await request({ url: URL.patchProfile, method: 'POST', data })
             },
@@ -112,6 +110,10 @@ class Options {
                         commit('setSingleProduct', res.data)
                         return res
                     })
+            },
+
+            async changePassword({ commit }, data) {
+                return await request({ url: URL.changePassword, method: 'PATCH', data })
             },
         }
     }

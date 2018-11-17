@@ -40,15 +40,19 @@
     .sun-footer {
         height: 80px;
         background: #383838;
-        min-width: 1200px;
+        width: 100%;
         >.footer-inner {
-            width: 1200px;
+            max-width: 1200px;
             margin: 0 auto;
             color: rgba(255, 255, 255, .85);
             display: flex;
             justify-content: space-between;
             align-items: center;
             height: 100%;
+            padding: 0 25px;
+            @media (min-width: 1250px) {
+                padding:0;
+            }
             >.link {
                 display: flex;
                 flex-direction: column;

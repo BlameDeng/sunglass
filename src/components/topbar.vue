@@ -43,7 +43,6 @@
                 }
             }
         },
-        created() {},
         mounted() {
             this.check()
                 .then(res => {
@@ -90,15 +89,18 @@
 <style scoped lang="scss">
     .top-bar {
         background: rgb(250, 250, 250);
-        min-width: 1200px;
+        // min-width: 1200px;
+        width: 100%;
         >.top-userbar {
-            width: 1200px;
+            // width: 1200px;
+            max-width: 1200px;
             height: 30px;
             margin: 0 auto;
             display: flex;
             justify-content: flex-end;
             align-items: center;
             position: relative;
+            padding-right: 20px;
             >.user {
                 height: 100%;
                 display: flex;
