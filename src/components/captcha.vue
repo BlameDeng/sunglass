@@ -43,17 +43,14 @@
                 this.getCaptcha()
             },
             async verify() {
-                if (!this.captcha) {
-                    return Promise.reject({ message: '还未初始化' })
-                }
-                if (this.timerId) { return Promise.reject({ message: '重置中' }) }
+                if (!this.captcha || this.timerId) { return Promise.reject() }
                 if (!this.text) {
                     this.handleError({ message: '请输入验证码' })
-                    return Promise.reject({ message: '请输入验证码' })
+                    return Promise.reject()
                 }
                 if (this.text.length !== 4) {
                     this.handleError({ message: '格式不正确' })
-                    return Promise.reject({ message: '格式不正确' })
+                    return Promise.reject()
                 }
                 await this.captcha.verify(this.text)
                     .then(res => {
@@ -61,7 +58,7 @@
                     })
                     .catch(error => {
                         this.handleError(error)
-                        return Promise.reject(error)
+                        Promise.reject()
                     })
             },
             handleError(error) {

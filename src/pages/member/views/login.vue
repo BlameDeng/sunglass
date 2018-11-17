@@ -31,9 +31,10 @@
     import xIcon from '@/components/icon/icon.vue'
     import sunInput from '@/components/input.vue'
     import sunCaptcha from '@/components/captcha.vue'
-    import { mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     export default {
         name: 'Login',
+        mixins: [storeMixin],
         components: { xIcon, sunInput, sunCaptcha },
         data() {
             return {
@@ -46,8 +47,6 @@
             document.title = '会员登录'
         },
         methods: {
-            ...mapMutations(['setLogin', 'setUser']),
-            ...mapActions(['login']),
             validate() {
                 const pattern1 = /^[\u4e00-\u9fa5\w]{5,10}$/
                 const pattern2 = /.{6,18}/
@@ -68,7 +67,7 @@
                 } else {
                     this.$refs.captcha.verify().then(res => {
                         this.userLogin()
-                    }).catch(error => {})
+                    }).catch(() => { return })
                 }
             },
             userLogin() {

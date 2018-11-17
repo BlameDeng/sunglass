@@ -5,10 +5,12 @@ export default {
             newArrival: state => state.newArrival,
             allProducts: state => state.allProducts,
             singleProduct: state => state.singleProduct,
+            isLogin: state => state.isLogin,
+            user: state => state.user
         })
     },
-    methods:{
-        ...mapMutations([]),
-        ...mapActions(['getNewArrival'])
+    methods: {
+        ...mapMutations(['setLogin', 'setUser']),
+        ...mapActions(['getNewArrival', 'check', 'login', 'logout'])
     }
 }
