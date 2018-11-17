@@ -1,20 +1,27 @@
 import Vue from 'vue/dist/vue.js'
-import store from './store.js'
-import '@/assets/global.scss'
-import './style.scss'
+import Vuex from 'vuex'
+import Options from '@/utils/storeOptions'
+import storeMixin from '@/mixin/storeMixin'
 import xIcon from '@/components/icon/icon.vue'
+import sunTopbar from '@/components/topbar.vue'
 import sunSider from '@/components/sider.vue'
 import sunFooter from '@/components/footer.vue'
 import Message from '@/components/message/index.js'
+import '@/assets/global.scss'
+import './style.scss'
 Vue.use(Message)
+Vue.use(Message)
+Vue.use(Vuex)
+const options = new Options()
+const store = new Vuex.Store(options)
 import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
     store,
-    components: { xIcon, sunSider,sunFooter },
+    mixins: [storeMixin],
+    components: { xIcon, sunTopbar, sunSider, sunFooter },
     data() {
         return {
-            actionsVisible: false,
             currentImg: 'cover',
             currentTab: 'detail',
             count: 1,
@@ -25,19 +32,10 @@ new Vue({
     },
     computed: {
         ...mapState({
-            isLogin: state => state.isLogin,
-            user: state => state.user,
             goods: state => state.goods
         })
     },
     watch: {
-        actionsVisible(val) {
-            if (val) {
-                document.addEventListener('click', this.listenDocument)
-            } else {
-                document.removeEventListener('click', this.listenDocument)
-            }
-        },
         goods: {
             handler(val) {
                 if (val) {
@@ -53,14 +51,7 @@ new Vue({
             }
         }
     },
-    created() {
-        this.check()
-            .then(res => {
-                this.setLogin(res.isLogin)
-                this.setUser(res.data)
-            })
-            .catch(error => {})
-    },
+    created() {},
     mounted() {
         let href = window.location.href
         const pattern1 = /^.*\?id=(\w+)$/
@@ -72,6 +63,12 @@ new Vue({
                     this.setGoods(res.data)
                     this.getEvaluation()
                     this.currentTab = 'detail'
+                    this.$nextTick(() => {
+                        console.log(this.$refs);
+
+                        let { width } = this.$refs.showImg.getBoundingClientRect()
+                        this.$refs.showImg.style.height = width + 'px'
+                    })
                 })
                 .catch(error => {
                     window.open('/home.html', '_self')
@@ -88,9 +85,7 @@ new Vue({
                 .catch(error => {})
         }
     },
-    beforedestroy() {
-        document.removeEventListener('click', this.listenDocument)
-    },
+    beforedestroy() {},
     methods: {
         ...mapMutations(['setLogin', 'setUser', 'setGoods']),
         ...mapActions([

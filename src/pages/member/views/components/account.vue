@@ -54,10 +54,12 @@
 </template>
 <script>
     import sunInput from '@/components/input.vue'
-    import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     import jsonp from '@/http/jsonp.js'
+    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Account',
+        mixins: [storeMixin],
         components: { sunInput },
         data() {
             return {
@@ -70,11 +72,6 @@
                 address: '',
                 detailAddress: ''
             }
-        },
-        computed: {
-            ...mapState({
-                user: state => state.user
-            })
         },
         mounted() {
             jsonp('https://api.map.baidu.com/location/ip', {
@@ -124,7 +121,7 @@
                 }
                 this.changePassword({ username: this.user.username, password: this.password, newPassword: this.newPassword })
                     .then(res => {
-                        this.$success({ message: '密码修改成功，请使用新密码登录' })
+                        this.$success({ message: '密码修改成功' })
                     })
                     .catch(error => { this.$error({ message: error.msg }) })
             },

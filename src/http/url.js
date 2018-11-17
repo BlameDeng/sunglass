@@ -20,5 +20,6 @@ const URL = {
     check: `${prefix}/auth/check`,
     logout: `${prefix}/auth/logout`,
     changePassword: `${prefix}/auth/changepassword`,
+    changeProfile: `${prefix}/auth/changeprofile`,
 }
 export default URL

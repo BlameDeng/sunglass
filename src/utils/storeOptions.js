@@ -51,9 +51,7 @@ class Options {
                 return await request({ url: URL.logout })
             },
 
-            async patchProfile({ commit }, data) {
-                return await request({ url: URL.patchProfile, method: 'POST', data })
-            },
+
             async patchAddress({ commit }, data) {
                 return await request({ url: URL.patchAddress, method: 'POST', data })
             },
@@ -114,6 +112,14 @@ class Options {
 
             async changePassword({ commit }, data) {
                 return await request({ url: URL.changePassword, method: 'PATCH', data })
+            },
+
+            async changeProfile({ commit }, data) {
+                return await request({ url: URL.changeProfile, method: 'PATCH', data })
+                    .then(res => {
+                        commit('setUser', res.data)
+                        return res
+                    })
             },
         }
     }

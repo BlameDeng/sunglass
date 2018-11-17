@@ -34,9 +34,11 @@
 <script>
     import sunInput from '@/components/input.vue'
     import sunSku from '@/components/sku.vue'
-    import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
+    import {mapState,mapMutations,mapActions} from 'vuex'
     export default {
         name: 'Index',
+        mixins: [storeMixin],
         components: { sunInput, sunSku },
         data() { return { nickyname: '', gender: '' } },
         computed: {
@@ -61,14 +63,7 @@
             ...mapMutations(['setUser']),
             ...mapActions(['patchProfile', 'addToCart']),
             onSave() {
-                this.patchProfile({ nickyname: this.nickyname, gender: this.gender })
-                    .then(res => {
-                        this.setUser(res.data)
-                        this.$success({ message: res.msg })
-                    })
-                    .catch(error => {
-                        this.$error({ message: error.msg })
-                    })
+                this.changeProfile({ nickyname: this.nickyname, gender: this.gender })
             },
             handleAddToCart(goods) {
                 this.addToCart({ count: 1, ...goods })

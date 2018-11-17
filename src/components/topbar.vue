@@ -89,10 +89,8 @@
 <style scoped lang="scss">
     .top-bar {
         background: rgb(250, 250, 250);
-        // min-width: 1200px;
         width: 100%;
         >.top-userbar {
-            // width: 1200px;
             max-width: 1200px;
             height: 30px;
             margin: 0 auto;
