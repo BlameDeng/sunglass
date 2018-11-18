@@ -22,7 +22,7 @@ new Vue({
     components: { xIcon, sunTopbar, sunSider, sunFooter },
     data() {
         return {
-            currentImg: 'cover',
+            currentImg: 'main',
             currentTab: 'detail',
             count: 1,
             record: null,
@@ -52,27 +52,15 @@ new Vue({
         }
     },
     created() {},
-    mounted() {
+    async mounted() {
         let href = window.location.href
         const pattern1 = /^.*\?id=(\w+)$/
         const pattern2 = /^.*\?rid=(\w+)$/
         if (pattern1.test(href)) {
-            let gid = RegExp.$1
-            this.fetchGoods({ id: gid })
-                .then(res => {
-                    this.setGoods(res.data)
-                    this.getEvaluation()
-                    this.currentTab = 'detail'
-                    this.$nextTick(() => {
-                        console.log(this.$refs);
-
-                        let { width } = this.$refs.showImg.getBoundingClientRect()
-                        this.$refs.showImg.style.height = width + 'px'
-                    })
-                })
-                .catch(error => {
-                    window.open('/home.html', '_self')
-                })
+            await this.getSingleProduct({ id: RegExp.$1 })
+            await this.$nextTick()
+            let { width } = this.$refs.showImg.getBoundingClientRect()
+            this.$refs.showImg.style.height = width + 'px'
         } else if (pattern2.test(href)) {
             let rid = RegExp.$1
             this.getRecord({ id: rid })

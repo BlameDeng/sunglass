@@ -28,50 +28,50 @@
             </div>
         </header>
         <main class="main">
-            <template v-if="goods">
+            <template v-if="singleProduct">
                 <div class="tags-bar">
                     <a href="/home.html" target="_blank" class="tag">首页</a>
                     <x-icon name="next" class="icon"></x-icon>
                     <a href="/home.html#/category?tab=all" target="_blank" class="tag">全部</a>
                     <x-icon name="next" class="icon"></x-icon>
-                    <a href="/home.html#/category?tab=male" target="_blank" class="tag" v-if="goods.attributes.category==='male'">男士</a>
-                    <a href="/home.html#/category?tab=female" target="_blank" class="tag" v-if="goods.attributes.category==='female'">女士</a>
+                    <a href="/home.html#/category?tab=male" target="_blank" class="tag" v-if="singleProduct.category==='male'">男士</a>
+                    <a href="/home.html#/category?tab=female" target="_blank" class="tag" v-if="singleProduct.category==='female'">女士</a>
                     <x-icon name="next" class="icon"></x-icon>
-                    <a href="javascript:0;" class="tag">{{goods.attributes.name}}</a>
+                    <a href="javascript:0;" class="tag">{{singleProduct.name}}</a>
                 </div>
                 <div class="content">
                     <div class="imgs">
                         <div class="show-img" ref="showImg">
-                            <img :src="goods.attributes.cover" v-if="currentImg==='cover'">
-                            <img :src="goods.attributes.feature" v-if="currentImg==='feature'">
+                            <img :src="singleProduct.main_image" v-if="currentImg==='main'">
+                            <img :src="singleProduct.sub_image" v-if="currentImg==='sub'">
                         </div>
                         <div class="focus-img">
-                            <div class="cover" @mouseenter="currentImg='cover'" :class="{active:currentImg==='cover'}">
-                                <img :src="goods.attributes.cover">
+                            <div class="cover" @mouseenter="currentImg='main'" :class="{active:currentImg==='main'}">
+                                <img :src="singleProduct.main_image">
                             </div>
-                            <div class="feature" @mouseenter="currentImg='feature'" :class="{active:currentImg==='feature'}">
-                                <img :src="goods.attributes.feature">
+                            <div class="feature" @mouseenter="currentImg='sub'" :class="{active:currentImg==='sub'}">
+                                <img :src="singleProduct.sub_image">
                             </div>
                         </div>
                     </div>
                     <div class="goods-wrapper">
                         <div class="goods-info">
                             <div class="title">
-                                <h2 class="main-title">{{goods.attributes.title}}</h2>
+                                <h2 class="main-title">{{singleProduct.title}}</h2>
                                 <h4 class="sub-title">品牌授权 正品保障 急速物流</h4>
                             </div>
                             <div class="goods-price">
-                                <template v-if="goods.attributes.price<goods.attributes.originPrice">
+                                <template v-if="singleProduct.discount<singleProduct.price">
                                     <div class="origin-price">
-                                        <span class="label w3">参考价</span><span>￥{{goods.attributes.originPrice}}.00</span>
+                                        <span class="label w3">参考价</span><span>￥{{singleProduct.price}}.00</span>
                                     </div>
                                     <div class="price">
-                                        <span class="label w3">优惠价</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                        <span class="label w3">优惠价</span><span>￥</span><span class="number">{{singleProduct.discount}}</span><span>.00</span>
                                     </div>
                                 </template>
                                 <template v-else>
                                     <div class="price">
-                                        <span class="label w2">价格</span><span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                                        <span class="label w2">价格</span><span>￥</span><span class="number">{{singleProduct.price}}</span><span>.00</span>
                                     </div>
                                 </template>
                                 <div class="ems">
@@ -114,7 +114,7 @@
                     </ul>
                     <div class="content-area">
                         <div class="detail" v-show="currentTab==='detail'">
-                            <p class="detail-item" v-for="(item,index) in goods.attributes.detail.split('\n')" :key="index">
+                            <p class="detail-item" v-for="(item,index) in singleProduct.detail.split('\n')" :key="index">
                                 {{item}}
                             </p>
                         </div>

@@ -1,50 +1,39 @@
 <template>
     <div class="category">
-        <x-waterfall v-if="goodsList&&goodsList.length" :width="200" :source="goodsList" @scroll-bottom="scrollBottom">
+        <x-waterfall v-if="productsList&&productsList.length" :width="220" :source="productsList" @scroll-bottom="scrollBottom">
             <div slot-scope="slotProps">
-                <sun-sku :goods="slotProps.prop" @add-to-cart="handleAddToCart($event)"></sun-sku>
+                <sun-sku :product="slotProps.prop" @add-to-cart="handleAddToCart($event)"></sun-sku>
             </div>
         </x-waterfall>
     </div>
 </template>
 <script>
+    import storeMixin from '@/mixin/storeMixin'
     import xWaterfall from '@/components/waterfall.vue'
     import sunSku from '@/components/sku.vue'
-    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Category',
+        mixins: [storeMixin],
         components: { xWaterfall, sunSku },
         data() {
-            return { tab: '', fakeAllGoods: null, timerId: null }
+            return { tab: '', fakeAllProducts: null, timerId: null }
         },
         computed: {
-            ...mapState({
-                allGoods: state => state.allGoods
-            }),
-            goodsList() {
-                if (!this.fakeAllGoods) { return null }
+            productsList() {
+                if (!this.fakeAllProducts) { return null }
                 if (this.tab === 'male') {
-                    return this.fakeAllGoods.filter(goods => goods.attributes.category === 'male')
+                    return this.fakeAllProducts.filter(product => product.category === 'male')
                 }
                 if (this.tab === 'female') {
-                    return this.fakeAllGoods.filter(goods => goods.attributes.category === 'female')
+                    return this.fakeAllProducts.filter(product => product.category === 'female')
                 }
                 if (this.tab === 'discount') {
-                    return this.fakeAllGoods.filter(goods => goods.attributes.price < goods.attributes.originPrice)
+                    return this.fakeAllProducts.filter(product => product.discount < product.price)
                 }
-                return this.fakeAllGoods
+                return this.fakeAllProducts
             }
         },
         watch: {
-            allGoods: {
-                handler(val) {
-                    if (val) {
-                        this.fakeAllGoods = val
-                    }
-                },
-                deep: true,
-                immediate: true
-            },
             $route: {
                 handler(val) {
                     this.tab = val.query.tab
@@ -53,11 +42,9 @@
                 immediate: true
             }
         },
-        created() {
-            !this.allGoods && this.fetchGoods({ type: 'all' })
-                .then(res => {
-                    this.setAllGoods(res.data)
-                })
+        async created() {
+            !this.allProducts && await this.getAllProducts()
+            this.fakeAllProducts = this.allProducts
         },
         beforedestroy() {
             if (this.timerId) {
@@ -66,13 +53,13 @@
             }
         },
         methods: {
-            ...mapMutations(['setAllGoods', 'setUser']),
-            ...mapActions(['fetchGoods', 'addToCart']),
+            // ...mapMutations(['setAllGoods', 'setUser']),
+            // ...mapActions(['fetchGoods', 'addToCart']),
             scrollBottom() {
-                if (this.timerId || this.fakeAllGoods.length > 80) { return }
-                if (this.fakeAllGoods && this.allGoods) {
+                if (this.timerId || this.fakeAllProducts.length > 80) { return }
+                if (this.fakeAllProducts && this.allGoods) {
                     this.timerId = setTimeout(() => {
-                        this.fakeAllGoods = this.fakeAllGoods.concat(this.allGoods)
+                        this.fakeAllProducts = this.fakeAllProducts.concat(this.allGoods)
                         if (this.timerId) {
                             window.clearTimeout(this.timerId)
                             this.timerId = null
@@ -81,15 +68,15 @@
                 }
             },
             handleAddToCart(goods) {
-                this.addToCart({ count: 1, ...goods })
-                    .then(res => {
-                        this.setUser(res.data)
-                    })
-                    .catch(error => {
-                        if (error.status === 401) {
-                            window.open(`/member.html`, '_blank')
-                        }
-                    })
+                // this.addToCart({ count: 1, ...goods })
+                //     .then(res => {
+                //         this.setUser(res.data)
+                //     })
+                //     .catch(error => {
+                //         if (error.status === 401) {
+                //             window.open(`/member.html`, '_blank')
+                //         }
+                //     })
             }
         }
     }

@@ -1,37 +1,37 @@
 <template>
     <div class="sun-sku">
-        <div class="show-img" @click="onDetail(goods)">
-            <div class="icon-wrapper" v-if="goods.attributes.price<goods.attributes.originPrice">
+        <div class="show-img" @click="onDetail(product)">
+            <div class="icon-wrapper" v-if="product.discount<product.price">
                 <x-icon name="sale" class="icon"></x-icon>
             </div>
-            <img :src="goods.attributes.cover" v-if="currentImg==='cover'">
-            <img :src="goods.attributes.feature" v-else>
+            <img :src="product.main_image" v-if="currentImg==='main'">
+            <img :src="product.sub_image" v-else>
         </div>
         <div class="focus-img">
-            <div class="cover" @mouseenter="currentImg='cover'" :class="{active:currentImg==='cover'}">
-                <img :src="goods.attributes.cover">
+            <div class="cover" @mouseenter="currentImg='main'" :class="{active:currentImg==='main'}">
+                <img :src="product.main_image">
             </div>
-            <div class="feature" @mouseenter="currentImg='feature'" :class="{active:currentImg==='feature'}">
-                <img :src="goods.attributes.feature">
+            <div class="feature" @mouseenter="currentImg='sub'" :class="{active:currentImg==='sub'}">
+                <img :src="product.sub_image">
             </div>
         </div>
         <div class="goods-price">
             <div class="price">
-                <span>￥</span><span class="number">{{goods.attributes.price}}</span><span>.00</span>
+                <span>￥</span><span class="number">{{product.price}}</span><span>.00</span>
             </div>
-            <div class="origin-price" v-if="goods.attributes.price<goods.attributes.originPrice">
-                <span>￥{{goods.attributes.originPrice}}.00</span>
+            <div class="origin-price" v-if="product.discount<product.price">
+                <span>￥{{product.price}}.00</span>
             </div>
         </div>
-        <div class="title" @click="onDetail(goods)">
-            {{goods.attributes.title}}
+        <div class="title" @click="onDetail(product)">
+            {{product.title}}
         </div>
         <div class="actions">
-            <div class="detail" role="button" @click="onDetail(goods)">
+            <div class="detail" role="button" @click="onDetail(product)">
                 <x-icon name="detail" class="icon"></x-icon>
                 查看详情
             </div>
-            <div class="add-to-cart" role="button" @click="onAddToCart(goods)">
+            <div class="add-to-cart" role="button" @click="onAddToCart(product)">
                 <x-icon name="cart" class="icon"></x-icon>
                 加入购物车
             </div>
@@ -44,20 +44,20 @@
         name: 'SunSku',
         components: { xIcon },
         props: {
-            goods: {
+            product: {
                 type: Object,
                 required: true
             }
         },
         data() {
-            return { currentImg: 'cover' }
+            return { currentImg: 'main' }
         },
         methods: {
-            onDetail(goods) {
-                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            onDetail(product) {
+                window.open(`/product.html?id=${product.id}`, '_blank')
             },
-            onAddToCart(goods) {
-                this.$emit('add-to-cart', goods)
+            onAddToCart(product) {
+                this.$emit('add-to-cart', product)
             }
         }
     }

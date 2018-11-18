@@ -60,8 +60,6 @@
                 this.$el.style.width = 'auto'
                 let { width: mainWidth } = this.$el.getBoundingClientRect()
                 this.$el.style.width = mainWidth + 'px'
-                console.log(mainWidth);
-
                 this.col = Math.floor(mainWidth / this.width) //计算分多少列
                 if (this.col === 1) {
                     this.gutter = (mainWidth - this.width) / 2

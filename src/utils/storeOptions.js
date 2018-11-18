@@ -102,8 +102,8 @@ class Options {
                     })
             },
 
-            async getSingleProduct({ commit }) {
-                return await request({ url: URL.singleProduct })
+            async getSingleProduct({ commit }, data) {
+                return await request({ url: URL.singleProduct, data })
                     .then(res => {
                         commit('setSingleProduct', res.data)
                         return res
