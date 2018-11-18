@@ -16,6 +16,7 @@ const URL = {
     newArrival: `${prefix}/product/newarrival`,
     allProducts: `${prefix}/product/allproducts`,
     singleProduct: `${prefix}/product/singleProduct`,
+    recommend: `${prefix}/product/recommend`,
     login: `${prefix}/auth/login`,
     check: `${prefix}/auth/check`,
     logout: `${prefix}/auth/logout`,

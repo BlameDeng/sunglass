@@ -173,6 +173,7 @@
         >.password, >.address {
             margin-left: 20px;
             padding-bottom: 20px;
+            padding-right: 10px;
             border-bottom: 1px solid rgba(0, 0, 0, .15);
             p {
                 display: flex;
@@ -180,22 +181,28 @@
                 align-items: center;
                 cursor: default;
                 >label {
-                    width: 6em;
+                    width: 5em;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
-                    &:not(:first-child) {
-                        width: 3em;
-                    }
+                    flex-shrink: 0;
                 }
             }
             >.wrapper {
                 display: flex;
                 justify-content: flex-start;
-                align-items: center;
+                align-items: flex-start;
+                flex-direction: column;
+                @media (min-width: 768px) {
+                    flex-direction: row;
+                    align-items: center;
+                }
                 >p {
                     &:last-child {
-                        margin-left: 17px;
+                        margin-left: 0;
+                        @media (min-width: 768px) {
+                            margin-left: 17px;
+                        }
                     }
                 }
             }

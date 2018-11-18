@@ -2,9 +2,9 @@
     <div class="sun-captcha">
         <span>验证码：</span>
         <sun-input v-model.trim="text" style="width:6em;" @focus="$emit('focus',$event)"></sun-input>
-        <img v-if="captcha" :src="captcha.url" style="width:80px;height:32px;margin:0 4px;">
-        <span class="info" v-if="captcha&&!message">
-            看不清楚？<span class="change" @click="changeOne">换一张</span>
+        <img v-if="captcha" :src="captcha.url" style="width:80px;height:32px;margin:0 4px;" @click="changeOne">
+        <span class="info" v-if="captcha&&!message" @click="changeOne">
+            看不清？<span class="change">换一张</span>
         </span>
         <span class="error" v-if="message">{{message}}</span>
     </div>

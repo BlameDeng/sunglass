@@ -24,6 +24,6 @@ new Vue({
         password: ''
     },
     methods: {
-        onLogo() { window.open('/home.html', '_self') },
+        onLogo() { window.open('/home.html', '_self') }
     }
 })

@@ -23,9 +23,9 @@
             猜你喜欢
         </h4>
         <div class="recommend">
-            <template v-if="recommendGoods&&recommendGoods.length">
-                <div class="sku-wrapper" v-for="goods in recommendGoods" :key="goods.id">
-                    <sun-sku :goods="goods" @add-to-cart="handleAddToCart($event)"></sun-sku>
+            <template v-if="recommend&&recommend.length">
+                <div class="sku-wrapper" v-for="product in recommend" :key="product.id">
+                    <sun-sku :product="product" @add-to-cart="handleAddToCart($event)"></sun-sku>
                 </div>
             </template>
         </div>
@@ -35,7 +35,7 @@
     import sunInput from '@/components/input.vue'
     import sunSku from '@/components/sku.vue'
     import storeMixin from '@/mixin/storeMixin'
-    import {mapState,mapMutations,mapActions} from 'vuex'
+    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Index',
         mixins: [storeMixin],
@@ -44,7 +44,7 @@
         computed: {
             ...mapState({
                 user: state => state.user,
-                recommendGoods: state => state.recommendGoods
+                recommend: state => state.recommend
             })
         },
         watch: {
@@ -65,8 +65,8 @@
             onSave() {
                 this.changeProfile({ nickyname: this.nickyname, gender: this.gender })
             },
-            handleAddToCart(goods) {
-                this.addToCart({ count: 1, ...goods })
+            handleAddToCart(product) {
+                this.addToCart({ count: 1, ...product })
                     .then(res => {
                         this.setUser(res.data)
                     })
@@ -141,8 +141,15 @@
             justify-content: flex-start;
             align-items: center;
             padding: 20px;
+            flex-direction: column;
+            @media (min-width: 768px) {
+                flex-direction: row;
+            }
             >.sku-wrapper {
-                width: calc(760px / 3);
+                width: 300px;
+                @media (min-width: 768px) {
+                    width: calc(760px / 3);
+                }
             }
         }
     }

@@ -19,28 +19,21 @@
     import xIcon from '@/components/icon/icon.vue'
     import Index from './components/index.vue'
     import Account from './components/account.vue'
-    import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     export default {
         name: 'User',
+        mixins: [storeMixin],
         components: { xIcon, Index, Account },
         data() {
             return { currentComponent: 'Index' }
         },
-        computed: {
-            ...mapState({
-                user: state => state.user,
-                recommendGoods: state => state.recommendGoods
-            })
-        },
         watch: {
             user: {
-                handler(val) {
-                    if (val) {
-                        this.fetchGoods({ type: 'recommend', gender: this.user.gender || 'unknown' })
-                            .then(res => {
-                                this.setRecommendGoods(res.data)
-                            })
-                            .catch(error => {})
+                handler(val, oldVal) {
+                    if (val && !oldVal) {
+                        this.getRecommend({ gender: val.gender || '' })
+                    } else {
+                        val && val.gender !== oldVal.gender && this.getRecommend({ gender: val.gender || '' })
                     }
                 },
                 deep: true,
@@ -48,11 +41,10 @@
             }
         },
         mounted() {
-            document.title='账户管理'
+            document.title = '账户管理'
+            if (!this.isLogin) { this.$router.push('/login') }
         },
         methods: {
-            ...mapMutations(['setRecommendGoods']),
-            ...mapActions(['fetchGoods']),
             changeComponent(name) {
                 this.currentComponent = name
             }
@@ -61,10 +53,12 @@
 </script>
 <style scoped lang="scss">
     .user {
-        width: 1200px;
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
         >.user-navbar {
-            width: 800px;
+            width: 100%;
+            max-width: 800px;
             height: 70px;
             margin: 10px auto;
             display: flex;
@@ -99,7 +93,8 @@
             }
         }
         >.main {
-            width: 800px;
+            width: 100%;
+            max-width: 800px;
             margin: 0 auto;
         }
     }

@@ -45,6 +45,7 @@
         },
         mounted() {
             document.title = '会员登录'
+            this.user && this.$router.push('/')
         },
         methods: {
             validate() {
@@ -75,7 +76,7 @@
                     .then(res => {
                         this.setLogin(res.isLogin)
                         this.setUser(res.data)
-                        this.$router.push('/user')
+                        this.$router.push('/')
                     })
                     .catch(error => {
                         this.errorInfo = error.msg
@@ -95,20 +96,23 @@
         display: flex;
         flex-direction: column;
         >.login-wrapper {
-            width: 1200px;
+            // width: 1200px;
+            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
             height: 100%;
             position: relative;
             flex-grow: 1;
             >.login {
-                width: 400px;
+                width: 100%;
+                max-width: 400px;
                 height: 350px;
                 position: absolute;
                 top: 50%;
                 right: 0;
                 transform: translateY(-50%);
                 padding: 0 20px;
-                background: #fff;
+                background: rgba(255, 255, 255, .75);
                 border-radius: 2px;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
                 display: flex;

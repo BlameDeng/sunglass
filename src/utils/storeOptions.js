@@ -7,6 +7,7 @@ class Options {
             newArrival: null,
             allProducts: null,
             singleProduct: null,
+            recommend: null,
             isLogin: false,
             user: null,
             allGoods: null,
@@ -22,6 +23,9 @@ class Options {
             },
             setSingleProduct(state, payload) {
                 state.singleProduct = payload
+            },
+            setRecommend(state, payload) {
+                state.recommend = payload
             },
             setLogin(state, payload) {
                 state.isLogin = payload
@@ -106,6 +110,14 @@ class Options {
                 return await request({ url: URL.singleProduct, data })
                     .then(res => {
                         commit('setSingleProduct', res.data)
+                        return res
+                    })
+            },
+
+            async getRecommend({ commit }, data) {
+                return await request({ url: URL.recommend, data })
+                    .then(res => {
+                        commit('setRecommend', res.data)
                         return res
                     })
             },

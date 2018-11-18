@@ -11,6 +11,6 @@ export default {
     },
     methods: {
         ...mapMutations(['setLogin', 'setUser']),
-        ...mapActions(['getNewArrival', 'getAllProducts', 'check', 'login', 'logout', 'changePassword', 'changeProfile', 'getSingleProduct'])
+        ...mapActions(['getNewArrival', 'getAllProducts', 'getSingleProduct', 'getRecommend', 'check', 'login', 'logout', 'changePassword', 'changeProfile', ])
     }
 }
