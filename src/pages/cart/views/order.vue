@@ -1,5 +1,5 @@
 <template>
-    <div class="sun-record">
+    <div class="sun-order">
         <div class="title">
             已买到的宝贝
         </div>
@@ -7,13 +7,13 @@
             <a href="javascript:0;" :class="{active:currentTab==='all'}" @click="onTab('all')">
                 全部订单
             </a>
-            <a href="javascript:0;" :class="{active:currentTab==='dispatched'}" @click="onTab('dispatched')">
+            <a href="javascript:0;" :class="{active:currentTab==='toConfirm'}" @click="onTab('toConfirm')">
                 待收货
-                <span class="number">{{dispatchedGoods&&(dispatchedGoods.length||'')}}</span>
+                <span class="number">{{toConfirmOrders&&(toConfirmOrders.length||'')}}</span>
             </a>
             <a href="javascript:0;" :class="{active:currentTab==='toEvaluate'}" @click="onTab('toEvaluate')">
                 待评价
-                <span class="number">{{toEvaluateGoods&&(toEvaluateGoods.length||'')}}</span>
+                <span class="number">{{toEvaluateOrders&&(toEvaluateOrders.length||'')}}</span>
             </a>
             <a href="javascript:0;" :class="{active:currentTab==='done'}" @click="onTab('done')">
                 已完成订单
@@ -22,43 +22,44 @@
         <ul class="title-bar">
             <li class="info">商品信息</li>
             <li class="price">单价</li>
-            <li>数量</li>
-            <li>实付款</li>
+            <li class="count">数量</li>
+            <li class="pay">实付款</li>
             <li class="action">操作</li>
         </ul>
         <ul class="goods">
-            <template v-if="user&&user.record&&user.record.length">
-                <li v-for="item in instageRecord" :key="item.id">
+            <template v-if="instageOrder&&instageOrder.length">
+                <li v-for="order in instageOrder" :key="order.id">
                     <header class="order-info">
-                        <span class="number">{{formatDate(item.createdAt)}}</span>
+                        <span class="number">{{formatDate(order.createdAt)}}</span>
                         <span>订单号：</span>
-                        <span class="number">{{item.id}}</span>
+                        <span class="number">{{order.id}}</span>
                     </header>
                     <div class="info">
-                        <img :src="item.goods.attributes.cover" @click="onGoodsDetail(item.goods)">
-                        <span @click="onGoodsDetail(item.goods)">
-                            {{item.goods.attributes.title}}
+                        <img :src="order.product.main_image" @click="onGoodsDetail(order.product)">
+                        <span @click="onGoodsDetail(order.product)">
+                            {{order.product.title}}
                         </span>
                     </div>
                     <div class="price">
-                        <span>￥{{item.goods.attributes.price.toFixed(2)}}</span>
-                        <span class="origin" v-if="item.goods.attributes.price<item.goods.attributes.originPrice">
-                            <span>原价</span>
-                            ￥{{item.goods.attributes.originPrice.toFixed(2)}}
+                        <span>￥{{order.product.discount.toFixed(2)}}</span>
+                        <span class="origin" v-if="order.product.discount<order.product.price">
+                            <span class="text">原价</span>
+                            ￥{{order.product.price.toFixed(2)}}
                         </span>
                     </div>
                     <div class="count">
-                        {{item.goods.count}}
+                        <span class="text">&times;</span>
+                        {{order.product.count}}
                     </div>
-                    <div class="total">￥{{(item.goods.attributes.price*item.goods.count).toFixed(2)}}</div>
+                    <div class="total">￥{{(order.product.discount*order.product.count).toFixed(2)}}</div>
                     <div class="action">
-                        <a class="btn delivery" href="javascript:0;" @click="onDelivery(item)" v-if="item.status==='payed'">
+                        <a class="btn delivery" href="javascript:0;" @click="onConfirm(order)" v-if="order.status==='toConfirm'">
                             确认收货
                         </a>
-                        <a class="btn" href="javascript:0;" @click="onEvaluate(item)" v-if="item.status==='toEvaluate'">
+                        <a class="btn" href="javascript:0;" @click="onEvaluate(order)" v-if="order.status==='toEvaluate'">
                             评价商品
                         </a>
-                        <a class="btn" href="javascript:0;" @click="onDelete(item)" v-if="item.status==='done'">
+                        <a class="btn" href="javascript:0;" @click="onDelete(order)" v-if="order.status==='done'">
                             <x-icon name="delete" class="icon"></x-icon>删除订单
                         </a>
                     </div>
@@ -69,55 +70,56 @@
 </template>
 <script>
     import xIcon from '@/components/icon/icon.vue'
-    import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
+    import { mapActions } from 'vuex'
     export default {
-        name: 'Record',
+        name: 'Order',
+        mixins: [storeMixin],
         components: { xIcon },
         data() {
-            return { currentTab: 'dispatched' }
+            return { currentTab: 'toConfirm' }
         },
         computed: {
-            ...mapState({
-                user: state => state.user
-            }),
-            dispatchedGoods() {
-                if (!this.user || !this.user.record || !this.user.record.length) {
+            toConfirmOrders() {
+                if (!this.allOrders || !this.allOrders.length) {
                     return null
                 }
-                return this.user.record.filter(record => record.status === 'payed')
+                return this.allOrders.filter(order => order.status === 'toConfirm')
             },
-            toEvaluateGoods() {
-                if (!this.user || !this.user.record || !this.user.record.length) {
+            toEvaluateOrders() {
+                if (!this.allOrders || !this.allOrders.length) {
                     return null
                 }
-                return this.user.record.filter(record => record.status === 'toEvaluate')
+                return this.allOrders.filter(order => order.status === 'toEvaluate')
             },
-            doneGoods() {
-                if (!this.user || !this.user.record || !this.user.record.length) {
+            doneOrders() {
+                if (!this.allOrders || !this.allOrders.length) {
                     return null
                 }
-                return this.user.record.filter(record => record.status === 'done')
+                return this.allOrders.filter(order => order.status === 'done')
             },
-            instageRecord() {
-                if (!this.user || !this.user.record || !this.user.record.length) {
+            instageOrder() {
+                if (!this.allOrders || !this.allOrders.length) {
                     return null
                 }
                 if (this.currentTab === 'all') {
-                    return this.user.record
+                    return this.allOrders
                 }
-                if (this.currentTab === 'dispatched') {
-                    return this.dispatchedGoods
+                if (this.currentTab === 'toConfirm') {
+                    return this.toConfirmOrders
                 }
                 if (this.currentTab === 'toEvaluate') {
-                    return this.toEvaluateGoods
+                    return this.toEvaluateOrders
                 }
                 if (this.currentTab === 'done') {
-                    return this.doneGoods
+                    return this.doneOrders
                 }
             }
         },
+        mounted() {
+            this.getOrder()
+        },
         methods: {
-            ...mapMutations(['setUser']),
             ...mapActions(['delivery', 'evaluate', 'destroyRecord']),
             formatDate(params) {
                 let time
@@ -140,22 +142,19 @@
             onTab(tab) {
                 this.currentTab = tab
             },
-            onGoodsDetail(goods) {
-                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            onGoodsDetail(product) {
+                window.open(`/product.html?id=${product.id}`, '_blank')
             },
-            onDelivery(record) {
-                this.delivery(record)
-                    .then(res => {
-                        this.setUser(res.data)
-                    })
+            onConfirm(order) {
+                this.changeOrderStatus({ order, status: 'toEvaluate' })
                     .catch(error => {
                         this.$error({ message: error.msg })
                     })
             },
-            onEvaluate(record) {
-                window.open(`/goods.html?rid=${record.id}`, '_blank')
+            onEvaluate(order) {
+                window.open(`/product.html?pid=${order.product.id}`, '_blank')
             },
-            onDelete(record) {
+            onDelete(order) {
                 this.destroyRecord({ id: record.id })
                     .then(res => {
                         this.setUser(res.data)
@@ -165,8 +164,9 @@
     }
 </script>
 <style scoped lang="scss">
-    .sun-record {
-        width: 800px;
+    .sun-order {
+        width: 100%;
+        max-width: 800px;
         margin: 0 auto;
         >.title {
             border: 1px solid rgba(0, 0, 0, 0.15);
@@ -230,9 +230,18 @@
                 width: 100px;
                 font-size: 12px;
                 transform: translateX(-20px);
+                display: none;
+                @media (min-width: 768px) {
+                    display: block;
+                }
                 &.info {
                     flex-grow: 1;
                     transform: translateX(0);
+                    display: block;
+                    text-align: center;
+                    @media (min-width: 768px) {
+                        text-align: start;
+                    }
                 }
                 &.price {
                     width: 140px;
@@ -256,6 +265,10 @@
                 position: relative;
                 padding-top: 50px;
                 margin-bottom: 10px;
+                flex-wrap: wrap;
+                @media (min-width: 768px) {
+                    flex-wrap: nowrap;
+                }
                 >.order-info {
                     padding: 0 20px;
                     position: absolute;
@@ -289,6 +302,10 @@
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
+                        width: 100%;
+                        @media (min-width: 768px) {
+                            width: 100px;
+                        }
                         >img {
                             width: 80px;
                             height: 80px;
@@ -307,11 +324,12 @@
                     }
                     &.price {
                         cursor: default;
-                        width: 140px;
+                        width: 110px;
                         display: flex;
-                        flex-direction: column;
+                        flex-direction: row;
                         justify-content: center;
                         align-content: center;
+                        margin-top: 10px;
                         >span {
                             font-size: 12px;
                             font-weight: 700;
@@ -319,11 +337,26 @@
                                 font-size: 12px;
                                 color: rgba(0, 0, 0, 0.45);
                                 text-decoration: line-through;
+                                margin-left: 4px;
+                                @media (min-width: 768px) {
+                                    margin-left: 0;
+                                }
                                 >span {
                                     color: rgba(0, 0, 0, 0.45);
                                     font-size: 12px;
                                     font-weight: 400;
                                 }
+                            }
+                        }
+                        span.text {
+                            display: none;
+                        }
+                        @media (min-width: 768px) {
+                            flex-direction: column;
+                            margin-top: 0;
+                            width: 140px;
+                            span.text {
+                                display: inline;
                             }
                         }
                     }
@@ -332,14 +365,40 @@
                         cursor: default;
                         padding-left: 0.5em;
                         display: flex;
-                        justify-content: flex-start;
+                        justify-content: center;
                         align-items: center;
+                        margin-top: 10px;
+                        width: 60px;
+                        >span.text {
+                            font-size: 12px;
+                            display: inline;
+                        }
+                        @media (min-width: 768px) {
+                            width: 100px;
+                            justify-content: flex-start;
+                            >span.text {
+                                display: none;
+                            }
+                            margin-top: 0;
+                        }
                     }
                     &.total {
                         font-weight: 700;
                         cursor: default;
+                        margin-top: 10px;
+                        width: 80px;
+                        @media (min-width: 768px) {
+                            width: 100px;
+                            margin-top: 0;
+                        }
                     }
                     &.action {
+                        margin-top: 10px;
+                        width: 80px;
+                        @media (min-width: 768px) {
+                            margin-top: 0;
+                            width: 100px;
+                        }
                         >a {
                             display: flex;
                             justify-content: center;

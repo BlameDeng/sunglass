@@ -55,22 +55,26 @@ new Vue({
     async mounted() {
         let href = window.location.href
         const pattern1 = /^.*\?id=(\w+)$/
-        const pattern2 = /^.*\?rid=(\w+)$/
+        const pattern2 = /^.*\?pid=(\w+)$/
         if (pattern1.test(href)) {
             await this.getSingleProduct({ id: RegExp.$1 })
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
         } else if (pattern2.test(href)) {
-            let rid = RegExp.$1
-            this.getRecord({ id: rid })
-                .then(res => {
-                    this.record = res.data
-                    this.setGoods(res.data.goods)
-                    this.getEvaluation()
-                    this.currentTab = 'evaluation'
-                })
-                .catch(error => {})
+            await this.getSingleProduct({ id: RegExp.$1 })
+            await this.$nextTick()
+            let { width } = this.$refs.showImg.getBoundingClientRect()
+            this.$refs.showImg.style.height = width + 'px'
+            // let pid = RegExp.$1
+            // this.getRecord({ id: pid })
+            //     .then(res => {
+            //         this.record = res.data
+            //         this.setGoods(res.data.goods)
+            //         this.getEvaluation()
+            //         this.currentTab = 'evaluation'
+            //     })
+            //     .catch(error => {})
         }
     },
     beforedestroy() {},

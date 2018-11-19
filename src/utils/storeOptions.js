@@ -12,6 +12,12 @@ class Options {
             isLogin: false,
             user: null,
             cart: null,
+            receiver: null,
+            allOrders: null,
+
+
+
+
             allGoods: null,
             recommendGoods: null,
             goods: null
@@ -40,6 +46,17 @@ class Options {
             updateCart(state, payload) {
                 Vue.set(state, 'cart', payload)
             },
+            setReceiver(state, payload) {
+                state.receiver = payload
+            },
+            setAllOrders(state, payload) {
+                state.allOrders = payload
+            },
+
+
+
+
+
             setAllGoods(state, payload) {
                 state.allGoods = payload
             },
@@ -57,6 +74,11 @@ class Options {
             },
             async check({ commit }) {
                 return await request({ url: URL.check })
+                    .then(res => {
+                        commit('setLogin', res.isLogin)
+                        commit('setUser', res.data)
+                        return res
+                    })
             },
             async logout({ commit }) {
                 return await request({ url: URL.logout })
@@ -76,9 +98,7 @@ class Options {
             async removeGoods({ commit }, data) {
                 return await request({ url: URL.removeGoods, method: 'POST', data })
             },
-            async pay({ commit }, data) {
-                return await request({ url: URL.pay, method: 'POST', data })
-            },
+
             async delivery({ commit }, data) {
                 return await request({ url: URL.delivery, method: 'POST', data })
             },
@@ -155,6 +175,41 @@ class Options {
                     })
             },
 
+            async getReceiver({ commit }) {
+                return await request({ url: URL.getReceiver })
+                    .then(res => {
+                        commit('setReceiver', res.data)
+                        return res
+                    })
+            },
+
+            async updateReceiver({ commit }, data) {
+                return await request({ url: URL.updateReceiver, method: 'PATCH', data })
+                    .then(res => {
+                        commit('setReceiver', res.data)
+                        return res
+                    })
+            },
+
+            async pay({ commit }, data) {
+                return await request({ url: URL.pay, method: 'POST', data })
+            },
+
+            async getOrder({ commit }) {
+                return await request({ url: URL.getOrder })
+                    .then(res => {
+                        commit('setAllOrders', res.data)
+                        return res
+                    })
+            },
+
+            async changeOrderStatus({ commit }, data) {
+                return await request({ url: URL.changeOrderStatus, method: 'PATCH', data })
+                    .then(res => {
+                        commit('setAllOrders', res.data)
+                        return res
+                    })
+            }
         }
     }
 }

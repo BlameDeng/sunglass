@@ -36,17 +36,16 @@ new Vue({
         },
         $route(val) {
             let tab = val.path.substr(1)
-            if (tab === 'cart' || tab === 'record') {
+            if (tab === 'cart' || tab === 'order') {
                 this.currentTab = tab
             }
-            if (tab === 'record') {
+            if (tab === 'order') {
                 document.title = '已买到的宝贝'
             } else {
                 document.title = '我的购物车'
             }
         }
     },
-    created() {},
     beforedestroy() {
         document.removeEventListener('click', this.listenDocument)
     },

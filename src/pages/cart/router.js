@@ -11,12 +11,12 @@ const router = new VueRouter({
             path: '/cart',
             component: () => import('./views/cart.vue')
         }, {
-            path: '/pay',
-            component: () => import('./views/pay.vue')
+            path: '/payment',
+            component: () => import('./views/payment.vue')
         },
         {
-            path: '/record',
-            component: () => import('./views/record.vue')
+            path: '/order',
+            component: () => import('./views/order.vue')
         }
     ]
 })

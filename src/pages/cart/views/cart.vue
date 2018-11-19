@@ -46,6 +46,9 @@
                     </div>
                 </li>
             </template>
+            <template v-else>
+                <li class="else">购物车是空的哦~~~</li>
+            </template>
         </ul>
         <ul class="action-bar">
             <li class="label" @click="selectAll">
@@ -143,7 +146,7 @@
                 window.open(`/product.html?id=${product.id}`, '_blank')
             },
             onPay() {
-                this.$router.push({ path: '/pay', query: { selectedIds: this.selectedIds } })
+                this.$router.push({ path: '/payment', query: { selectedIds: this.selectedIds } })
             }
         }
     }
@@ -433,6 +436,14 @@
                             }
                         }
                     }
+                }
+                &.else {
+                    width: 100%;
+                    font-size: 12px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    cursor: default;
                 }
             }
         }

@@ -18,8 +18,8 @@ export default function request({ url, method = 'GET', data }) {
                 }
             })
             .catch(error => {
-                if (error.status === 401) {
-                    window.open('member.html', '_blank')
+                if (error.response.status === 401) {
+                    window.open('member.html', '_self')
                 } else {
                     reject(error.response)
                 }

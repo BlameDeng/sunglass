@@ -42,11 +42,7 @@
             }
         },
         mounted() {
-            this.check()
-                .then(res => {
-                    this.setLogin(res.isLogin)
-                    this.setUser(res.data)
-                }).catch(error => {})
+            this.check().catch(error => {})
         },
         beforedestroy() {
             document.removeEventListener('click', this.listenDocument)

@@ -3,7 +3,6 @@ const prefix = 'http://localhost:8080'
 const URL = {
     patchProfile: `${prefix}/auth/patchprofile`,
     patchAddress: `${prefix}/auth/patchaddress`,
-    pay: `${prefix}/auth/pay`,
     fetchGoods: `${prefix}/api/fetchgoods`,
 
     changeCount: `${prefix}/api/changecount`,
@@ -24,6 +23,11 @@ const URL = {
     changeProfile: `${prefix}/auth/changeprofile`,
     addToCart: `${prefix}/cart/addtocart`,
     removeFromCart: `${prefix}/cart/removefromcart`,
-    changeProductCount:`${prefix}/cart/changeproductcount`
+    changeProductCount:`${prefix}/cart/changeproductcount`,
+    getReceiver:`${prefix}/receiver/getreceiver`,
+    updateReceiver:`${prefix}/receiver/updatereceiver`,
+    pay: `${prefix}/order/payment`,
+    getOrder:`${prefix}/order/getorder`,
+    changeOrderStatus:`${prefix}/order/changeorderstatus`,
 }
 export default URL

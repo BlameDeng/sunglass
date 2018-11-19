@@ -8,7 +8,9 @@ export default {
             recommend: state => state.recommend,
             isLogin: state => state.isLogin,
             user: state => state.user,
-            cart: state => state.cart
+            cart: state => state.cart,
+            receiver: state => state.receiver,
+            allOrders: state => state.allOrders
         })
     },
     methods: {
@@ -27,7 +29,12 @@ export default {
             'changePassword',
             'changeProfile',
             'addToCart',
-            'removeFromCart'
+            'removeFromCart',
+            'getReceiver',
+            'updateReceiver',
+            'pay',
+            'getOrder',
+            'changeOrderStatus'
         ])
     }
 }

@@ -1,4 +1,4 @@
-.pay {
+.payment {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
@@ -455,7 +455,8 @@
         background: rgba(0, 0, 0, .15);
         >.inner {
             background: #fff;
-            width: 400px;
+            width: 100%;
+            max-width: 400px;
             height: 160px;
             position: fixed;
             top: 50%;
