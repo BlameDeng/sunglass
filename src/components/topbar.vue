@@ -9,7 +9,7 @@
                 <span class="username" v-else @click="onClickUser">未登录</span>
                 <span class="icon-wrapper">
                     <x-icon name="cart" class="icon" @click="onClickAction('cart')"></x-icon>
-                    <span class="badge" v-if="user&&user.cart&&user.cart.length">{{user.cart.length}}</span>
+                    <span class="badge" v-if="cart&&cart.length">{{cart.length}}</span>
                 </span>
             </div>
             <transition name="actions-fade">
@@ -29,11 +29,9 @@
         name: 'sunTopbar',
         mixins: [storeMixin],
         components: { xIcon },
-        props: {},
         data() {
             return { actionsVisible: false }
         },
-        computed: {},
         watch: {
             actionsVisible(val) {
                 if (val) {

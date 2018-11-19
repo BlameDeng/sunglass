@@ -1,3 +1,4 @@
+import Vue from 'vue/dist/vue.js'
 import request from '@/http/request.js'
 import URL from '@/http/url.js'
 
@@ -10,6 +11,7 @@ class Options {
             recommend: null,
             isLogin: false,
             user: null,
+            cart: null,
             allGoods: null,
             recommendGoods: null,
             goods: null
@@ -31,7 +33,12 @@ class Options {
                 state.isLogin = payload
             },
             setUser(state, payload) {
-                state.user = payload
+                const { username, nickyname, gender, cart } = payload
+                state.user = { username, nickyname, gender }
+                Vue.set(state, 'cart', cart)
+            },
+            updateCart(state, payload) {
+                Vue.set(state, 'cart', payload)
             },
             setAllGoods(state, payload) {
                 state.allGoods = payload
@@ -62,9 +69,7 @@ class Options {
             async fetchGoods({ commit }, data) {
                 return await request({ url: URL.fetchGoods, data })
             },
-            async addToCart({ commit }, data) {
-                return await request({ url: URL.addToCart, method: 'POST', data })
-            },
+
             async changeCount({ commit }, data) {
                 return await request({ url: URL.changeCount, method: 'POST', data })
             },
@@ -133,6 +138,30 @@ class Options {
                         return res
                     })
             },
+
+            async addToCart({ commit }, data) {
+                return await request({ url: URL.addToCart, method: 'PATCH', data })
+                    .then(res => {
+                        commit('updateCart', res.data)
+                        return res
+                    })
+            },
+
+            async removeFromCart({ commit }, data) {
+                return await request({ url: URL.removeFromCart, method: 'PATCH', data })
+                    .then(res => {
+                        commit('updateCart', res.data)
+                        return res
+                    })
+            },
+
+            async changeProductCount({ commit }, data) {
+                return await request({ url: URL.changeProductCount, method: 'PATCH', data })
+                    .then(res => {
+                        commit('updateCart', res.data)
+                        return res
+                    })
+            }
         }
     }
 }

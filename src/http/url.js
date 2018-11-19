@@ -5,7 +5,7 @@ const URL = {
     patchAddress: `${prefix}/auth/patchaddress`,
     pay: `${prefix}/auth/pay`,
     fetchGoods: `${prefix}/api/fetchgoods`,
-    addToCart: `${prefix}/api/addtocart`,
+
     changeCount: `${prefix}/api/changecount`,
     removeGoods: `${prefix}/api/removegoods`,
     delivery: `${prefix}/api/delivery`,
@@ -22,5 +22,8 @@ const URL = {
     logout: `${prefix}/auth/logout`,
     changePassword: `${prefix}/auth/changepassword`,
     changeProfile: `${prefix}/auth/changeprofile`,
+    addToCart: `${prefix}/cart/addtocart`,
+    removeFromCart: `${prefix}/cart/removefromcart`,
+    changeProductCount:`${prefix}/cart/changeproductcount`
 }
 export default URL

@@ -6,7 +6,8 @@ export default {
             allProducts: state => state.allProducts,
             singleProduct: state => state.singleProduct,
             isLogin: state => state.isLogin,
-            user: state => state.user
+            user: state => state.user,
+            cart: state => state.cart
         })
     },
     methods: {
