@@ -41,12 +41,6 @@
         mixins: [storeMixin],
         components: { sunInput, sunSku },
         data() { return { nickyname: '', gender: '' } },
-        computed: {
-            ...mapState({
-                user: state => state.user,
-                recommend: state => state.recommend
-            })
-        },
         watch: {
             user: {
                 handler(val) {
@@ -66,15 +60,7 @@
                 this.changeProfile({ nickyname: this.nickyname, gender: this.gender })
             },
             handleAddToCart(product) {
-                this.addToCart({ count: 1, ...product })
-                    .then(res => {
-                        this.setUser(res.data)
-                    })
-                    .catch(error => {
-                        if (error.status === 401) {
-                            window.open(`/member.html`, '_blank')
-                        }
-                    })
+                this.addToCart({ count: 1, id: product.id })
             }
         }
     }

@@ -18,10 +18,11 @@ export default function request({ url, method = 'GET', data }) {
                 }
             })
             .catch(error => {
-                if (error.status===401) {
-                    window.open('member.html','_blank')
+                if (error.status === 401) {
+                    window.open('member.html', '_blank')
+                } else {
+                    reject(error.response)
                 }
-                reject(error.response)
             })
     })
 }

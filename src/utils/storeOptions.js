@@ -155,13 +155,6 @@ class Options {
                     })
             },
 
-            async changeProductCount({ commit }, data) {
-                return await request({ url: URL.changeProductCount, method: 'PATCH', data })
-                    .then(res => {
-                        commit('updateCart', res.data)
-                        return res
-                    })
-            }
         }
     }
 }

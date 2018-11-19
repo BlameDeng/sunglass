@@ -10,37 +10,37 @@
             </li>
             <li class="info">商品信息</li>
             <li class="price">单价</li>
-            <li>数量</li>
+            <li class="count">数量</li>
             <li>金额</li>
             <li class="action">操作</li>
         </ul>
         <ul class="goods">
-            <template v-if="user&&user.cart&&user.cart.length">
-                <li v-for="goods in user.cart" :key="goods.id">
+            <template v-if="cart&&cart.products&&cart.products.length">
+                <li v-for="product in cart.products" :key="product.id">
                     <div class="label">
-                        <label @click="onGoodsLabel(goods.id)" :class="{selected:selectedIds&&selectedIds.indexOf(goods.id)>-1}"></label>
+                        <label @click="onGoodsLabel(product.id)" :class="{selected:selectedIds&&selectedIds.indexOf(product.id)>-1}"></label>
                     </div>
                     <div class="info">
-                        <img :src="goods.attributes.cover" @click="onGoodsDetail(goods)">
-                        <span @click="onGoodsDetail(goods)">
-                            {{goods.attributes.title}}
+                        <img :src="product.main_image" @click="onGoodsDetail(product)">
+                        <span @click="onGoodsDetail(product)">
+                            {{product.title}}
                         </span>
                     </div>
                     <div class="price">
-                        <span>￥{{goods.attributes.price.toFixed(2)}}</span>
-                        <span class="origin" v-if="goods.attributes.price<goods.attributes.originPrice">
-                            <span>原价</span>
-                            ￥{{goods.attributes.originPrice.toFixed(2)}}
+                        <span>￥{{product.discount.toFixed(2)}}</span>
+                        <span class="origin" v-if="product.discount<product.price">
+                            <span class="text">原价</span>
+                            ￥{{product.price.toFixed(2)}}
                         </span>
                     </div>
                     <div class="count">
-                        <span class="minus" @click="changeGoodsCount(goods,-1)" :class="{disabled:goods.count<=1}">-</span>
-                        <input type="text" v-model.number="goods.count" @blur="changeGoodsCount(goods)">
-                        <span class="plus" @click="changeGoodsCount(goods,1)">+</span>
+                        <span class="minus" @click="changeGoodsCount(product,-1)" :class="{disabled:product.count<=1}">-</span>
+                        <input type="text" v-model.number="product.count" @blur="changeGoodsCount(product)">
+                        <span class="plus" @click="changeGoodsCount(product,1)">+</span>
                     </div>
-                    <div class="total">￥{{(goods.attributes.price*goods.count)&&(goods.attributes.price*goods.count).toFixed(2)||'0.00'}}</div>
+                    <div class="total">￥{{(product.discount*product.count)&&(product.discount*product.count).toFixed(2)||'0.00'}}</div>
                     <div class="action">
-                        <span @click="onClickDelete(goods)">删除</span>
+                        <span @click="onClickDelete(product)">删除</span>
                     </div>
                 </li>
             </template>
@@ -59,15 +59,14 @@
 </template>
 <script>
     import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     export default {
         name: 'Cart',
+        mixins: [storeMixin],
         data() {
             return { selectedIds: null }
         },
         computed: {
-            ...mapState({
-                user: state => state.user
-            }),
             total() {
                 if (this.selectedIds && this.selectedIds.length) {
                     let selectedGoods = []
@@ -163,7 +162,8 @@
 </script>
 <style scoped lang="scss">
     .cart {
-        width: 800px;
+        width: 100%;
+        max-width: 800px;
         margin: 0 auto;
         >.title {
             border: 1px solid rgba(0, 0, 0, 0.15);
@@ -181,13 +181,18 @@
         }
         >.title-bar {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
             padding-left: 20px;
             user-select: none;
             cursor: default;
             height: 30px;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            @media (min-width: 768px) {
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
             >li {
                 width: 100px;
                 font-size: 12px;
@@ -225,12 +230,26 @@
                 }
                 &.info {
                     flex-grow: 1;
+                    text-align: center;
+                    @media (min-width: 768px) {
+                        text-align: start;
+                    }
                 }
                 &.action {
                     width: 60px;
                 }
                 &.price {
-                    width: 140px;
+                    padding-left: 40px;
+                    width: 100px;
+                    @media (min-width: 768px) {
+                        width: 140px
+                    }
+                }
+                &.count {
+                   padding-left: 10px;
+                    @media (min-width: 768px) {
+                      padding-left: 0;
+                    }
                 }
             }
         }
@@ -241,9 +260,14 @@
             border-radius: 2px;
             >li {
                 display: flex;
-                justify-content: flex-start;
+                justify-content: space-between;
                 align-items: center;
                 padding: 10px 0;
+                flex-wrap: wrap;
+                @media (min-width: 768px) {
+                    flex-wrap: nowrap;
+                    justify-content: flex-start;
+                }
                 >div {
                     width: 100px;
                     font-size: 12px;
@@ -302,11 +326,15 @@
                     }
                     &.price {
                         cursor: default;
-                        width: 140px;
                         display: flex;
                         flex-direction: column;
                         justify-content: center;
                         align-content: center;
+                        padding-left: 40px;
+                        width: 100px;
+                        @media (min-width: 768px) {
+                            width: 140px;
+                        }
                         >span {
                             font-size: 14px;
                             font-weight: 700;
@@ -321,6 +349,12 @@
                                 }
                             }
                         }
+                        span.text {
+                            display: none;
+                            @media (min-width: 768px) {
+                                display: inline;
+                            }
+                        }
                     }
                     &.count {
                         font-weight: 700;
@@ -328,6 +362,10 @@
                         display: flex;
                         justify-content: flex-start;
                         align-items: center;
+                        margin-top: 10px;
+                        @media (min-width: 768px) {
+                            margin-top: 0;
+                        }
                         >span {
                             display: flex;
                             justify-content: center;
@@ -377,9 +415,17 @@
                         color: #f10215;
                         font-weight: 700;
                         cursor: default;
+                        margin-top: 10px;
+                        @media (min-width: 768px) {
+                            margin-top: 0;
+                        }
                     }
                     &.action {
                         width: 60px;
+                        margin-top: 10px;
+                        @media (min-width: 768px) {
+                            margin-top: 0;
+                        }
                         >span {
                             font-size: 12px;
                             cursor: pointer;
@@ -413,7 +459,7 @@
                     }
                 }
                 &.label {
-                    width: 60px;
+                    width: 70px;
                     display: flex;
                     justify-content: flex-start;
                     align-items: center;
