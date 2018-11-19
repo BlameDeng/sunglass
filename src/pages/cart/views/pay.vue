@@ -1,5 +1,5 @@
 <template>
-    <div class="order">
+    <div class="pay">
         <div class="title">
             确认收货地址
         </div>
@@ -60,25 +60,25 @@
             <li>小计</li>
         </ul>
         <ul class="goods">
-            <template v-if="orderGoods&&orderGoods.length">
-                <li v-for="goods in orderGoods" :key="goods.id">
+            <template v-if="orderProducts&&orderProducts.length">
+                <li v-for="product in orderProducts" :key="product.id">
                     <div class="info">
-                        <img :src="goods.attributes.cover" @click="onGoodsDetail(goods)">
-                        <span @click="onGoodsDetail(goods)">
-                            {{goods.attributes.title}}
+                        <img :src="product.main_image" @click="onGoodsDetail(product)">
+                        <span @click="onGoodsDetail(product)">
+                            {{product.title}}
                         </span>
                     </div>
                     <div class="price">
-                        <span>￥{{goods.attributes.price.toFixed(2)}}</span>
-                        <span class="origin" v-if="goods.attributes.price<goods.attributes.originPrice">
+                        <span>￥{{product.discount.toFixed(2)}}</span>
+                        <span class="origin" v-if="product.discount<product.price">
                             <span>原价</span>
-                            ￥{{goods.attributes.originPrice.toFixed(2)}}
+                            ￥{{product.price.toFixed(2)}}
                         </span>
                     </div>
                     <div class="count">
-                        {{goods.count}}
+                        {{product.count}}
                     </div>
-                    <div class="total">￥{{(goods.attributes.price*goods.count).toFixed(2)}}</div>
+                    <div class="total">￥{{(product.discount*product.count).toFixed(2)}}</div>
                 </li>
                 <li class="order-info">
                     <div class="ems">
@@ -115,7 +115,7 @@
                         返回购物车
                     </span>
                 </div>
-                <div class="confirm" @click="onConfirmToPay" :class="{disabled:!this.orderGoods||!this.orderGoods.length}">提交并支付</div>
+                <div class="confirm" @click="onConfirmToPay" :class="{disabled:!this.orderProducts||!this.orderProducts.length}">提交并支付</div>
             </div>
         </div>
         <transition name="actions-fade">
@@ -136,8 +136,10 @@
     import xIcon from '@/components/icon/icon.vue'
     import sunInput from '@/components/input.vue'
     import { mapState, mapMutations, mapActions } from 'vuex'
+    import storeMixin from '@/mixin/storeMixin'
     export default {
-        name: 'Order',
+        name: 'Pay',
+        mixins: [storeMixin],
         components: { xIcon, sunInput },
         data() {
             return {
@@ -152,27 +154,24 @@
             }
         },
         computed: {
-            ...mapState({
-                user: state => state.user
-            }),
-            orderGoods() {
-                if (!this.orderIds || !this.user || !this.user.cart.length) {
+            orderProducts() {
+                if (!this.orderIds || !this.cart || !this.cart.products.length) {
                     return null
                 } else {
                     let array = []
-                    this.user.cart.forEach(goods => {
-                        if (this.orderIds.indexOf(goods.id) > -1) {
-                            array.push(goods)
+                    this.cart.products.forEach(product => {
+                        if (this.orderIds.indexOf(product.id) > -1) {
+                            array.push(product)
                         }
                     })
                     return array
                 }
             },
             total() {
-                if (!this.orderGoods || !this.orderGoods.length) {
+                if (!this.orderProducts || !this.orderProducts.length) {
                     return 0
                 } else {
-                    return this.orderGoods.reduce((prev, current) => {
+                    return this.orderProducts.reduce((prev, current) => {
                         return prev + current.count * current.attributes.price
                     }, 0)
                 }
@@ -260,7 +259,7 @@
                         this.$info({ message: '密码为6到18个字符' })
                         return
                     }
-                    this.pay({ order: this.orderGoods, password: this.password })
+                    this.pay({ order: this.orderProducts, password: this.password })
                         .then(res => {
                             this.setUser(res.data)
                             this.$success({ message: '支付成功' })
@@ -281,7 +280,7 @@
                     this.$info({ message: '请先完善收货人姓名、手机号码、地址等信息！' })
                     return
                 }
-                if (!this.orderGoods || !this.orderGoods.length) {
+                if (!this.orderProducts || !this.orderProducts.length) {
                     return
                 }
                 this.checkPasswordVisible = true
@@ -289,4 +288,4 @@
         }
     }
 </script>
-<style scoped lang="scss" src="./order.scss"></style>
+<style scoped lang="scss" src="./pay.scss"></style>

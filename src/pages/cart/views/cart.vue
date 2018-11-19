@@ -34,11 +34,13 @@
                         </span>
                     </div>
                     <div class="count">
-                        <span class="minus" @click="changeGoodsCount(product,-1)" :class="{disabled:product.count<=1}">-</span>
-                        <input type="text" v-model.number="product.count" @blur="changeGoodsCount(product)">
-                        <span class="plus" @click="changeGoodsCount(product,1)">+</span>
+                        <span class="minus" @click="changeProductCount(product,-1)" :class="{disabled:product.count<=1}">-</span>
+                        <input type="text" v-model.number="product.count" @blur="changeProductCount(product)">
+                        <span class="plus" @click="changeProductCount(product,1)">+</span>
                     </div>
-                    <div class="total">￥{{(product.discount*product.count)&&(product.discount*product.count).toFixed(2)||'0.00'}}</div>
+                    <div class="total">
+                        <span>小计</span>
+                        ￥{{(product.discount*product.count)&&(product.discount*product.count).toFixed(2)||'0.00'}}</div>
                     <div class="action">
                         <span @click="onClickDelete(product)">删除</span>
                     </div>
@@ -51,8 +53,8 @@
                 <span>全选</span>
             </li>
             <li class="info"></li>
-            <li>已选商品<span class="number">{{(selectedIds&&selectedIds.length)||0}}</span>件</li>
-            <li>合计<span class="number">{{'￥'+total.toFixed(2)}}</span></li>
+            <li class="count">已选商品<span class="number">{{(selectedIds&&selectedIds.length)||0}}</span>件</li>
+            <li class="total">合计<span class="number">{{'￥'+total.toFixed(2)}}</span></li>
             <li class="pay" :class="{disabled:!selectedIds||!selectedIds.length}" @click="onPay">结 算</li>
         </ul>
     </div>
@@ -70,25 +72,25 @@
             total() {
                 if (this.selectedIds && this.selectedIds.length) {
                     let selectedGoods = []
-                    this.user.cart.forEach(goods => {
-                        if (this.selectedIds.indexOf(goods.id) > -1) {
-                            selectedGoods.push(goods)
+                    this.cart.products.forEach(product => {
+                        if (this.selectedIds.indexOf(product.id) > -1) {
+                            selectedGoods.push(product)
                         }
                     })
                     return selectedGoods.reduce((prev, current) => {
-                        return prev + current.attributes.price * current.count
+                        return prev + current.discount * current.count
                     }, 0)
                 } else {
                     return 0
                 }
             },
             allSelected() {
-                if (!this.selectedIds || !this.user.cart.length) { return false }
-                if (this.selectedIds.length !== this.user.cart.length) {
+                if (!this.selectedIds || !this.cart.products.length) { return false }
+                if (this.selectedIds.length !== this.cart.products.length) {
                     return false
                 }
                 let ids1 = JSON.parse(JSON.stringify(this.selectedIds)).sort()
-                let ids2 = this.user.cart.map(goods => goods.id).sort()
+                let ids2 = this.cart.products.map(product => product.id).sort()
                 let result = true
                 for (let i = 0; i < ids2.length; i++) {
                     if (ids1[i] !== ids2[i]) {
@@ -100,32 +102,18 @@
             }
         },
         methods: {
-            ...mapMutations(['setUser']),
             ...mapActions(['changeCount', 'removeGoods']),
-            changeGoodsCount(goods, payload) {
+            changeProductCount(product, payload) {
                 if (payload) {
-                    if (goods.count + payload <= 0) { return }
-                    goods.count += payload
+                    if (product.count + payload <= 0) { return }
+                    product.count += payload
                 } else {
-                    if (goods.count < 0 || !goods.count) { goods.count = 1 }
+                    if (product.count < 0 || !product.count) { product.count = 1 }
                 }
-                this.changeCount(goods)
-                    .then(res => {
-                        this.setUser(res.data)
-                    })
-                    .catch(error => {
-                        this.$error({ message: error.msg })
-                    })
+                this.addToCart({ count: product.count, id: product.id, type: 'changeCount' })
             },
-            onClickDelete(goods) {
-                this.removeGoods({ id: goods.id })
-                    .then(res => {
-                        this.selectedIds ? this.selectedIds = this.selectedIds.filter(id => id !== goods.id) : ''
-                        this.setUser(res.data)
-                    })
-                    .catch(error => {
-                        this.$error({ message: error.msg })
-                    })
+            onClickDelete(product) {
+                this.removeFromCart({ id: product.id })
             },
             onGoodsLabel(id) {
                 this.selectedIds = this.selectedIds || []
@@ -137,25 +125,25 @@
                 }
             },
             selectAll() {
-                if (!this.user.cart.length) {
+                if (!this.cart.products.length) {
                     return
                 }
                 if (this.allSelected) {
                     this.selectedIds = null
                 } else {
                     this.selectedIds = this.selectedIds || []
-                    this.user.cart.forEach(goods => {
-                        if (this.selectedIds.indexOf(goods.id) === -1) {
-                            this.selectedIds.push(goods.id)
+                    this.cart.products.forEach(product => {
+                        if (this.selectedIds.indexOf(product.id) === -1) {
+                            this.selectedIds.push(product.id)
                         }
                     })
                 }
             },
-            onGoodsDetail(goods) {
-                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            onGoodsDetail(product) {
+                window.open(`/product.html?id=${product.id}`, '_blank')
             },
             onPay() {
-                this.$router.push({ path: '/order', query: { selectedIds: this.selectedIds } })
+                this.$router.push({ path: '/pay', query: { selectedIds: this.selectedIds } })
             }
         }
     }
@@ -246,9 +234,9 @@
                     }
                 }
                 &.count {
-                   padding-left: 10px;
+                    padding-left: 10px;
                     @media (min-width: 768px) {
-                      padding-left: 0;
+                        padding-left: 0;
                     }
                 }
             }
@@ -416,8 +404,19 @@
                         font-weight: 700;
                         cursor: default;
                         margin-top: 10px;
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        >span {
+                            display: inline;
+                            font-size: 12px;
+                            margin-right: 10px;
+                        }
                         @media (min-width: 768px) {
                             margin-top: 0;
+                            >span {
+                                display: none;
+                            }
                         }
                     }
                     &.action {
@@ -496,6 +495,10 @@
                 }
                 &.info {
                     flex-grow: 1;
+                    display: none;
+                    @media (min-width: 768px) {
+                        display: block;
+                    }
                 }
                 &.pay {
                     height: 60px;

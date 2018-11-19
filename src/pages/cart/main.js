@@ -14,7 +14,6 @@ Vue.use(Message)
 Vue.use(Vuex)
 const options = new Options()
 const store = new Vuex.Store(options)
-import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
     router,
@@ -47,22 +46,11 @@ new Vue({
             }
         }
     },
-    created() {
-        this.check()
-            .then(res => {
-                this.setLogin(res.isLogin)
-                this.setUser(res.data)
-            })
-            .catch(error => {
-                window.open('/member.html', '_self')
-            })
-    },
+    created() {},
     beforedestroy() {
         document.removeEventListener('click', this.listenDocument)
     },
     methods: {
-        ...mapMutations(['setLogin', 'setUser']),
-        ...mapActions(['check', 'logout']),
         onLogo() { window.open('/home.html', '_self') },
         onClickUser() {
             if (!this.isLogin) { return }

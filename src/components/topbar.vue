@@ -47,7 +47,6 @@
                     this.setLogin(res.isLogin)
                     this.setUser(res.data)
                 })
-                .catch(error => {})
         },
         beforedestroy() {
             document.removeEventListener('click', this.listenDocument)

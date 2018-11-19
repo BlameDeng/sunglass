@@ -11,8 +11,8 @@ const router = new VueRouter({
             path: '/cart',
             component: () => import('./views/cart.vue')
         }, {
-            path: '/order',
-            component: () => import('./views/order.vue')
+            path: '/pay',
+            component: () => import('./views/pay.vue')
         },
         {
             path: '/record',

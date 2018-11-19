@@ -26,7 +26,8 @@ export default {
             'logout',
             'changePassword',
             'changeProfile',
-            'addToCart'
+            'addToCart',
+            'removeFromCart'
         ])
     }
 }
