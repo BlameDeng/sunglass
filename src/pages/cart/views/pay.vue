@@ -69,16 +69,21 @@
                         </span>
                     </div>
                     <div class="price">
+                        <span class="text">单价</span>
                         <span>￥{{product.discount.toFixed(2)}}</span>
                         <span class="origin" v-if="product.discount<product.price">
-                            <span>原价</span>
+                            <span class="text">原价</span>
                             ￥{{product.price.toFixed(2)}}
                         </span>
                     </div>
                     <div class="count">
+                        <span class="text">数量</span>
                         {{product.count}}
                     </div>
-                    <div class="total">￥{{(product.discount*product.count).toFixed(2)}}</div>
+                    <div class="total">
+                        <span class="text">小计</span>
+                        ￥{{(product.discount*product.count).toFixed(2)}}
+                    </div>
                 </li>
                 <li class="order-info">
                     <div class="ems">
@@ -172,7 +177,7 @@
                     return 0
                 } else {
                     return this.orderProducts.reduce((prev, current) => {
-                        return prev + current.count * current.attributes.price
+                        return prev + current.count * current.price
                     }, 0)
                 }
             }
@@ -194,7 +199,7 @@
             }
         },
         mounted() {
-            this.orderIds = this.$route.query.selectedIds
+            this.orderIds = this.$route.query.selectedIds.map(id => parseInt(id, 10))
             document.title = '确认订单'
         },
         beforedestroy() {
