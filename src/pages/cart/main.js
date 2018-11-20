@@ -36,6 +36,11 @@ new Vue({
             } else {
                 document.title = '我的购物车'
             }
+        },
+        isLogin(val){
+            if (!val) {
+                window.open('/member.html','_self')
+            }
         }
     },
     methods: {

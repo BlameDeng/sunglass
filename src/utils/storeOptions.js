@@ -32,9 +32,14 @@ class Options {
                 state.isLogin = payload
             },
             setUser(state, payload) {
-                const { username, nickyname, gender, cart } = payload
-                state.user = { username, nickyname, gender }
-                Vue.set(state, 'cart', cart)
+                if (payload) {
+                    const { username, nickyname, gender, cart } = payload
+                    state.user = { username, nickyname, gender }
+                    Vue.set(state, 'cart', cart)
+                } else {
+                    state.user = null
+                    Vue.set(state, 'cart', null)
+                }
             },
             updateCart(state, payload) {
                 Vue.set(state, 'cart', payload)

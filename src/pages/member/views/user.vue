@@ -33,16 +33,23 @@
                     if (val && !oldVal) {
                         this.getRecommend({ gender: val.gender || '' })
                     } else {
-                        val && val.gender !== oldVal.gender && this.getRecommend({ gender: val.gender || '' })
+                        val &&
+                            val.gender !== oldVal.gender &&
+                            this.getRecommend({ gender: val.gender || '' })
                     }
                 },
                 deep: true,
+                immediate: true
+            },
+            isLogin: {
+                handler(val) {
+                    !val && this.$router.push('/login')
+                },
                 immediate: true
             }
         },
         mounted() {
             document.title = '账户管理'
-            if (!this.isLogin) { this.$router.push('/login') }
         },
         methods: {
             changeComponent(name) {
@@ -64,7 +71,7 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            border: 1px solid rgba(0, 0, 0, .15);
+            border: 1px solid rgba(0, 0, 0, 0.15);
             border-radius: 2px;
             >.user-avatar {
                 display: flex;
@@ -80,7 +87,8 @@
                     margin-left: 4px;
                 }
             }
-            >.index, >.account {
+            >.index,
+            >.account {
                 margin-left: 30px;
                 cursor: pointer;
                 user-select: none;
