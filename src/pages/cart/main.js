@@ -22,18 +22,10 @@ new Vue({
     components: { xIcon, sunTopbar, sunSider, sunFooter },
     data() {
         return {
-            actionsVisible: false,
             currentTab: ''
         }
     },
     watch: {
-        actionsVisible(val) {
-            if (val) {
-                document.addEventListener('click', this.listenDocument)
-            } else {
-                document.removeEventListener('click', this.listenDocument)
-            }
-        },
         $route(val) {
             let tab = val.path.substr(1)
             if (tab === 'cart' || tab === 'order') {
@@ -46,38 +38,8 @@ new Vue({
             }
         }
     },
-    beforedestroy() {
-        document.removeEventListener('click', this.listenDocument)
-    },
     methods: {
         onLogo() { window.open('/home.html', '_self') },
-        onClickUser() {
-            if (!this.isLogin) { return }
-            this.actionsVisible = true
-        },
-        listenDocument() {
-            this.actionsVisible = false
-        },
-        onClickAction(type) {
-            if (type === 'logout') {
-                this.logout()
-                    .then(res => {
-                        localStorage.removeItem('user')
-                        this.setLogin(res.isLogin)
-                        this.setUser(null)
-                        this.$router.push('/')
-                    })
-                    .catch(error => {
-                        this.setLogin(res.isLogin)
-                        this.setUser(null)
-                        this.$router.push('/')
-                    })
-            } else if (type === 'member') {
-                window.open('/member.html', '_blank')
-            } else if (type === 'cart') {
-                window.open('/cart.html', '_blank')
-            }
-        },
         onLink(tab) {
             this.$router.push(`/${tab}`)
         }

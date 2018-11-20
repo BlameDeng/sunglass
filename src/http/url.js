@@ -1,8 +1,6 @@
 const prefix = 'http://localhost:8080'
 // const prefix=''
 const URL = {
-    goodsEvaluation: `${prefix}/api/goodsevaluation`,
-    destroyRecord: `${prefix}/api/destroyrecord`,
     newArrival: `${prefix}/product/newarrival`,
     allProducts: `${prefix}/product/allproducts`,
     singleProduct: `${prefix}/product/singleProduct`,

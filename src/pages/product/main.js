@@ -14,7 +14,6 @@ Vue.use(Message)
 Vue.use(Vuex)
 const options = new Options()
 const store = new Vuex.Store(options)
-import { mapState, mapActions, mapMutations } from 'vuex'
 new Vue({
     el: '#app',
     store,
@@ -25,16 +24,10 @@ new Vue({
             currentImg: 'main',
             currentTab: 'detail',
             count: 1,
-            record: null,
             content: '',
             evaluation: null,
             order: null
         }
-    },
-    computed: {
-        ...mapState({
-            goods: state => state.goods
-        })
     },
     watch: {
         goods: {
@@ -72,27 +65,12 @@ new Vue({
             })
             await this.getSingleProduct({ id: pid })
             this.handleGetEvaluation(pid)
-            await this.getEvaluation({ id: pid }).then(res => {
-                console.log(res);
-
-            })
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
         }
     },
     methods: {
-        ...mapMutations(['setLogin', 'setUser', 'setGoods']),
-        ...mapActions([
-            'check',
-            'logout',
-            'fetchGoods',
-
-            'changeCount',
-            'getRecord',
-            'evaluate',
-            'getGoodsEvaluation'
-        ]),
         handleGetEvaluation(id) {
             this.getEvaluation({ id })
                 .then(res => {

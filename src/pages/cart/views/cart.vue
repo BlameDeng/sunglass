@@ -505,9 +505,10 @@
                     }
                 }
                 &.info {
-                    flex-grow: 1;
                     display: none;
                     @media (min-width: 768px) {
+                        flex-shrink: 0;
+                        flex-grow: 1;
                         display: block;
                     }
                 }

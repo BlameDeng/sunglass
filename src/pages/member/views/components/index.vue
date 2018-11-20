@@ -35,7 +35,6 @@
     import sunInput from '@/components/input.vue'
     import sunSku from '@/components/sku.vue'
     import storeMixin from '@/mixin/storeMixin'
-    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Index',
         mixins: [storeMixin],
@@ -54,8 +53,6 @@
             }
         },
         methods: {
-            ...mapMutations(['setUser']),
-            ...mapActions(['patchProfile', 'addToCart']),
             onSave() {
                 this.changeProfile({ nickyname: this.nickyname, gender: this.gender })
             },

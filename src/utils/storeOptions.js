@@ -14,13 +14,6 @@ class Options {
             cart: null,
             receiver: null,
             allOrders: null,
-
-
-
-
-            allGoods: null,
-            recommendGoods: null,
-            goods: null
         }
         this.mutations = {
             setNewArrival(state, payload) {
@@ -51,27 +44,13 @@ class Options {
             },
             setAllOrders(state, payload) {
                 state.allOrders = payload
-            },
-
-
-
-
-
-            setAllGoods(state, payload) {
-                state.allGoods = payload
-            },
-            setRecommendGoods(state, payload) {
-                state.recommendGoods = payload
-            },
-            setGoods(state, payload) {
-                state.goods = payload
-            },
-
+            }
         }
         this.actions = {
             async login({ commit }, data) {
                 return await request({ url: URL.login, method: 'POST', data })
             },
+
             async check({ commit }) {
                 return await request({ url: URL.check })
                     .then(res => {
@@ -80,39 +59,9 @@ class Options {
                         return res
                     })
             },
+
             async logout({ commit }) {
                 return await request({ url: URL.logout })
-            },
-
-
-            async patchAddress({ commit }, data) {
-                return await request({ url: URL.patchAddress, method: 'POST', data })
-            },
-            async fetchGoods({ commit }, data) {
-                return await request({ url: URL.fetchGoods, data })
-            },
-
-            async changeCount({ commit }, data) {
-                return await request({ url: URL.changeCount, method: 'POST', data })
-            },
-            async removeGoods({ commit }, data) {
-                return await request({ url: URL.removeGoods, method: 'POST', data })
-            },
-
-            async delivery({ commit }, data) {
-                return await request({ url: URL.delivery, method: 'POST', data })
-            },
-            async evaluate({ commit }, data) {
-                return await request({ url: URL.evaluate, method: 'POST', data })
-            },
-            async getRecord({ commit }, data) {
-                return await request({ url: URL.record, data })
-            },
-            async getGoodsEvaluation({ commit }, data) {
-                return await request({ url: URL.goodsEvaluation, data })
-            },
-            async destroyRecord({ commit }, data) {
-                return await request({ url: URL.destroyRecord, method: 'DELETE', data })
             },
 
             async getNewArrival({ commit }) {

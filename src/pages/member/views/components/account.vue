@@ -55,8 +55,6 @@
 <script>
     import sunInput from '@/components/input.vue'
     import storeMixin from '@/mixin/storeMixin'
-    import jsonp from '@/http/jsonp.js'
-    import { mapState, mapMutations, mapActions } from 'vuex'
     export default {
         name: 'Account',
         mixins: [storeMixin],
@@ -73,17 +71,7 @@
                 detailAddress: ''
             }
         },
-        mounted() {
-            jsonp('https://api.map.baidu.com/location/ip', {
-                ak: '3oZjGfC42rDxKbv7tH3zXEXOvozafX20',
-                coor: 'bd09ll'
-            }).then(res => {
-                this.address = res.content.address
-            })
-        },
         methods: {
-            ...mapMutations(['setUser']),
-            ...mapActions(['changePassword', 'patchAddress']),
             onClickTab(tab) {
                 this.currentTab = tab
             },
