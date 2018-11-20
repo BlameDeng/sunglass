@@ -35,7 +35,8 @@ export default {
             'pay',
             'getOrder',
             'changeOrderStatus',
-            'createEvaluation'
+            'createEvaluation',
+            'getEvaluation'
         ])
     }
 }

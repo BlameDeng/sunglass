@@ -57,7 +57,7 @@
             </li>
             <li class="info"></li>
             <li class="count">已选商品<span class="number">{{(selectedIds&&selectedIds.length)||0}}</span>件</li>
-            <li class="total">合计<span class="number">{{'￥'+total.toFixed(2)}}</span></li>
+            <li class="total">合计<span class="number" v-if="total">{{'￥'+total.toFixed(2)}}</span></li>
             <li class="pay" :class="{disabled:!selectedIds||!selectedIds.length}" @click="onPay">结 算</li>
         </ul>
     </div>

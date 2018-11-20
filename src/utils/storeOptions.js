@@ -213,6 +213,10 @@ class Options {
 
             async createEvaluation({ commit }, data) {
                 return await request({ url: URL.createEvaluation, method: 'POST', data })
+            },
+
+            async getEvaluation({ commit }, data) {
+                return await request({ url: URL.getEvaluation, data })
             }
         }
     }

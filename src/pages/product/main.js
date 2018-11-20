@@ -58,7 +58,9 @@ new Vue({
         const pattern1 = /^.*\?id=(\w+)$/
         const pattern2 = /^.*\?oid=(\w+)&pid=(\w+)$/
         if (pattern1.test(href)) {
-            await this.getSingleProduct({ id: RegExp.$1 })
+            let pid = RegExp.$1
+            await this.getSingleProduct({ id: pid })
+            this.handleGetEvaluation(pid)
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
@@ -69,6 +71,11 @@ new Vue({
                 this.order = res.data
             })
             await this.getSingleProduct({ id: pid })
+            this.handleGetEvaluation(pid)
+            await this.getEvaluation({ id: pid }).then(res => {
+                console.log(res);
+
+            })
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
@@ -80,52 +87,20 @@ new Vue({
             'check',
             'logout',
             'fetchGoods',
-            'addToCart',
+
             'changeCount',
             'getRecord',
             'evaluate',
             'getGoodsEvaluation'
         ]),
-        getEvaluation() {
-            if (this.goods) {
-                this.getGoodsEvaluation({ id: this.goods.id })
-                    .then(res => {
-                        this.evaluation = res.data
-                    })
-                    .catch(error => {})
-            }
+        handleGetEvaluation(id) {
+            this.getEvaluation({ id })
+                .then(res => {
+                    this.evaluation = res.data
+                })
+
         },
         onLogo() { window.open('/home.html', '_self') },
-        onClickUser() {
-            if (!this.isLogin) {
-                window.open('/member.html', '_blank')
-                return
-            }
-            this.actionsVisible = true
-        },
-        listenDocument() {
-            this.actionsVisible = false
-        },
-        onClickAction(type) {
-            if (type === 'logout') {
-                this.logout()
-                    .then(res => {
-                        localStorage.removeItem('user')
-                        this.setLogin(res.isLogin)
-                        this.setUser(null)
-                        this.$router.push('/')
-                    })
-                    .catch(error => {
-                        this.setLogin(res.isLogin)
-                        this.setUser(null)
-                        this.$router.push('/')
-                    })
-            } else if (type === 'member') {
-                window.open('/member.html', '_blank')
-            } else if (type === 'cart') {
-                window.open('/cart.html', '_blank')
-            }
-        },
         countBlur() {
             if (!this.count || typeof this.count !== 'number' || this.count < 0) {
                 this.count = 1
@@ -138,69 +113,45 @@ new Vue({
                 this.count += n
             }
         },
-        handleClickAction() {
-            if (this.count === 1) {
-                return this.addToCart({ count: 1, ...this.goods })
-            } else {
-                let goods = JSON.parse(JSON.stringify(this.goods))
-                goods.count = this.count
-                return this.changeCount(goods)
+        async onAddToCart() {
+            let id = this.singleProduct.id
+            let count = 0
+            this.cart.products.forEach(item => {
+                if (item.id === id) {
+                    count = item.count
+                }
+            })
+            //新添加
+            if (count === 0) {
+                this.addToCart({ id, count: this.count })
+                //改变数量
+            } else if (this.count > count && count !== 0) {
+                this.addToCart({ id, count: this.count, type: 'changeCount' })
             }
         },
-        onAddToCart() {
-            this.handleClickAction()
-                .then(res => {
-                    this.setUser(res.data)
-                })
-                .catch(error => {
-                    if (error.status === 401) {
-                        window.open(`/member.html`, '_blank')
-                    }
-                })
+        async onBuy() {
+            await this.onAddToCart()
+            window.open('/cart.html', '_blank')
         },
-        onBuy() {
-            this.handleClickAction()
-                .then(res => {
-                    this.setUser(res.data)
-                    window.open('/cart.html', '_blank')
-                })
-                .catch(error => {
-                    if (error.status === 401) {
-                        window.open(`/member.html`, '_blank')
-                    }
-                })
-        },
-        onSubmit() {
+        async onSubmit() {
             if (!this.content) {
                 this.$info({ message: '评价内容不能为空' })
                 return
             }
-            //data:{rid,gid,uid,username,nickyname,content}
             if (this.order.status !== 'toEvaluate') { return }
-            this.createEvaluation({
+            await this.createEvaluation({
                     pid: this.singleProduct.id,
                     oid: this.order.id,
                     username: this.user.username,
                     nickyname: this.user.nickyname || '',
                     content: this.content
                 })
-                .then(res=>{
-                    console.log(res)
+                .then(res => {
+                    this.evaluation = res.data
                 })
-                // .then(res => {
-                //     this.setUser(res.data)
-                //     this.getEvaluation() //获取最新商品评论列表
-                //     let userRecord = res.data.record
-                //     for (let i = 0; i < userRecord.length; i++) {
-                //         if (userRecord[i].id === this.record.id) {
-                //             this.record = userRecord[i]
-                //             break
-                //         }
-                //     }
-                // })
-                // .catch(error => {
-                //     this.$error({ message: error.msg })
-                // })
+            this.getOrder({ id: this.order.id }).then(res => {
+                this.order = res.data
+            })
         },
         formatDate(params) {
             let time
