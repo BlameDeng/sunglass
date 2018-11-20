@@ -67,7 +67,7 @@
                             this.setUser(null)
                         })
                         .catch(error => {
-                            this.setLogin(res.isLogin)
+                            this.setLogin(error.isLogin)
                             this.setUser(null)
                         })
                 } else if (type === 'member') {

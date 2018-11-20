@@ -35,8 +35,8 @@
                         <span class="number">{{order.id}}</span>
                     </header>
                     <div class="info">
-                        <img :src="order.product.main_image" @click="onGoodsDetail(order.product)">
-                        <span @click="onGoodsDetail(order.product)">
+                        <img :src="order.product.main_image" @click="onProductDetail(order.product)">
+                        <span @click="onProductDetail(order.product)">
                             {{order.product.title}}
                         </span>
                     </div>
@@ -71,7 +71,6 @@
 <script>
     import xIcon from '@/components/icon/icon.vue'
     import storeMixin from '@/mixin/storeMixin'
-    import { mapActions } from 'vuex'
     export default {
         name: 'Order',
         mixins: [storeMixin],
@@ -120,7 +119,6 @@
             this.getOrder()
         },
         methods: {
-            ...mapActions(['delivery', 'evaluate', 'destroyRecord']),
             formatDate(params) {
                 let time
                 if (typeof params === 'string') {
@@ -142,7 +140,7 @@
             onTab(tab) {
                 this.currentTab = tab
             },
-            onGoodsDetail(product) {
+            onProductDetail(product) {
                 window.open(`/product.html?id=${product.id}`, '_blank')
             },
             onConfirm(order) {
@@ -215,7 +213,7 @@
             }
         }
         >.title-bar {
-            display: flex;
+
             justify-content: flex-start;
             align-items: center;
             padding-left: 20px;
@@ -223,6 +221,10 @@
             cursor: default;
             height: 30px;
             margin-bottom: 10px;
+            display: none;
+            @media (min-width: 768px) {
+                display: flex;
+            }
             >li {
                 width: 100px;
                 font-size: 12px;

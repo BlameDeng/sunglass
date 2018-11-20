@@ -18,11 +18,11 @@
             <template v-if="cart&&cart.products&&cart.products.length">
                 <li v-for="product in cart.products" :key="product.id">
                     <div class="label">
-                        <label @click="onGoodsLabel(product.id)" :class="{selected:selectedIds&&selectedIds.indexOf(product.id)>-1}"></label>
+                        <label @click="onProductLabel(product.id)" :class="{selected:selectedIds&&selectedIds.indexOf(product.id)>-1}"></label>
                     </div>
                     <div class="info">
-                        <img :src="product.main_image" @click="onGoodsDetail(product)">
-                        <span @click="onGoodsDetail(product)">
+                        <img :src="product.main_image" @click="onProductDetail(product)">
+                        <span @click="onProductDetail(product)">
                             {{product.title}}
                         </span>
                     </div>
@@ -63,7 +63,6 @@
     </div>
 </template>
 <script>
-    import { mapState, mapMutations, mapActions } from 'vuex'
     import storeMixin from '@/mixin/storeMixin'
     export default {
         name: 'Cart',
@@ -74,13 +73,13 @@
         computed: {
             total() {
                 if (this.selectedIds && this.selectedIds.length) {
-                    let selectedGoods = []
+                    let selectedProducts = []
                     this.cart.products.forEach(product => {
                         if (this.selectedIds.indexOf(product.id) > -1) {
-                            selectedGoods.push(product)
+                            selectedProducts.push(product)
                         }
                     })
-                    return selectedGoods.reduce((prev, current) => {
+                    return selectedProducts.reduce((prev, current) => {
                         return prev + current.discount * current.count
                     }, 0)
                 } else {
@@ -105,7 +104,6 @@
             }
         },
         methods: {
-            ...mapActions(['changeCount', 'removeGoods']),
             changeProductCount(product, payload) {
                 if (payload) {
                     if (product.count + payload <= 0) { return }
@@ -118,7 +116,7 @@
             onClickDelete(product) {
                 this.removeFromCart({ id: product.id })
             },
-            onGoodsLabel(id) {
+            onProductLabel(id) {
                 this.selectedIds = this.selectedIds || []
                 let index = this.selectedIds.indexOf(id)
                 if (index === -1) {
@@ -142,10 +140,11 @@
                     })
                 }
             },
-            onGoodsDetail(product) {
+            onProductDetail(product) {
                 window.open(`/product.html?id=${product.id}`, '_blank')
             },
             onPay() {
+                if (!this.selectedIds || !this.selectedIds.length) { return }
                 this.$router.push({ path: '/payment', query: { selectedIds: this.selectedIds } })
             }
         }
@@ -171,8 +170,6 @@
             user-select: none;
         }
         >.title-bar {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
             padding-left: 20px;
             user-select: none;
@@ -180,8 +177,10 @@
             height: 30px;
             margin-bottom: 10px;
             flex-wrap: wrap;
+            display: none;
             @media (min-width: 768px) {
                 flex-wrap: nowrap;
+                display: flex;
                 justify-content: flex-start;
             }
             >li {
@@ -505,12 +504,7 @@
                     }
                 }
                 &.info {
-                    display: none;
-                    @media (min-width: 768px) {
-                        flex-shrink: 0;
-                        flex-grow: 1;
-                        display: block;
-                    }
+                    flex-grow: 1;
                 }
                 &.pay {
                     height: 60px;

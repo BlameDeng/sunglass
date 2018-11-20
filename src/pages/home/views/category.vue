@@ -55,9 +55,9 @@
         methods: {
             scrollBottom() {
                 if (this.timerId || this.fakeAllProducts.length > 80) { return }
-                if (this.fakeAllProducts && this.allGoods) {
+                if (this.fakeAllProducts && this.allProducts) {
                     this.timerId = setTimeout(() => {
-                        this.fakeAllProducts = this.fakeAllProducts.concat(this.allGoods)
+                        this.fakeAllProducts = this.fakeAllProducts.concat(this.allProducts)
                         if (this.timerId) {
                             window.clearTimeout(this.timerId)
                             this.timerId = null

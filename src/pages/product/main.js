@@ -30,22 +30,12 @@ new Vue({
         }
     },
     watch: {
-        goods: {
-            handler(val) {
-                if (val) {
-                    document.title = `商品详情-${val.attributes.name}`
-                }
-            },
-            deep: true,
-            immediate: true
-        },
         content(val) {
             if (val.length > 300) {
                 this.content = val.substr(0, 300)
             }
         }
     },
-    created() {},
     async mounted() {
         let href = window.location.href
         const pattern1 = /^.*\?id=(\w+)$/
@@ -65,6 +55,7 @@ new Vue({
             })
             await this.getSingleProduct({ id: pid })
             this.handleGetEvaluation(pid)
+            this.currentTab = 'evaluation'
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'

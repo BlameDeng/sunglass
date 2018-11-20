@@ -30,7 +30,7 @@
             <div class="wrapper">
                 <p>
                     <label>收货人：</label>
-                    <sun-input style="width:200px;" v-model="contract"></sun-input>
+                    <sun-input style="width:200px;" v-model="name"></sun-input>
                 </p>
                 <p>
                     <label>手机号码：</label>
@@ -43,10 +43,10 @@
             </p>
             <p>
                 <label>详细地址：</label>
-                <sun-input style="width:500px;" placeholder="详细地址，如：门牌、街道、村镇" v-model="detailAddress"></sun-input>
+                <sun-input style="width:500px;" placeholder="详细地址，如：门牌、街道、村镇" v-model="detail"></sun-input>
             </p>
-            <p>
-                现有收货地址：<span>{{`${user.contract||''} ${user.phone||''} ${user.address||''} ${user.detailAddress||''}`}}</span>
+            <p v-if="receiver">
+                现有收货地址：<span>{{`${receiver.name||''} ${receiver.phone||''} ${receiver.address||''} ${receiver.detail||''}`}}</span>
             </p>
         </div>
         <div class="btn" role="button" @click="onSave">保存</div>
@@ -65,11 +65,14 @@
                 password: '',
                 newPassword: '',
                 newPasswordConfirm: '',
-                contract: '',
+                name: '',
                 phone: '',
                 address: '',
-                detailAddress: ''
+                detail: ''
             }
+        },
+        mounted() {
+            this.getReceiver()
         },
         methods: {
             onClickTab(tab) {
@@ -110,11 +113,14 @@
                 this.changePassword({ username: this.user.username, password: this.password, newPassword: this.newPassword })
                     .then(res => {
                         this.$success({ message: '密码修改成功' })
+                        this.password = ''
+                        this.newPassword = ''
+                        this.newPasswordConfirm = ''
                     })
                     .catch(error => { this.$error({ message: error.msg }) })
             },
             changeAddress() {
-                if (!this.contract || !this.phone || !this.address || !this.detailAddress) {
+                if (!this.name || !this.phone || !this.address || !this.detail) {
                     this.$info({ message: '联系人、手机号码、地址不能为空！' })
                     return
                 }
@@ -122,10 +128,9 @@
                     this.$info({ message: '手机号码必须为数字！' })
                     return
                 }
-                this.patchAddress({ contract: this.contract, phone: this.phone, address: this.address, detailAddress: this.detailAddress })
+                this.updateReceiver({ name: this.name, phone: this.phone, address: this.address, detail: this.detail })
                     .then(res => {
-                        this.$success({ message: res.msg })
-                        this.setUser(res.data)
+                        this.$success({ message: '修改收货人信息成功' })
                     })
                     .catch(error => {
                         this.$error({ message: error.msg })

@@ -63,8 +63,8 @@
             <template v-if="orderProducts&&orderProducts.length">
                 <li v-for="product in orderProducts" :key="product.id">
                     <div class="info">
-                        <img :src="product.main_image" @click="onGoodsDetail(product)">
-                        <span @click="onGoodsDetail(product)">
+                        <img :src="product.main_image" @click="onProductDetail(product)">
+                        <span @click="onProductDetail(product)">
                             {{product.title}}
                         </span>
                     </div>
@@ -176,7 +176,7 @@
                     return 0
                 } else {
                     return this.orderProducts.reduce((prev, current) => {
-                        return prev + current.count * current.price
+                        return prev + current.count * current.discount
                     }, 0)
                 }
             }
@@ -212,8 +212,8 @@
             window.removeEventListener('mousewheel', this.listenWindow)
         },
         methods: {
-            onGoodsDetail(goods) {
-                window.open(`/goods.html?id=${goods.id}`, '_blank')
+            onProductDetail(product) {
+                window.open(`/product.html?id=${product.id}`, '_blank')
             },
             onCancle() {
                 this.dialogVisible = false

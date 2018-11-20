@@ -12,9 +12,8 @@
 <script>
     import sunInput from './input.vue'
     import AV from 'leancloud-storage'
-    var appId = 'DeTUR37nflhNjfrjyOHdejeb-gzGzoHsz'
-    var appKey = 'Qq9lrFxWFSVhXEbCiodJX7kl'
-    AV.init({ appId: appId, appKey: appKey })
+    import key from '../../key'
+    AV.init({ appId: key.appId, appKey: key.appKey })
     export default {
         name: 'SunCaptcha',
         components: { sunInput },
