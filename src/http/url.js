@@ -29,5 +29,7 @@ const URL = {
     pay: `${prefix}/order/payment`,
     getOrder:`${prefix}/order/getorder`,
     changeOrderStatus:`${prefix}/order/changeorderstatus`,
+    getEvaluation:`${prefix}/evaluation/getevaluation`,
+    createEvaluation:`${prefix}/evaluation/createevaluation`,
 }
 export default URL

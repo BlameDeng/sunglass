@@ -34,7 +34,8 @@ export default {
             'updateReceiver',
             'pay',
             'getOrder',
-            'changeOrderStatus'
+            'changeOrderStatus',
+            'createEvaluation'
         ])
     }
 }

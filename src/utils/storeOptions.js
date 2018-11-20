@@ -195,8 +195,8 @@ class Options {
                 return await request({ url: URL.pay, method: 'POST', data })
             },
 
-            async getOrder({ commit }) {
-                return await request({ url: URL.getOrder })
+            async getOrder({ commit }, data) {
+                return await request({ url: URL.getOrder, data })
                     .then(res => {
                         commit('setAllOrders', res.data)
                         return res
@@ -209,6 +209,10 @@ class Options {
                         commit('setAllOrders', res.data)
                         return res
                     })
+            },
+
+            async createEvaluation({ commit }, data) {
+                return await request({ url: URL.createEvaluation, method: 'POST', data })
             }
         }
     }

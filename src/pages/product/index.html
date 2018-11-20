@@ -119,7 +119,7 @@
                             </p>
                         </div>
                         <div class="evaluation" v-show="currentTab==='evaluation'">
-                            <div class="add-evaluation" v-if="record&&record.status==='toEvaluate'">
+                            <div class="add-evaluation" v-if="order&&order.status==='toEvaluate'">
                                 <h2>其他买家，需要你的建议哦！</h2>
                                 <div class="textarea-wrapper">
                                     <textarea v-model.trim="content"></textarea>

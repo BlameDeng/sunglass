@@ -27,7 +27,8 @@ new Vue({
             count: 1,
             record: null,
             content: '',
-            evaluation: null
+            evaluation: null,
+            order: null
         }
     },
     computed: {
@@ -55,29 +56,24 @@ new Vue({
     async mounted() {
         let href = window.location.href
         const pattern1 = /^.*\?id=(\w+)$/
-        const pattern2 = /^.*\?pid=(\w+)$/
+        const pattern2 = /^.*\?oid=(\w+)&pid=(\w+)$/
         if (pattern1.test(href)) {
             await this.getSingleProduct({ id: RegExp.$1 })
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
         } else if (pattern2.test(href)) {
-            await this.getSingleProduct({ id: RegExp.$1 })
+            let oid = RegExp.$1
+            let pid = RegExp.$2
+            await this.getOrder({ id: oid }).then(res => {
+                this.order = res.data
+            })
+            await this.getSingleProduct({ id: pid })
             await this.$nextTick()
             let { width } = this.$refs.showImg.getBoundingClientRect()
             this.$refs.showImg.style.height = width + 'px'
-            // let pid = RegExp.$1
-            // this.getRecord({ id: pid })
-            //     .then(res => {
-            //         this.record = res.data
-            //         this.setGoods(res.data.goods)
-            //         this.getEvaluation()
-            //         this.currentTab = 'evaluation'
-            //     })
-            //     .catch(error => {})
         }
     },
-    beforedestroy() {},
     methods: {
         ...mapMutations(['setLogin', 'setUser', 'setGoods']),
         ...mapActions([
@@ -180,27 +176,31 @@ new Vue({
                 return
             }
             //data:{rid,gid,uid,username,nickyname,content}
-            if (this.record.status !== 'toEvaluate') { return }
-            this.evaluate({
-                rid: this.record.id,
-                gid: this.record.goods.id,
-                uid: this.record.uid,
-                username: this.user.username,
-                nickyname: this.user.nickyname || '',
-                content: this.content
-            }).then(res => {
-                this.setUser(res.data)
-                this.getEvaluation() //获取最新商品评论列表
-                let userRecord = res.data.record
-                for (let i = 0; i < userRecord.length; i++) {
-                    if (userRecord[i].id === this.record.id) {
-                        this.record = userRecord[i]
-                        break
-                    }
-                }
-            }).catch(error => {
-                this.$error({ message: error.msg })
-            })
+            if (this.order.status !== 'toEvaluate') { return }
+            this.createEvaluation({
+                    pid: this.singleProduct.id,
+                    oid: this.order.id,
+                    username: this.user.username,
+                    nickyname: this.user.nickyname || '',
+                    content: this.content
+                })
+                .then(res=>{
+                    console.log(res)
+                })
+                // .then(res => {
+                //     this.setUser(res.data)
+                //     this.getEvaluation() //获取最新商品评论列表
+                //     let userRecord = res.data.record
+                //     for (let i = 0; i < userRecord.length; i++) {
+                //         if (userRecord[i].id === this.record.id) {
+                //             this.record = userRecord[i]
+                //             break
+                //         }
+                //     }
+                // })
+                // .catch(error => {
+                //     this.$error({ message: error.msg })
+                // })
         },
         formatDate(params) {
             let time

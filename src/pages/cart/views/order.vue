@@ -152,7 +152,7 @@
                     })
             },
             onEvaluate(order) {
-                window.open(`/product.html?pid=${order.product.id}`, '_blank')
+                window.open(`/product.html?oid=${order.id}&pid=${order.product.id}`, '_blank')
             },
             onDelete(order) {
                 this.destroyRecord({ id: record.id })
