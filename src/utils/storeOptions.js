@@ -211,6 +211,14 @@ class Options {
                     })
             },
 
+            async deleteOrder({ commit }, data) {
+                return await request({ url: URL.deleteOrder, method: 'DELETE', data })
+                    .then(res => {
+                        commit('setAllOrders', res.data)
+                        return res
+                    })
+            },
+
             async createEvaluation({ commit }, data) {
                 return await request({ url: URL.createEvaluation, method: 'POST', data })
             },

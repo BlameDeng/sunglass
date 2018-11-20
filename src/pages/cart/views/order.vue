@@ -155,10 +155,7 @@
                 window.open(`/product.html?oid=${order.id}&pid=${order.product.id}`, '_blank')
             },
             onDelete(order) {
-                this.destroyRecord({ id: record.id })
-                    .then(res => {
-                        this.setUser(res.data)
-                    })
+                this.deleteOrder({ id: order.id })
             }
         }
     }
