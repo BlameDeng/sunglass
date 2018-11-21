@@ -28,7 +28,7 @@
             },
             onLink(type) {
                 if (type === 'github') {
-                    window.open('https://github.com/BlameDeng/sunglass', '_blank')
+                    window.open('https://github.com/BlameDeng/sun-server-demo', '_blank')
                 } else {
                     window.open('https://www.jianshu.com/u/d12c8982dc3c', '_blank')
                 }

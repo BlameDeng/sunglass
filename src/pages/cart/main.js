@@ -37,10 +37,16 @@ new Vue({
                 document.title = '我的购物车'
             }
         },
-        isLogin(val){
+        isLogin(val) {
             if (!val) {
-                window.open('/member.html','_self')
+                window.open('/member.html', '_self')
             }
+        }
+    },
+    async mounted() {
+        await this.check().catch(() => {})
+        if (!this.isLogin) {
+            window.open('/member.html', '_self')
         }
     },
     methods: {

@@ -69,364 +69,376 @@
     </div>
 </template>
 <script>
-    import xIcon from '@/components/icon/icon.vue'
-    import storeMixin from '@/mixin/storeMixin'
-    export default {
-        name: 'Order',
-        mixins: [storeMixin],
-        components: { xIcon },
-        data() {
-            return { currentTab: 'toConfirm' }
-        },
-        computed: {
-            toConfirmOrders() {
-                if (!this.allOrders || !this.allOrders.length) {
-                    return null
-                }
-                return this.allOrders.filter(order => order.status === 'toConfirm')
-            },
-            toEvaluateOrders() {
-                if (!this.allOrders || !this.allOrders.length) {
-                    return null
-                }
-                return this.allOrders.filter(order => order.status === 'toEvaluate')
-            },
-            doneOrders() {
-                if (!this.allOrders || !this.allOrders.length) {
-                    return null
-                }
-                return this.allOrders.filter(order => order.status === 'done')
-            },
-            instageOrder() {
-                if (!this.allOrders || !this.allOrders.length) {
-                    return null
-                }
-                if (this.currentTab === 'all') {
-                    return this.allOrders
-                }
-                if (this.currentTab === 'toConfirm') {
-                    return this.toConfirmOrders
-                }
-                if (this.currentTab === 'toEvaluate') {
-                    return this.toEvaluateOrders
-                }
-                if (this.currentTab === 'done') {
-                    return this.doneOrders
-                }
-            }
-        },
-        mounted() {
-            this.getOrder()
-        },
-        methods: {
-            formatDate(params) {
-                let time
-                if (typeof params === 'string') {
-                    time = new Date(params)
-                } else {
-                    time = params
-                }
-                let year = time.getFullYear()
-                let month = time.getMonth() + 1
-                if (month < 10) {
-                    month = '0' + month
-                }
-                let date = time.getDate()
-                if (date < 10) {
-                    date = '0' + date
-                }
-                return '' + year + '-' + month + '-' + date
-            },
-            onTab(tab) {
-                this.currentTab = tab
-            },
-            onProductDetail(product) {
-                window.open(`/product.html?id=${product.id}`, '_blank')
-            },
-            onConfirm(order) {
-                this.changeOrderStatus({ order, status: 'toEvaluate' })
-                    .catch(error => {
-                        this.$error({ message: error.msg })
-                    })
-            },
-            onEvaluate(order) {
-                window.open(`/product.html?oid=${order.id}&pid=${order.product.id}`, '_blank')
-            },
-            onDelete(order) {
-                this.deleteOrder({ id: order.id })
-            }
-        }
+import xIcon from '@/components/icon/icon.vue'
+import storeMixin from '@/mixin/storeMixin'
+export default {
+  name: 'Order',
+  mixins: [storeMixin],
+  components: { xIcon },
+  data() {
+    return { currentTab: 'toConfirm' }
+  },
+  computed: {
+    toConfirmOrders() {
+      if (!this.allOrders || !this.allOrders.length) {
+        return null
+      }
+      return this.allOrders.filter(order => order.status === 'toConfirm')
+    },
+    toEvaluateOrders() {
+      if (!this.allOrders || !this.allOrders.length) {
+        return null
+      }
+      return this.allOrders.filter(order => order.status === 'toEvaluate')
+    },
+    doneOrders() {
+      if (!this.allOrders || !this.allOrders.length) {
+        return null
+      }
+      return this.allOrders.filter(order => order.status === 'done')
+    },
+    instageOrder() {
+      if (!this.allOrders || !this.allOrders.length) {
+        return null
+      }
+      if (this.currentTab === 'all') {
+        return this.allOrders
+      }
+      if (this.currentTab === 'toConfirm') {
+        return this.toConfirmOrders
+      }
+      if (this.currentTab === 'toEvaluate') {
+        return this.toEvaluateOrders
+      }
+      if (this.currentTab === 'done') {
+        return this.doneOrders
+      }
     }
+  },
+  watch: {
+    isLogin: {
+      handler(val) {
+        val && this.getOrder()
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    formatDate(params) {
+      let time
+      if (typeof params === 'string') {
+        time = new Date(params)
+      } else {
+        time = params
+      }
+      let year = time.getFullYear()
+      let month = time.getMonth() + 1
+      if (month < 10) {
+        month = '0' + month
+      }
+      let date = time.getDate()
+      if (date < 10) {
+        date = '0' + date
+      }
+      return '' + year + '-' + month + '-' + date
+    },
+    onTab(tab) {
+      this.currentTab = tab
+    },
+    onProductDetail(product) {
+      window.open(`/product.html?id=${product.id}`, '_blank')
+    },
+    onConfirm(order) {
+      if (!this.isLogin) {
+        window.open('/member.html', '_self')
+      }
+      this.changeOrderStatus({ order, status: 'toEvaluate' }).catch(error => {
+        this.$error({ message: error.msg })
+      })
+    },
+    onEvaluate(order) {
+      window.open(
+        `/product.html?oid=${order.id}&pid=${order.product.id}`,
+        '_blank'
+      )
+    },
+    onDelete(order) {
+      if (!this.isLogin) {
+        window.open('/member.html', '_self')
+      }
+      this.deleteOrder({ id: order.id })
+    }
+  }
+}
 </script>
 <style scoped lang="scss">
-    .sun-order {
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        >.title {
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 2px;
-            height: 70px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            font-size: 18px;
-            padding-left: 20px;
-            margin: 10px 0;
-            color: #f10215;
-            cursor: default;
-            user-select: none;
-        }
-        >.navbar {
-            height: 30px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding-left: 20px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-            position: relative;
-            margin-bottom: 10px;
-            >a {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: rgba(0, 0, 0, 0.65);
-                width: 80px;
-                height: 30px;
-                &:last-child {
-                    position: absolute;
-                    top: 0;
-                    right: 20px;
-                }
-                &:hover {
-                    color: #f10215;
-                }
-                &.active {
-                    color: #f10215;
-                }
-                >span.number {
-                    font-size: 14px;
-                    font-weight: 700;
-                    margin-left: 5px;
-                    color: #f10215;
-                }
-            }
-        }
-        >.title-bar {
-
-            justify-content: flex-start;
-            align-items: center;
-            padding-left: 20px;
-            user-select: none;
-            cursor: default;
-            height: 30px;
-            margin-bottom: 10px;
-            display: none;
-            @media (min-width: 768px) {
-                display: flex;
-            }
-            >li {
-                width: 100px;
-                font-size: 12px;
-                transform: translateX(-20px);
-                display: none;
-                @media (min-width: 768px) {
-                    display: block;
-                }
-                &.info {
-                    flex-grow: 1;
-                    transform: translateX(0);
-                    display: block;
-                    text-align: center;
-                    @media (min-width: 768px) {
-                        text-align: start;
-                    }
-                }
-                &.price {
-                    width: 140px;
-                }
-                &.action {
-                    text-align: center;
-                }
-            }
-        }
-        >.goods {
-            padding: 20px;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            border-radius: 2px;
-            margin-bottom: 30px;
-            >li {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 10px 0;
-                border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
-                position: relative;
-                padding-top: 50px;
-                margin-bottom: 10px;
-                flex-wrap: wrap;
-                @media (min-width: 768px) {
-                    flex-wrap: nowrap;
-                }
-                >.order-info {
-                    padding: 0 20px;
-                    position: absolute;
-                    height: 40px;
-                    top: 0;
-                    left: -20px;
-                    right: -20px;
-                    bottom: 0;
-                    background: rgb(245, 245, 245);
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                    >span {
-                        font-size: 12px;
-                        margin-right: 10px;
-                        cursor: default;
-                        &.number {
-                            font-weight: 700;
-                        }
-                        &:nth-child(2) {
-                            margin-right: 0;
-                        }
-                    }
-                }
-                >div {
-                    width: 100px;
-                    font-size: 12px;
-                    &.info {
-                        flex-grow: 1;
-                        padding-right: 10px;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-                        width: 100%;
-                        @media (min-width: 768px) {
-                            width: 100px;
-                        }
-                        >img {
-                            width: 80px;
-                            height: 80px;
-                            flex-shrink: 0;
-                            cursor: pointer;
-                            margin-right: 15px;
-                        }
-                        >span {
-                            cursor: pointer;
-                            font-size: 12px;
-                            &:hover {
-                                color: #f10215;
-                                text-decoration: underline;
-                            }
-                        }
-                    }
-                    &.price {
-                        cursor: default;
-                        width: 110px;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: center;
-                        align-content: center;
-                        margin-top: 10px;
-                        >span {
-                            font-size: 12px;
-                            font-weight: 700;
-                            &.origin {
-                                font-size: 12px;
-                                color: rgba(0, 0, 0, 0.45);
-                                text-decoration: line-through;
-                                margin-left: 4px;
-                                @media (min-width: 768px) {
-                                    margin-left: 0;
-                                }
-                                >span {
-                                    color: rgba(0, 0, 0, 0.45);
-                                    font-size: 12px;
-                                    font-weight: 400;
-                                }
-                            }
-                        }
-                        span.text {
-                            display: none;
-                        }
-                        @media (min-width: 768px) {
-                            flex-direction: column;
-                            margin-top: 0;
-                            width: 140px;
-                            span.text {
-                                display: inline;
-                            }
-                        }
-                    }
-                    &.count {
-                        font-weight: 700;
-                        cursor: default;
-                        padding-left: 0.5em;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 10px;
-                        width: 60px;
-                        >span.text {
-                            font-size: 12px;
-                            display: inline;
-                        }
-                        @media (min-width: 768px) {
-                            width: 100px;
-                            justify-content: flex-start;
-                            >span.text {
-                                display: none;
-                            }
-                            margin-top: 0;
-                        }
-                    }
-                    &.total {
-                        font-weight: 700;
-                        cursor: default;
-                        margin-top: 10px;
-                        width: 80px;
-                        @media (min-width: 768px) {
-                            width: 100px;
-                            margin-top: 0;
-                        }
-                    }
-                    &.action {
-                        margin-top: 10px;
-                        width: 80px;
-                        @media (min-width: 768px) {
-                            margin-top: 0;
-                            width: 100px;
-                        }
-                        >a {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            padding: 4px 0;
-                            color: rgba(0, 0, 0, 0.65);
-                            font-size: 12px;
-                            text-align: center;
-                            &:hover {
-                                text-decoration: underline;
-                                color: #f10215;
-                            }
-                            &.delivery {
-                                background: #1890ff;
-                                color: rgba(255, 255, 255, 0.85);
-                                border-radius: 2px;
-                                &:hover {
-                                    text-decoration: none;
-                                }
-                            }
-                            >.icon {
-                                width: 16px;
-                                height: 16px;
-                                margin-right: 4px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+.sun-order {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  > .title {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    height: 70px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 18px;
+    padding-left: 20px;
+    margin: 10px 0;
+    color: #f10215;
+    cursor: default;
+    user-select: none;
+  }
+  > .navbar {
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    position: relative;
+    margin-bottom: 10px;
+    > a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba(0, 0, 0, 0.65);
+      width: 80px;
+      height: 30px;
+      &:last-child {
+        position: absolute;
+        top: 0;
+        right: 20px;
+      }
+      &:hover {
+        color: #f10215;
+      }
+      &.active {
+        color: #f10215;
+      }
+      > span.number {
+        font-size: 14px;
+        font-weight: 700;
+        margin-left: 5px;
+        color: #f10215;
+      }
     }
+  }
+  > .title-bar {
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+    user-select: none;
+    cursor: default;
+    height: 30px;
+    margin-bottom: 10px;
+    display: none;
+    @media (min-width: 768px) {
+      display: flex;
+    }
+    > li {
+      width: 100px;
+      font-size: 12px;
+      transform: translateX(-20px);
+      display: none;
+      @media (min-width: 768px) {
+        display: block;
+      }
+      &.info {
+        flex-grow: 1;
+        transform: translateX(0);
+        display: block;
+        text-align: center;
+        @media (min-width: 768px) {
+          text-align: start;
+        }
+      }
+      &.price {
+        width: 140px;
+      }
+      &.action {
+        text-align: center;
+      }
+    }
+  }
+  > .goods {
+    padding: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    margin-bottom: 30px;
+    > li {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
+      position: relative;
+      padding-top: 50px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      @media (min-width: 768px) {
+        flex-wrap: nowrap;
+      }
+      > .order-info {
+        padding: 0 20px;
+        position: absolute;
+        height: 40px;
+        top: 0;
+        left: -20px;
+        right: -20px;
+        bottom: 0;
+        background: rgb(245, 245, 245);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        > span {
+          font-size: 12px;
+          margin-right: 10px;
+          cursor: default;
+          &.number {
+            font-weight: 700;
+          }
+          &:nth-child(2) {
+            margin-right: 0;
+          }
+        }
+      }
+      > div {
+        width: 100px;
+        font-size: 12px;
+        &.info {
+          flex-grow: 1;
+          padding-right: 10px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          width: 100%;
+          @media (min-width: 768px) {
+            width: 100px;
+          }
+          > img {
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+            cursor: pointer;
+            margin-right: 15px;
+          }
+          > span {
+            cursor: pointer;
+            font-size: 12px;
+            &:hover {
+              color: #f10215;
+              text-decoration: underline;
+            }
+          }
+        }
+        &.price {
+          cursor: default;
+          width: 110px;
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-content: center;
+          margin-top: 10px;
+          > span {
+            font-size: 12px;
+            font-weight: 700;
+            &.origin {
+              font-size: 12px;
+              color: rgba(0, 0, 0, 0.45);
+              text-decoration: line-through;
+              margin-left: 4px;
+              @media (min-width: 768px) {
+                margin-left: 0;
+              }
+              > span {
+                color: rgba(0, 0, 0, 0.45);
+                font-size: 12px;
+                font-weight: 400;
+              }
+            }
+          }
+          span.text {
+            display: none;
+          }
+          @media (min-width: 768px) {
+            flex-direction: column;
+            margin-top: 0;
+            width: 140px;
+            span.text {
+              display: inline;
+            }
+          }
+        }
+        &.count {
+          font-weight: 700;
+          cursor: default;
+          padding-left: 0.5em;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 10px;
+          width: 60px;
+          > span.text {
+            font-size: 12px;
+            display: inline;
+          }
+          @media (min-width: 768px) {
+            width: 100px;
+            justify-content: flex-start;
+            > span.text {
+              display: none;
+            }
+            margin-top: 0;
+          }
+        }
+        &.total {
+          font-weight: 700;
+          cursor: default;
+          margin-top: 10px;
+          width: 80px;
+          @media (min-width: 768px) {
+            width: 100px;
+            margin-top: 0;
+          }
+        }
+        &.action {
+          margin-top: 10px;
+          width: 80px;
+          @media (min-width: 768px) {
+            margin-top: 0;
+            width: 100px;
+          }
+          > a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4px 0;
+            color: rgba(0, 0, 0, 0.65);
+            font-size: 12px;
+            text-align: center;
+            &:hover {
+              text-decoration: underline;
+              color: #f10215;
+            }
+            &.delivery {
+              background: #1890ff;
+              color: rgba(255, 255, 255, 0.85);
+              border-radius: 2px;
+              &:hover {
+                text-decoration: none;
+              }
+            }
+            > .icon {
+              width: 16px;
+              height: 16px;
+              margin-right: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>
